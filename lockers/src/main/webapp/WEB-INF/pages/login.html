@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <!--<meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content="Login page for KLM lockers"/>
+    <meta name="author" content="KLM-HvA"/>-->
+    <title>Login</title>
+    <link th:href="@{/WEB-INF/resources/css/bootstrap.min.css}" rel="stylesheet"/>
+</head>
+<body>
+<!--<p th:if="${loginError}">Wrong user or password</p>-->
+<form th:action="@{/login}" method="post">
+    <label for="username">Username</label>:
+    <input type="text" id="username" name="username" placeholder="username"/> <br/>
+    <label for="password">Password</label>:
+    <input type="password" id="password" name="password" placeholder="password"/> <br/>
+    <input type="submit" value="Log in"/>
+</form>
+<!-- /container -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script th:src="@{/resources/js/bootstrap.min.js}"></script>
+</body>
+</html>
