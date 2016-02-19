@@ -4,9 +4,13 @@ package com.locker.controller;
  * Created by randyr on 2/12/16.
  */
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.security.Principal;
 
 @RestController
 public class DefaultController {
@@ -14,12 +18,14 @@ public class DefaultController {
     @RequestMapping("/")
     public ModelAndView index() {
         ModelAndView model = new ModelAndView("index");
-        model.addObject("msg", "I actually work after 50 times.");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        model.addObject("loggedIn", auth.isAuthenticated());
         return model;
     }
 
     @RequestMapping("/test")
-    public String test() {
-        return "testresult";
+    public String testController() {
+        //Can be used to test things such as spring security
+        return "Test result";
     }
 }

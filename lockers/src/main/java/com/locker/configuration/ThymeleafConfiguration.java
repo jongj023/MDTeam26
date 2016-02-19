@@ -38,4 +38,5 @@ public class ThymeleafConfiguration {
         resolver.setOrder(1);
         return resolver;
     }
+
 }
