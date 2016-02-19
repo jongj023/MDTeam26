@@ -13,31 +13,25 @@
 <body>
 
 <div class="container">
-    <form class="form-signin" th:action="@{/login}" method="post">
+    <form class="form-signin" th:action="@{/register}" method="post">
         <h1 class="klm-title">KLM Lockers <br/> </h1>
         <h2 class="form-signin-heading">Please sign in</h2>
         <!--/*@thymesVar id="error" type="boolean"*/-->
         <div th:if="${error}" class="alert alert-info">
-            <strong>Invalid username or password</strong>
-        </div>
-        <!--/*@thymesVar id="msg" type="boolean"*/-->
-        <div th:if="${msg}" class="alert alert-info">
-            <strong>Successfully logged out.</strong>
-        </div>
-        <!--/*@thymesVar id="registered" type=""*/-->
-        <div th:if="${registered}" class="alert alert-info">
-            <strong>Successfully registered.</strong>
+            <strong>Username is already taken.</strong>
         </div>
         <label for="username" class="sr-only">Username</label>
         <input type="text" id="username" class="form-control" placeholder="Username" name="username" required="required" autofocus="autofocus"/>
         <label for="password" class="sr-only">Password</label>
         <input type="password" id="password" class="form-control" placeholder="Password" name="password" required="required"/>
+        <br/>
+        <label for="email" class="sr-only">Email</label>
+        <input type="email" id="email" class="form-control" placeholder="Email" name="email" required="required"/>
+        <label for="firstname" class="sr-only">First name</label>
+        <input type="text" id="firstname" class="form-control" placeholder="First name" name="firstname" required="required"/>
+        <label for="lastname" class="sr-only">Password</label>
+        <input type="text" id="lastname" class="form-control" placeholder="Last name" name="lastname" required="required"/>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-        <div class="registerContainer">
-            <label for="registerButton" class="sr-only">Register</label>
-            <p>Don't have an account yet? <a href="/register" id="registerButton" >Register</a></p>
-            </div>
-        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
     </form>
 
 </div> <!-- /container -->
