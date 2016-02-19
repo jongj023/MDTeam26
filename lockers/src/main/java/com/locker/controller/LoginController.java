@@ -19,6 +19,7 @@ public class LoginController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView login() {
+<<<<<<< HEAD
         logger.info("Login Controller is actually used correctly.");
 
         return new ModelAndView("login");
@@ -30,4 +31,15 @@ public class LoginController {
 
         return new ModelAndView("index");
     }
+=======
+
+        logger.debug("welcome() is executed, value {}", "mkyong");
+
+        ModelAndView model = new ModelAndView("login");
+
+        return model;
+        // localhost:8080/WEB-INF/pages/login.jsp
+    }
+
+>>>>>>> 135c7393a4e2da329e4f46c7a66a2a43e2aac6f3
 }
