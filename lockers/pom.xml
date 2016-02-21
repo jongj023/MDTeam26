@@ -120,6 +120,13 @@
             <version>${thymeleaf.version}</version>
         </dependency>
 
+        <!-- Used for ExceptionHandling -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>12.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>

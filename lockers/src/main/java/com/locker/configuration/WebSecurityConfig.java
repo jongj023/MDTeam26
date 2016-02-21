@@ -42,13 +42,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .loginPage("/login")
                     .usernameParameter("username")
                     .passwordParameter("password")
-                    .failureUrl("/login?error=true")
+                    .failureUrl("/login?error")
                     .defaultSuccessUrl("/");
                     //.loginProcessingUrl("/j_spring_security_check");
                     //.permitAll();
         http.
                 logout()
-                    .logoutUrl("/logout").logoutSuccessUrl("/login?logout=true")
+                    .logoutUrl("/logout").logoutSuccessUrl("/login?logout")
                 .and().csrf()
                 .and().exceptionHandling().accessDeniedPage("/error");
     }

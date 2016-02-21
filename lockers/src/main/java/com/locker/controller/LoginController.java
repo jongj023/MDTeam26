@@ -38,16 +38,16 @@ public class LoginController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView login(
-            @RequestParam(value = "error", required = false) boolean error,
-            @RequestParam(value = "logout", required = false) boolean logout,
-            @RequestParam(value = "registered", required = false) boolean registered) {
+            @RequestParam(value = "error", required = false) String error,
+            @RequestParam(value = "logout", required = false) String logout,
+            @RequestParam(value = "registered", required = false) String registered) {
 
         ModelAndView model = new ModelAndView();
-        if (error) {
-            model.addObject("error", true);
-        } if (logout) {
-            model.addObject("msg", true);
-        } if (registered) {
+        if (error != null) {
+            model.addObject("error", error);
+        } if (logout != null) {
+            model.addObject("msg", logout);
+        } if (registered != null) {
             model.addObject("registered", true);
         }
         model.setViewName("login");
@@ -69,7 +69,7 @@ public class LoginController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String register(@ModelAttribute @Valid User user) {
         boolean result = userService.registerNewUser(user);
-        return result ? "redirect:/login?registered=true" : "redirect:/register?error=true";
+        return result ? "redirect:/login?registered" : "redirect:/register?error";
     }
 
     @RequestMapping(value="/logout", method = RequestMethod.GET)
@@ -78,7 +78,7 @@ public class LoginController {
         if (auth.isAuthenticated()){
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
-        return "redirect:/login?logout=true";
+        return "redirect:/login?logout";
     }
 
 }
