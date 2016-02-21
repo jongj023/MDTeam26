@@ -22,7 +22,7 @@
     z-index: 1000;
     position: fixed;
     left: 250px;
-    width: 20px;
+    width: 0px;
     height: 100%;
     margin-left: -250px;
     overflow-y: auto;
@@ -153,7 +153,7 @@ span.glyphicon-list {
     }
 
     #wrapper.toggled {
-        padding-left: 20px;
+        padding-left: 0px;
     }
 
     #sidebar-wrapper {
@@ -161,7 +161,7 @@ span.glyphicon-list {
     }
 
     #wrapper.toggled #sidebar-wrapper {
-        width: 20px;
+        width: 0px;
     }
 
     #page-content-wrapper {

@@ -32,15 +32,19 @@ public class User {
     @NotNull
     @Column(name = "lastname")
     private String lastname;
+    @NotNull
+    @Column(name = "enabled")
+    private int enabled;
 
     public User() {}
 
-    public User(String username, String password, String email, String firstname, String lastname) {
+    public User(String username, String password, String email, String firstname, String lastname, int enabled) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.firstname = firstname;
         this.lastname = lastname;
+        this.enabled = enabled;
     }
 
     @Override
@@ -87,4 +91,8 @@ public class User {
     public void setLastname(String lastname) {
         this.lastname = lastname;
     }
+
+    public void setEnabled(int enabled) {this.enabled = enabled;}
+
+    public int getEnabled() {return enabled;}
 }
