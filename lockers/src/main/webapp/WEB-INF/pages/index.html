@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en"
+      xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content="Home page"/>
+    <meta name="author" content="HvA Mobile-dev team 26"/>
+
+    <title>Homepage</title>
+
+    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/> <!-- Bootstrap Core CSS -->
+    <link href="../../../resources/css/simple-sidebar.css" rel="stylesheet" media="screen" th:href="@{/resources/css/simple-sidebar.css}"/> <!-- Custom CSS -->
+
+</head>
+
+<body>
+
+<div id="wrapper">
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+            <li class="sidebar-brand">
+                <a href="/"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> KLM Lockers</a>
+            </li>
+            <li><a href="/locker"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Lockers</a></li>
+        </ul>
+        <ul class="sidebar-nav-bottom">
+            <li class="sidebar-brand">
+                <a class="btn btn-primary" href="/logout"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Log out</a>
+            </li>
+        </ul>
+    </div>
+    <!-- /#sidebar-wrapper -->
+    <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
+
+    <!-- Page Content -->
+    <div th:if="${locker}" th:include="fragments/locker"></div>
+    <!-- /#page-content-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
+<!-- jQuery -->
+<script src="../../../resources/js/jquery.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="../../../resources/js/bootstrap.min.js"></script>
+
+<!-- Menu Toggle Script -->
+<script>
+    $('#menu-toggle').click(function(e) {
+        e.preventDefault();
+        $('#wrapper').toggleClass("toggled");
+    });
+</script>
+
+</body>
+
+</html>

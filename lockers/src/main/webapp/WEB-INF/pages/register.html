@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content="Login page for KLM lockers"/>
+    <meta name="author" content="KLM-HvA"/>
+    <title>Login</title>
+    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/> <!-- Bootstrap Core CSS -->
+    <link href="../../../resources/css/login.css" rel="stylesheet" media="screen" th:href="@{/resources/css/login.css}"/> <!-- Custom login CSS -->
+</head>
+<body>
+
+<div class="container">
+    <form class="form-signin" th:action="@{/register}" method="post">
+        <h1 class="klm-title">KLM Lockers <br/> </h1>
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <!--/*@thymesVar id="error" type="boolean"*/-->
+        <div th:if="${error != null}" class="alert alert-info">
+            <strong>Username is already taken.</strong>
+        </div>
+        <label for="username" class="sr-only">Username</label>
+        <input type="text" id="username" class="form-control" placeholder="Username" name="username" required="required" autofocus="autofocus"/>
+        <label for="password" class="sr-only">Password</label>
+        <input type="password" id="password" class="form-control" placeholder="Password" name="password" required="required"/>
+        <br/>
+        <label for="email" class="sr-only">Email</label>
+        <input type="email" id="email" class="form-control" placeholder="Email" name="email" required="required"/>
+        <label for="firstname" class="sr-only">First name</label>
+        <input type="text" id="firstname" class="form-control" placeholder="First name" name="firstname" required="required"/>
+        <label for="lastname" class="sr-only">Password</label>
+        <input type="text" id="lastname" class="form-control" placeholder="Last name" name="lastname" required="required"/>
+        <input type="number" id="enabled" value="1" name="enabled" hidden="hidden"/>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    </form>
+
+</div> <!-- /container -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script th:src="@{/resources/js/bootstrap.min.js}"></script>
+</body>
+</html>
