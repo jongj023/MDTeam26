@@ -1,42 +1,78 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<html>
 <head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Login page for KLM lockers"/>
-    <meta name="author" content="KLM-HvA"/>
     <title>Login</title>
-    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/> <!-- Bootstrap Core CSS -->
-    <link href="../../../resources/css/login.css" rel="stylesheet" media="screen" th:href="@{/resources/css/login.css}"/> <!-- Custom login CSS -->
+    <link href="../../../webapp/resources/css/klm.css" rel="stylesheet" media="screen">
+    <link href="../../../webapp/resources/css/main.css" rel="stylesheet" media="screen">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"> <!-- fixes mobile view -->
+    
 </head>
+  
 <body>
+<form id="QRCform" class="g-forms g-forms-test g-forms-wide" novalidate="novalidate"><!-- optionally with: "g-forms-highlight-success" -->
 
-<div class="container">
-    <form class="form-signin" th:action="@{/register}" method="post">
-        <h1 class="klm-title">KLM Lockers <br/> </h1>
-        <h2 class="form-signin-heading">Please sign in</h2>
-        <!--/*@thymesVar id="error" type="boolean"*/-->
-        <div th:if="${error != null}" class="alert alert-info">
-            <strong>Username is already taken.</strong>
+    <h2 class="g-h2">Form title &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; </h2>
+
+    <div role="alert" class="g-notification g-notification-error js-g-forms-error-message g-hidden">
+        <h2 class="g-h4">Please correct the highlighted fields.</h2>
+    </div>
+
+    <hr class="g-forms-ruler">
+    
+    <fieldset class="g-forms-fieldset g-clear">
+        <span class="g-forms-legend">Contact details</span>
+
+         <div class="g-forms-container g-clear">
+            <label for="input1" class="g-forms-label" id="QRCform-label-input1">Username</label>
+            <div class="g-forms-field">
+                <input name="input1" id="input1" required="" data-rule-email="true" class="g-forms-text" type="email" aria-required="true" aria-labelledby="QRCform-label-input1">
+            </div>
         </div>
-        <label for="username" class="sr-only">Username</label>
-        <input type="text" id="username" class="form-control" placeholder="Username" name="username" required="required" autofocus="autofocus"/>
-        <label for="password" class="sr-only">Password</label>
-        <input type="password" id="password" class="form-control" placeholder="Password" name="password" required="required"/>
-        <br/>
-        <label for="email" class="sr-only">Email</label>
-        <input type="email" id="email" class="form-control" placeholder="Email" name="email" required="required"/>
-        <label for="firstname" class="sr-only">First name</label>
-        <input type="text" id="firstname" class="form-control" placeholder="First name" name="firstname" required="required"/>
-        <label for="lastname" class="sr-only">Password</label>
-        <input type="text" id="lastname" class="form-control" placeholder="Last name" name="lastname" required="required"/>
-        <input type="number" id="enabled" value="1" name="enabled" hidden="hidden"/>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-    </form>
 
-</div> <!-- /container -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script th:src="@{/resources/js/bootstrap.min.js}"></script>
-</body>
+        
+        <div class="g-forms-container g-clear">
+            <label for="input2" class="g-forms-label" id="QRCform-label-input2">E-mail</label>
+            <div class="g-forms-field">
+                <input name="input2" id="input2" required="" data-rule-email="true" class="g-forms-text" type="email" aria-required="true" aria-labelledby="QRCform-label-input2">
+            </div>
+        </div>
+
+        <div class="g-forms-container g-clear">
+            <label for="input3" class="g-forms-label" id="QRCform-label-input3">First name</label>
+            <div class="g-forms-field">
+                <input name="input3" id="input3" required="" data-rule-validchars="true" class="g-forms-text" type="text" aria-required="true" aria-labelledby="QRCform-label-input3">
+            </div>
+        </div>
+
+        <div class="g-forms-container g-clear">
+            <label for="input4" class="g-forms-label" id="QRCform-label-input4">Last name</label>
+            <div class="g-forms-field">
+                <input name="input4" id="input4" required="" data-rule-validchars="true" class="g-forms-text" type="text" aria-required="true" aria-labelledby="QRCform-label-input4">
+            </div>
+        </div>
+
+        <div class="g-forms-container g-clear">
+            <label for="input5" class="g-forms-label" id="QRCform-label-input5">Password</label>
+            <div class="g-forms-field">
+                <input name="input5" id="input5" class="g-forms-text" type="password" aria-labelledby="QRCform-label-input5">
+            </div>
+        </div>
+
+    </fieldset>
+
+    <hr class="g-forms-ruler">
+
+    <div class="g-forms-button-group g-clear">  
+        <button class="g-btn g-btn-forward g-forms-next" type="submit">
+            <span>Next <b class="g-klmicon" aria-hidden="true">></b></span>
+        </button>
+
+        <a href="login.html" class="g-btn g-btn-toneddown g-forms-prev">
+            <span><b class="g-klmicon" aria-hidden="true"><</b> Back</span>
+        </a>
+    </div>
+</form>
+</body>  
 </html>
+
