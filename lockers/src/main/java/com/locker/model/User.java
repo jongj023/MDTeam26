@@ -49,7 +49,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "username";
+        return username + " " + password + " " + email + " " + firstname + " " + lastname + " " + enabled;
     }
 
     public String getUsername() {

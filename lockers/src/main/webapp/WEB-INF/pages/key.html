@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <title>Login</title>
-    <link href="../../../webapp/resources/css/klm.css" rel="stylesheet" media="screen">
-    <link href="../../../webapp/resources/css/main.css" rel="stylesheet" media="screen">
+    <link href="../../../webapp/resources/css/klm.css" rel="stylesheet" media="screen" th:href="@{/resources/css/klm.css}"/>
+    <link href="../../../webapp/resources/css/main.css" rel="stylesheet" media="screen" th:href="@{/resources/css/main.css}"/>
     
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"> <!-- fixes mobile view -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/> <!-- fixes mobile view -->
 </head>
   
 <body>
     <div id="center1">
-        <img src="../../../webapp/resources/images/Logo.png" alt="Logo">
+        <img th:src="@{/resources/images/Logo.png}" alt="Logo"/>
     </div>
     
        
