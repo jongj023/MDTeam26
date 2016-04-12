@@ -14,23 +14,14 @@
     <img th:src="@{/resources/images/Logo.png}"/>
         <form class="login" th:action="@{/login}" method="post">
             <div class="g-forms-container g-clear">
-                <input name="username" id="username" class="g-forms-text" placeholder="Username" type="text"/>
-            </div>
-            <div class="g-forms-container g-clear">
-                <input name="password" id="password" class="g-forms-text" placeholder="Password"  type="password"/>
+                <input name="username" id="username" class="g-forms-text" placeholder="Username" type="text" required="required" autofocus="autofocus"/>
+                <input name="password" id="password" class="g-forms-text" placeholder="Password"  type="password" required="required"/>
             </div>
             <div id="center1">
                 <button type="submit" class="g-btn g-btn-primary"> <span> Sign in </span></button>
                 <a href="/register">Register</a>
             </div>
         </form>
-    <!--<script>-->
-        <!--if (!Modernizr.input.placeholder) {-->
-            <!--require(['v2/lib/jquery', 'v2/lib/placeholder'], function ($) {-->
-                <!--$(".login").find('input, textarea').placeholder();-->
-            <!--});-->
-        <!--}-->
-    <!--</script>-->
 </div>
 </body>  
 </html>
