@@ -3,22 +3,24 @@
       xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Login</title>
-    <link href="../../../webapp/resources/css/klm.css" rel="stylesheet" media="screen" th:href="@{/resources/css/klm.css}"/>
-    <link href="../../../webapp/resources/css/main.css" rel="stylesheet" media="screen" th:href="@{/resources/css/main.css}"/>
+    <link href="../../../webapp/resources/css/bootstrap.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.css}"/>
+    <link href="../../../webapp/resources/css/bootstrap-theme.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap-theme.css}"/>
+    <link href="../../../webapp/resources/css/login.css" rel="stylesheet" media="screen" th:href="@{/resources/css/login.css}"/>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/> <!-- fixes mobile view -->
 </head>
 
 <body>
 <div class="container">
-    <img th:src="@{/resources/images/Logo.png}"/>
     <form class="form-signin" th:action="@{/login}" method="post">
-        <input name="username" id="username" class="g-forms-text" placeholder="Username" type="text" required="required" autofocus="autofocus"/>
-        <input name="password" id="password" class="g-forms-text" placeholder="Password"  type="password" required="required"/>
-        <button class="btn btn-lg btn-primary btn-block" type="submit"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Sign in</button>
+        <img class="img-responsive login-img-center" align="middle" alt="KLM Logo" th:src="@{/resources/images/Logo.png}"/>
+        <input name="username" id="username" class="form-control text-field-margins" placeholder="Username" type="text" required="required" autofocus="autofocus"/>
+        <input name="password" id="password" class="form-control text-field-margins" placeholder="Password"  type="password" required="required"/>
+        <button class="btn btn-lg btn-warning btn-block btn-login" type="submit"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Sign in</button>
         <div class="registerContainer">
             <p>Don't have an account yet? <a href="/register" id="registerButton" >Register</a></p>
         </div>
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
     </form>
 </div>
 </body>

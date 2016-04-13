@@ -2,77 +2,28 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <title>Login</title>
-    <link href="../../../webapp/resources/css/klm.css" rel="stylesheet" media="screen" th:href="@{/resources/css/klm.css}"/>
-    <link href="../../../webapp/resources/css/main.css" rel="stylesheet" media="screen" th:href="@{/resources/css/main.css}"/>
+    <link href="../../../webapp/resources/css/bootstrap.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.css}"/>
+    <link href="../../../webapp/resources/css/bootstrap-theme.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap-theme.css}"/>
+    <link href="../../../webapp/resources/css/login.css" rel="stylesheet" media="screen" th:href="@{/resources/css/login.css}"/>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/> <!-- fixes mobile view -->
     
 </head>
   
 <body>
-<form id="QRCform" class="g-forms g-forms-test g-forms-wide" novalidate="novalidate" th:action="@{/register}" method="post" ><!-- optionally with: "g-forms-highlight-success" -->
-
-    <h2 class="g-h2">Form title &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; </h2>
-
-    <div role="alert" class="g-notification g-notification-error js-g-forms-error-message g-hidden">
-        <h2 class="g-h4">Please correct the highlighted fields.</h2>
-    </div>
-
-    <hr class="g-forms-ruler"/>
-    
-    <fieldset class="g-forms-fieldset g-clear">
-        <span class="g-forms-legend">Contact details</span>
-
-         <div class="g-forms-container g-clear">
-            <label for="input1" class="g-forms-label" id="QRCform-label-input1">Username</label>
-            <div class="g-forms-field">
-                <input name="input1" id="input1" required="" data-rule-email="true" class="g-forms-text" type="email" aria-required="true" aria-labelledby="QRCform-label-input1"/>
-            </div>
-        </div>
-
-        
-        <div class="g-forms-container g-clear">
-            <label for="input2" class="g-forms-label" id="QRCform-label-input2">E-mail</label>
-            <div class="g-forms-field">
-                <input name="input2" id="input2" required="" data-rule-email="true" class="g-forms-text" type="email" aria-required="true" aria-labelledby="QRCform-label-input2"/>
-            </div>
-        </div>
-
-        <div class="g-forms-container g-clear">
-            <label for="input3" class="g-forms-label" id="QRCform-label-input3">First name</label>
-            <div class="g-forms-field">
-                <input name="input3" id="input3" required="" data-rule-validchars="true" class="g-forms-text" type="text" aria-required="true" aria-labelledby="QRCform-label-input3"/>
-            </div>
-        </div>
-
-        <div class="g-forms-container g-clear">
-            <label for="input4" class="g-forms-label" id="QRCform-label-input4">Last name</label>
-            <div class="g-forms-field">
-                <input name="input4" id="input4" required="" data-rule-validchars="true" class="g-forms-text" type="text" aria-required="true" aria-labelledby="QRCform-label-input4"/>
-            </div>
-        </div>
-
-        <div class="g-forms-container g-clear">
-            <label for="input5" class="g-forms-label" id="QRCform-label-input5">Password</label>
-            <div class="g-forms-field">
-                <input name="input5" id="input5" class="g-forms-text" type="password" aria-labelledby="QRCform-label-input5"/>
-            </div>
-        </div>
-
-    </fieldset>
-
-    <hr class="g-forms-ruler"/>
-
-    <div class="g-forms-button-group g-clear">  
-        <button class="g-btn g-btn-forward g-forms-next" type="submit">
-            <span>Next <b class="g-klmicon" aria-hidden="true">></b></span>
-        </button>
-
-        <a href="/login" class="g-btn g-btn-toneddown g-forms-prev">
-            <span><b class="g-klmicon" aria-hidden="true"></b> Back</span>
-        </a>
-    </div>
-</form>
+<div class="container">
+    <form class="form-signin" th:action="@{/register}" method="post">
+        <img class="img-responsive " align="middle" alt="KLM Logo" th:src="@{/resources/images/Logo.png}"/>
+        <input name="username" id="username" class="form-control text-field-margins" placeholder="Username" type="text" required="required" autofocus="autofocus"/>
+        <input name="password" id="password" class="form-control text-field-margins" placeholder="Password"  type="password" required="required"/>
+        <br/>
+        <input name="firstname" id="firstname" class="form-control text-field-margins" placeholder="John" type="text" required="required"/>
+        <input name="lastname" id="lastname" class="form-control text-field-margins" placeholder="Doe"  type="text" required="required"/>
+        <input name="email" id="email" class="form-control text-field-margins" placeholder="example@example.com"  type="email" required="required"/>
+        <button class="btn btn-lg btn-warning btn-block btn-login" type="submit"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>Register</button>
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+    </form>
+</div>
 </body>  
 </html>
 
