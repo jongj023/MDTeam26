@@ -28,7 +28,7 @@ public class DefaultController {
 
     @RequestMapping("/test")
     public String testController(Model model) {
-        System.out.println("ALL LOCKERS:    " + lockerService.getAllLockers());
+        System.out.println("ALL LOCKERS:    " + lockerService.findAll());
         return "index"; //Can be used to test things such as spring security
     }
 }

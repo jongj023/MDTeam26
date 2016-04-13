@@ -5,24 +5,22 @@
     <title>Login</title>
     <link href="../../../webapp/resources/css/klm.css" rel="stylesheet" media="screen" th:href="@{/resources/css/klm.css}"/>
     <link href="../../../webapp/resources/css/main.css" rel="stylesheet" media="screen" th:href="@{/resources/css/main.css}"/>
-    
+
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/> <!-- fixes mobile view -->
 </head>
-  
+
 <body>
-<div>
+<div class="container">
     <img th:src="@{/resources/images/Logo.png}"/>
-        <form class="login" th:action="@{/login}" method="post">
-            <div class="g-forms-container g-clear">
-                <input name="username" id="username" class="g-forms-text" placeholder="Username" type="text" required="required" autofocus="autofocus"/>
-                <input name="password" id="password" class="g-forms-text" placeholder="Password"  type="password" required="required"/>
-            </div>
-            <div id="center1">
-                <button type="submit" class="g-btn g-btn-primary"> <span> Sign in </span></button>
-                <a href="/register">Register</a>
-            </div>
-        </form>
+    <form class="form-signin" th:action="@{/login}" method="post">
+        <input name="username" id="username" class="g-forms-text" placeholder="Username" type="text" required="required" autofocus="autofocus"/>
+        <input name="password" id="password" class="g-forms-text" placeholder="Password"  type="password" required="required"/>
+        <button class="btn btn-lg btn-primary btn-block" type="submit"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Sign in</button>
+        <div class="registerContainer">
+            <p>Don't have an account yet? <a href="/register" id="registerButton" >Register</a></p>
+        </div>
+    </form>
 </div>
-</body>  
+</body>
 </html>
 

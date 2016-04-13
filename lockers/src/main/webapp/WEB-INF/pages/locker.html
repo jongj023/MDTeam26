@@ -1,40 +1,39 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <title>Login</title>
+    <title>Locker overview</title>
     <link href="../../../webapp/resources/css/klm.css" rel="stylesheet" media="screen" th:href="@{/resources/css/klm.css}"/>
     <link href="../../../webapp/resources/css/main.css" rel="stylesheet" media="screen" th:href="@{/resources/css/main.css}"/>
-    
+
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/> <!-- fixes mobile view -->
 </head>
-  
+
 <body>
-    <div>
-        <img th:src="@{/resources/images/KluisButton.png}" alt="Logo"/>
+<img th:src="@{/resources/images/KluisButton.png}"/>
+
+<div class="container">
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Floor</th>
+                <th>Locker number</th>
+                <th>Tower</th>
+                <th>User</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="locker : ${lockers}">
+                <td th:text="${locker.id}">0</td>
+                <td th:text="${locker.floor}">0</td>
+                <td th:text="${locker.number}">0</td>
+                <td th:text="${locker.tower}">A</td>
+                <td th:text="${locker.user}">Karel</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
-   
-    <div>
-    <table>
-         <tr>
-            <th></th>
-            <th>Tower</th>
-            <th>Floor</th>
-            <th>ID</th>
-        </tr>
-        <tr class="tr-hover">
-            <td>Locker:</td>
-            <td>A</td>
-            <td>1</td>
-            <td>40</td>
-        </tr>
-        <tr class="tr-hover">
-            <td>Locker:</td>
-            <td>B</td>
-            <td>2</td>
-            <td>20</td>
-        </tr>
-    </table>
-    </div>
-    
-</body>  
+</div>
+</body>
 </html>
