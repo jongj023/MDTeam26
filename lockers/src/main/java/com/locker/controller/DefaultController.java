@@ -23,7 +23,7 @@ public class DefaultController {
     public String index() {
 //        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 //        model.addObject("loggedIn", auth.isAuthenticated());
-        return "beheerder";
+        return "locker";
     }
 
     @RequestMapping("/test")
