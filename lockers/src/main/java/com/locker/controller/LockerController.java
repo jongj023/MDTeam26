@@ -1,5 +1,6 @@
 package com.locker.controller;
 
+import com.locker.model.LockerEntity;
 import com.locker.service.LockerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,7 +21,11 @@ public class LockerController {
     @RequestMapping(value = "/locker", method = RequestMethod.GET)
     public ModelAndView mainLockerApplication() {
         ModelAndView model = new ModelAndView("locker");
-        model.addObject("lockers", lockerService.findAll());
+        Iterable<LockerEntity> lockerList = lockerService.getAllLockers();
+        model.addObject("lockers", lockerList);
+        for(LockerEntity locker : lockerList) {
+            System.out.println(locker.getLockerid() + " - User: ");
+        }
         return model;
     }
 }

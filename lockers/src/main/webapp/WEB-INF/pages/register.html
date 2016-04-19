@@ -13,14 +13,14 @@
 <body>
 <div class="container">
     <form class="form-signin" th:action="@{/register}" method="post">
-        <img class="img-responsive " align="middle" alt="KLM Logo" th:src="@{/resources/images/Logo.png}"/>
+        <img class="img-responsive login-img-center" align="middle" alt="KLM Logo" th:src="@{/resources/images/Logo.png}"/>
         <input name="username" id="username" class="form-control text-field-margins" placeholder="Username" type="text" required="required" autofocus="autofocus"/>
         <input name="password" id="password" class="form-control text-field-margins" placeholder="Password"  type="password" required="required"/>
         <br/>
         <input name="firstname" id="firstname" class="form-control text-field-margins" placeholder="John" type="text" required="required"/>
         <input name="lastname" id="lastname" class="form-control text-field-margins" placeholder="Doe"  type="text" required="required"/>
         <input name="email" id="email" class="form-control text-field-margins" placeholder="example@example.com"  type="email" required="required"/>
-        <button class="btn btn-lg btn-warning btn-block btn-login" type="submit"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>Register</button>
+        <button class="btn btn-lg btn-warning btn-block btn-login" type="submit"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Register</button>
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
     </form>
 </div>

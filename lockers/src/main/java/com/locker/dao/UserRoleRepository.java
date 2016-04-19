@@ -1,6 +1,6 @@
 package com.locker.dao;
 
-import com.locker.model.UserRole;
+import com.locker.model.UserRolesEntity;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository
-public interface UserRoleRepository extends CrudRepository<UserRole, Long> {
+public interface UserRoleRepository extends CrudRepository<UserRolesEntity, Long> {
 
 }
