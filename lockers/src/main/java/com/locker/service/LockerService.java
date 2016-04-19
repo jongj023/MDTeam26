@@ -2,7 +2,7 @@ package com.locker.service;
 
 import com.locker.dao.LockerRepository;
 import com.locker.dao.UserRepository;
-import com.locker.model.Locker;
+import com.locker.model.LockerEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,20 +27,11 @@ public class LockerService {
     private static final Logger logger =
             LoggerFactory.getLogger(UserService.class);
 
-//    public boolean registerNewUser(User user) {
-//        if (usernameExists(user.getUsername())) {
-//            logger.error("Username was already found in database: " + user.getUsername());
-//            return false;
-//        }
-//        user.setPassword(passwordEncoder.encode(user.getPassword()));
-//        user.setEnabled(1);
-//        userRepository.save(user);
-//        UserRole userRole = new UserRole(user.getUsername(), "USER");
-//        userRoleRepository.save(userRole);
-//        return true;
-//    }
-
-    public Iterable<Locker> findAll() {
+    public Iterable<LockerEntity> findAll() {
         return lockerRepository.findAll();
+    }
+
+    public Iterable<LockerEntity> getAllLockers() {
+        return lockerRepository.getAllLockers();
     }
 }
