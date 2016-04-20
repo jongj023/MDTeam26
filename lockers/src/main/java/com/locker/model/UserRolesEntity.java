@@ -1,38 +1,66 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.locker.model;
 
+import java.io.Serializable;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Created by randyr on 19-4-16.
+ *
+ * @author Moenish Baladien
  */
 @Entity
-@Table(name = "user_roles", schema = "mydb", catalog = "")
-public class UserRolesEntity {
-    private long userRoleId;
-    private String role;
-    private String username;
-//    private UserEntity fk_username;
+@Table(name = "user_roles")
+public class UserRolesEntity implements Serializable {
 
-    public UserRolesEntity(String username, String role) {
-        this.username = username;
-        this.role = role;
-    }
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_role_id")
+    private Long userRoleId;
+
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
+    @Column(name = "role")
+    private String role;
+
+    @JoinColumn(name = "username", referencedColumnName = "username")
+    @OneToOne
+    private UserEntity username;
 
     public UserRolesEntity() {
     }
 
-    @Id
-    @Column(name = "user_role_id")
-    public long getUserRoleId() {
-        return userRoleId;
-    }
-
-    public void setUserRoleId(long userRoleId) {
+    public UserRolesEntity(Long userRoleId) {
         this.userRoleId = userRoleId;
     }
 
-    @Basic
-    @Column(name = "role")
+    public UserRolesEntity(Long userRoleId, String role) {
+        this.userRoleId = userRoleId;
+        this.role = role;
+    }
+
+    public UserRolesEntity(UserEntity userEntity, String role) {
+        this.username = userEntity;
+        this.role = role;
+    }
+
+    public Long getUserRoleId() {
+        return userRoleId;
+    }
+
+    public void setUserRoleId(Long userRoleId) {
+        this.userRoleId = userRoleId;
+    }
+
     public String getRole() {
         return role;
     }
@@ -41,46 +69,37 @@ public class UserRolesEntity {
         this.role = role;
     }
 
-    @Basic
-    @Column(name = "username")
-    public String getUsername() {
+    public UserEntity getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
+    public void setUsername(UserEntity username) {
         this.username = username;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public int hashCode() {
+        int hash = 0;
+        hash += (userRoleId != null ? userRoleId.hashCode() : 0);
+        return hash;
+    }
 
-        UserRolesEntity that = (UserRolesEntity) o;
-
-        if (userRoleId != that.userRoleId) return false;
-        if (role != null ? !role.equals(that.role) : that.role != null) return false;
-        if (username != null ? !username.equals(that.username) : that.username != null) return false;
-
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof UserRolesEntity)) {
+            return false;
+        }
+        UserRolesEntity other = (UserRolesEntity) object;
+        if ((this.userRoleId == null && other.userRoleId != null) || (this.userRoleId != null && !this.userRoleId.equals(other.userRoleId))) {
+            return false;
+        }
         return true;
     }
 
     @Override
-    public int hashCode() {
-        int result = (int) (userRoleId ^ (userRoleId >>> 32));
-        result = 31 * result + (role != null ? role.hashCode() : 0);
-        result = 31 * result + (username != null ? username.hashCode() : 0);
-        return result;
+    public String toString() {
+        return "com.locker.model.UserRoles[ userRoleId=" + userRoleId + " ]";
     }
-//
-//    @OneToOne
-//    @JoinColumn(name = "username", referencedColumnName = "username", nullable = false)
-//    public UserEntity getFk_username() {
-//        return fk_username;
-//    }
-//
-//    public void setFk_username(UserEntity fk_username) {
-//        this.fk_username = fk_username;
-//    }
-
+    
 }

@@ -21,10 +21,10 @@ public class LockerController {
     @RequestMapping(value = "/locker", method = RequestMethod.GET)
     public ModelAndView mainLockerApplication() {
         ModelAndView model = new ModelAndView("locker");
-        Iterable<LockerEntity> lockerList = lockerService.getAllLockers();
+        Iterable<LockerEntity> lockerList = lockerService.findAll();
         model.addObject("lockers", lockerList);
         for(LockerEntity locker : lockerList) {
-            System.out.println(locker.getLockerid() + " - User: ");
+            System.out.println("LOCKER: " + locker.getLockerid() + ", USER: ");
         }
         return model;
     }
