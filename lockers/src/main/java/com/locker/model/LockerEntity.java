@@ -1,31 +1,72 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.locker.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 /**
- * Created by randyr on 19-4-16.
+ *
+ * @author Moenish Baladien
  */
 @Entity
-@Table(name = "locker", schema = "mydb", catalog = "")
-public class LockerEntity {
-    private long lockerid;
-    private int lockerFloor;
-    private int lockerNumber;
-    private String lockerTower;
-    private UserEntity fk_username;
+@Table(name = "locker")
+public class LockerEntity implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "lockerid")
-    public long getLockerid() {
-        return lockerid;
+    public Long lockerid;
+
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "locker_floor")
+    private int lockerFloor;
+
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "locker_number")
+    private int lockerNumber;
+
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 1)
+    @Column(name = "locker_tower")
+    private String lockerTower;
+
+    @JoinColumn(name = "user", referencedColumnName = "username")
+    @OneToOne(optional = false)
+    private UserEntity user;
+
+    public LockerEntity() {
     }
 
-    public void setLockerid(long lockerid) {
+    public LockerEntity(Long lockerid) {
         this.lockerid = lockerid;
     }
 
-    @Basic
-    @Column(name = "locker_floor")
+    public LockerEntity(Long lockerid, int lockerFloor, int lockerNumber, String lockerTower) {
+        this.lockerid = lockerid;
+        this.lockerFloor = lockerFloor;
+        this.lockerNumber = lockerNumber;
+        this.lockerTower = lockerTower;
+    }
+
+    public Long getLockerid() {
+        return lockerid;
+    }
+
+    public void setLockerid(Long lockerid) {
+        this.lockerid = lockerid;
+    }
+
     public int getLockerFloor() {
         return lockerFloor;
     }
@@ -34,8 +75,6 @@ public class LockerEntity {
         this.lockerFloor = lockerFloor;
     }
 
-    @Basic
-    @Column(name = "locker_number")
     public int getLockerNumber() {
         return lockerNumber;
     }
@@ -44,8 +83,6 @@ public class LockerEntity {
         this.lockerNumber = lockerNumber;
     }
 
-    @Basic
-    @Column(name = "locker_tower")
     public String getLockerTower() {
         return lockerTower;
     }
@@ -54,37 +91,37 @@ public class LockerEntity {
         this.lockerTower = lockerTower;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public UserEntity getUser() {
+        return user;
+    }
 
-        LockerEntity that = (LockerEntity) o;
-
-        if (lockerid != that.lockerid) return false;
-        if (lockerFloor != that.lockerFloor) return false;
-        if (lockerNumber != that.lockerNumber) return false;
-        if (lockerTower != null ? !lockerTower.equals(that.lockerTower) : that.lockerTower != null) return false;
-
-        return true;
+    public void setUser(UserEntity user) {
+        this.user = user;
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (lockerid ^ (lockerid >>> 32));
-        result = 31 * result + lockerFloor;
-        result = 31 * result + lockerNumber;
-        result = 31 * result + (lockerTower != null ? lockerTower.hashCode() : 0);
-        return result;
+        int hash = 0;
+        hash += (lockerid != null ? lockerid.hashCode() : 0);
+        return hash;
     }
 
-    @OneToOne
-    @JoinColumn(name = "user", referencedColumnName = "username", nullable = false)
-    public UserEntity getFk_username() {
-        return fk_username;
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof LockerEntity)) {
+            return false;
+        }
+        LockerEntity other = (LockerEntity) object;
+        if ((this.lockerid == null && other.lockerid != null) || (this.lockerid != null && !this.lockerid.equals(other.lockerid))) {
+            return false;
+        }
+        return true;
     }
 
-    public void setFk_username(UserEntity fk_username) {
-        this.fk_username = fk_username;
+    @Override
+    public String toString() {
+        return "com.locker.model.Locker[ lockerid=" + lockerid + " ]";
     }
+    
 }

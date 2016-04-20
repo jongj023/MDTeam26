@@ -31,7 +31,8 @@ public class LockerService {
         return lockerRepository.findAll();
     }
 
-    public Iterable<LockerEntity> getAllLockers() {
-        return lockerRepository.getAllLockers();
-    }
+//    public Iterable<LockerEntity> getAllLockers() {
+//        return lockerRepository.getAllLockers();
+//    }
+
 }

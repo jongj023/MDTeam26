@@ -1,23 +1,85 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.locker.model;
 
+import java.io.Serializable;
+import java.util.List;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
- * Created by randyr on 19-4-16.
+ *
+ * @author Moenish Baladien
  */
 @Entity
-@Table(name = "user", schema = "mydb", catalog = "")
-public class UserEntity {
-    private String username;
-    private String email;
-    private int enabled;
-    private String firstname;
-    private String lastname;
-    private String password;
-    private UserRolesEntity fk_user_role;
+@Table(name = "user")
+public class UserEntity implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
+    @NotNull
+    @Size(min = 1, max = 45)
     @Column(name = "username")
+    private String username;
+
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
+    @Column(name = "email")
+    private String email;
+
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "enabled")
+    private int enabled;
+
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
+    @Column(name = "firstname")
+    private String firstname;
+
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
+    @Column(name = "lastname")
+    private String lastname;
+
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
+    @Column(name = "password")
+    private String password;
+
+    @OneToOne(mappedBy = "username")
+    private UserRolesEntity userRolesList;
+
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+    private LockerEntity lockerList;
+
+    public UserEntity() {
+    }
+
+    public UserEntity(String username) {
+        this.username = username;
+    }
+
+    public UserEntity(String username, String email, int enabled, String firstname, String lastname, String password) {
+        this.username = username;
+        this.email = email;
+        this.enabled = enabled;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.password = password;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -26,8 +88,6 @@ public class UserEntity {
         this.username = username;
     }
 
-    @Basic
-    @Column(name = "email")
     public String getEmail() {
         return email;
     }
@@ -36,8 +96,6 @@ public class UserEntity {
         this.email = email;
     }
 
-    @Basic
-    @Column(name = "enabled")
     public int getEnabled() {
         return enabled;
     }
@@ -46,8 +104,6 @@ public class UserEntity {
         this.enabled = enabled;
     }
 
-    @Basic
-    @Column(name = "firstname")
     public String getFirstname() {
         return firstname;
     }
@@ -56,8 +112,6 @@ public class UserEntity {
         this.firstname = firstname;
     }
 
-    @Basic
-    @Column(name = "lastname")
     public String getLastname() {
         return lastname;
     }
@@ -66,8 +120,6 @@ public class UserEntity {
         this.lastname = lastname;
     }
 
-    @Basic
-    @Column(name = "password")
     public String getPassword() {
         return password;
     }
@@ -76,40 +128,47 @@ public class UserEntity {
         this.password = password;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    @XmlTransient
+    public UserRolesEntity getUserRolesList() {
+        return userRolesList;
+    }
 
-        UserEntity that = (UserEntity) o;
+    public void setUserRolesList(UserRolesEntity userRolesList) {
+        this.userRolesList = userRolesList;
+    }
 
-        if (enabled != that.enabled) return false;
-        if (username != null ? !username.equals(that.username) : that.username != null) return false;
-        if (email != null ? !email.equals(that.email) : that.email != null) return false;
-        if (firstname != null ? !firstname.equals(that.firstname) : that.firstname != null) return false;
-        if (lastname != null ? !lastname.equals(that.lastname) : that.lastname != null) return false;
-        if (password != null ? !password.equals(that.password) : that.password != null) return false;
+    @XmlTransient
+    public LockerEntity getLockerList() {
+        return lockerList;
+    }
 
-        return true;
+    public void setLockerList(LockerEntity lockerList) {
+        this.lockerList = lockerList;
     }
 
     @Override
     public int hashCode() {
-        int result = username != null ? username.hashCode() : 0;
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + enabled;
-        result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
-        result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
-        result = 31 * result + (password != null ? password.hashCode() : 0);
-        return result;
+        int hash = 0;
+        hash += (username != null ? username.hashCode() : 0);
+        return hash;
     }
 
-//    @OneToOne(mappedBy = "fk_username")
-//    public UserRolesEntity getFk_user_role() {
-//        return fk_user_role;
-//    }
-//
-//    public void setFk_user_role(UserRolesEntity fk_user_role) {
-//        this.fk_user_role = fk_user_role;
-//    }
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof UserEntity)) {
+            return false;
+        }
+        UserEntity other = (UserEntity) object;
+        if ((this.username == null && other.username != null) || (this.username != null && !this.username.equals(other.username))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return username;
+    }
+    
 }

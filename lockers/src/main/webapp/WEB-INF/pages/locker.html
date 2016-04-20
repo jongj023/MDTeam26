@@ -5,6 +5,9 @@
     <link href="../../../webapp/resources/css/bootstrap.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.css}"/>
     <link href="../../../webapp/resources/css/bootstrap-theme.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap-theme.css}"/>
     <link href="../../../webapp/resources/css/login.css" rel="stylesheet" media="screen" th:href="@{/resources/css/login.css}"/>
+    <link href="../../../webapp/resources/css/locker.css" rel="stylesheet" media="screen" th:href="@{/resources/css/locker.css}"/>
+    <script src="../../../webapp/resources/js/jquery-min.js" th:src="@{/resources/js/jquery-min.js}"></script>
+    <script src="../../../webapp/resources/js/locker.js" th:src="@{/resources/js/locker.js}"></script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/> <!-- fixes mobile view -->
 </head>
@@ -12,9 +15,12 @@
 <body>
 
 <div class="container">
-    <img class="img-responsive" th:src="@{/resources/images/KluisButton.png}"/>
+    <div class="row">
+        <img class="col-md-2" th:src="@{/resources/images/KluisButton.png}"/>
+        <input name="search" id="search" class="form-control text-field-margins col-md-10" placeholder="Search..."  type="text"/>
+    </div>
     <div class="table-responsive">
-        <table class="table">
+        <table class="table" id="locker_table">
             <thead>
             <tr>
                 <th>#</th>
@@ -22,15 +28,17 @@
                 <th>Locker number</th>
                 <th>Tower</th>
                 <th>User</th>
+                <th>Hidden</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="locker : ${lockers}">
-                <td th:text="${locker.id}">0</td>
-                <td th:text="${locker.floor}">0</td>
-                <td th:text="${locker.number}">0</td>
-                <td th:text="${locker.tower}">A</td>
+                <td th:text="${locker.lockerid}">0</td>
+                <td th:text="${locker.lockerFloor}">0</td>
+                <td th:text="${locker.lockerNumber}">0</td>
+                <td th:text="${locker.lockerTower}">A</td>
                 <td th:text="${locker.user}">Karel</td>
+                <td th:text="${locker.lockerTower} + ${locker.lockerFloor} + ${locker.lockerNumber}">A000</td>
             </tr>
             </tbody>
         </table>
