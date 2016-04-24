@@ -3,6 +3,7 @@ package com.locker.service;
 import com.locker.dao.LockerRepository;
 import com.locker.dao.UserRepository;
 import com.locker.model.LockerEntity;
+import com.locker.model.UserEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +32,18 @@ public class LockerService {
         return lockerRepository.findAll();
     }
 
-//    public Iterable<LockerEntity> getAllLockers() {
-//        return lockerRepository.getAllLockers();
-//    }
+    public LockerEntity findLockerById(long id) {return lockerRepository.findOne(id);}
+
+    public void setUser(Long id, String username) {
+        UserEntity user;
+        if (username.isEmpty()) {
+            user = null;
+        } else {
+            user = userRepository.findByUsername(username);
+        }
+        LockerEntity locker = lockerRepository.findOne(id);
+        locker.setUser(user);
+        lockerRepository.save(locker);
+    }
 
 }

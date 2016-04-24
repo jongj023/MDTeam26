@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
+    <!--<meta name="_csrf" th:content="${_csrf.token}"/>-->
     <title>Locker overview</title>
     <link href="../../../webapp/resources/css/bootstrap.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.css}"/>
     <link href="../../../webapp/resources/css/bootstrap-theme.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap-theme.css}"/>
     <link href="../../../webapp/resources/css/login.css" rel="stylesheet" media="screen" th:href="@{/resources/css/login.css}"/>
     <link href="../../../webapp/resources/css/locker.css" rel="stylesheet" media="screen" th:href="@{/resources/css/locker.css}"/>
+    <link href="../../../webapp/resources/css/typeaheadjs.css" rel="stylesheet" media="screen" th:href="@{/resources/css/typeaheadjs.css}"/>
+
     <script src="../../../webapp/resources/js/jquery-min.js" th:src="@{/resources/js/jquery-min.js}"></script>
+    <script src="../../../webapp/resources/js/typeahead.js" th:src="@{/resources/js/typeahead.js}"></script>
+    <script src="../../../webapp/resources/js/bootstrap.js" th:src="@{/resources/js/bootstrap.js}"></script>
     <script src="../../../webapp/resources/js/locker.js" th:src="@{/resources/js/locker.js}"></script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/> <!-- fixes mobile view -->
@@ -19,29 +24,70 @@
         <img class="col-md-2" th:src="@{/resources/images/KluisButton.png}"/>
         <input name="search" id="search" class="form-control text-field-margins col-md-10" placeholder="Search..."  type="text"/>
     </div>
-    <div class="table-responsive">
-        <table class="table" id="locker_table">
+    <div class="table-responsive dropdown-reserve" align="center">
+        <table class="table table-hover table-striped" id="locker_table">
             <thead>
             <tr>
                 <th>#</th>
-                <th>Floor</th>
-                <th>Locker number</th>
                 <th>Tower</th>
+                <th>Floor</th>
+                <th>Number</th>
                 <th>User</th>
+                <th>Actions</th>
                 <th>Hidden</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="locker : ${lockers}">
-                <td th:text="${locker.lockerid}">0</td>
-                <td th:text="${locker.lockerFloor}">0</td>
-                <td th:text="${locker.lockerNumber}">0</td>
-                <td th:text="${locker.lockerTower}">A</td>
-                <td th:text="${locker.user}">Karel</td>
+            <tr th:each="locker : ${lockers}" class="locker-row" th:attr="data-id=${locker.lockerid}">
+                <td class="col-md-1" th:text="${locker.lockerid}">0</td>
+                <td class="col-md-1" th:text="${locker.lockerTower}">A</td>
+                <td class="col-md-1" th:text="${locker.lockerFloor}">0</td>
+                <td class="col-md-1" th:text="${locker.lockerNumber}">0</td>
+                <td class="col-md-4" th:attr="id='user' + ${locker.lockerid}" th:text="${locker.user}">Karel</td>
+                <td class="actions-column col-md-4">
+                    <div class="btn-group" role="group" aria-label="actions-group">
+                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#lockerModal" th:attr="id=${locker.lockerid}">
+                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Assign</button>
+                        <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="pointer" th:onclick="'viewLocker('+${locker.lockerid}+')'"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> View</a></li>
+                            <li><a class="pointer" th:onclick="'clearUserFromLocker('+${locker.lockerid}+')'"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Clear</a></li>
+                        </ul>
+                    </div>
+                </td>
                 <td th:text="${locker.lockerTower} + ${locker.lockerFloor} + ${locker.lockerNumber}">A000</td>
             </tr>
             </tbody>
         </table>
+    </div>
+    <div id="lockerModal" class="modal fade" role="dialog" aria-labelledby="orderModalLabel" tabindex="-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Locker</h4>
+                </div>
+
+                <div class="modal-body">
+                    <p>Assign or change user designated to this locker.</p>
+                    <form id="user-form" th:action="@{/setuser}" method="post">
+                        <div class="form-group" id="locker-field">
+                            <label for="locker-user" class="control-label">User:</label>
+                            <input type="text" name="locker-user" class="form-control typeahead" id="locker-user" data-provide="typeahead"/>
+                            <input type="hidden" name="locker-id" id="locker-id" value=""/>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button data-dismiss="modal" class="btn btn-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Close</button>
+                    <button onclick="submitUser()" class="btn btn-warning"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Submit</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 </body>

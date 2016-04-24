@@ -24,6 +24,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable();
         http
                 .authorizeRequests()
                     .antMatchers("/resources/**", "/favicon.ico", "/login", "/register")
@@ -32,9 +33,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         .authenticated();
         http
                 .authorizeRequests()
-                    .antMatchers("/test", "/locker")
-                        .access("hasRole('ADMIN')")
-                        .and()
+                    .antMatchers("/test", "/locker").access("hasRole('ADMIN')");
+        http
                 .authorizeRequests()
                     .antMatchers("/").access("hasRole('USER') or hasRole('ADMIN')");
         http
@@ -49,7 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.
                 logout()
                     .logoutUrl("/logout").logoutSuccessUrl("/login?logout")
-                .and().csrf()
+//                .and().csrf()
                 .and().exceptionHandling().accessDeniedPage("/error");
     }
 
