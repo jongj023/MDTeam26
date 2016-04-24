@@ -1,3 +1,42 @@
-#locker_table tr > *:nth-child(6) {
+#locker_table tr > *:nth-child(7) {
     display: none;
+}
+.hiddenRow {
+    padding: 0 !important;
+}
+.btn {
+    border: 0px solid transparent !important;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+}
+.btn-danger, .btn-primary, .btn-info, .btn-default, .btn-warning, .btn-success {
+    background-image: none !important;
+}
+.btn-info {
+    border-color: #46b8da;
+    background-color: #5bc0de;
+    color: #fff;
+}
+.table > thead > tr > th, .table > tbody > tr > th,
+.table > tfoot > tr > th, .table > thead > tr > td,
+.table > tbody > tr > td, .table > tfoot > tr > td {
+    vertical-align: middle;
+    border-top: 1px solid #E0E0E0;
+}
+.actions-column {
+    alignment: right;
+}
+.modal-header, h4, .close {
+    background-color: #00a1de;
+    color:white !important;
+    text-align: center;
+    font-size: 30px;
+}
+.dropdown-reserve {
+    padding-bottom: 40px;
+}
+.pointer {
+    cursor: pointer;
+    touch-action: manipulation;
 }

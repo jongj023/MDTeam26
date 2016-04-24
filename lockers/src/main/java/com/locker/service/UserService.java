@@ -46,8 +46,13 @@ public class UserService  {
         return true;
     }
 
-    public boolean usernameExists(String username) {
-        List<UserEntity> result = userRepository.findByUsername(username);
-        return !result.isEmpty();
+    private boolean usernameExists(String username) {
+        UserEntity result = userRepository.findByUsername(username);
+        return result != null;
     }
+
+    public Iterable<UserEntity> findAll() {
+        return userRepository.findAll();
+    }
+
 }

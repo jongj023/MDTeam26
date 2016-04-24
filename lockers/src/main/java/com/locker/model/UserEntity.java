@@ -5,6 +5,8 @@
  */
 package com.locker.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.*;
@@ -18,6 +20,7 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "user")
+@JsonIgnoreProperties({"email", "enabled", "password", "userRolesList", "lockerList"})
 public class UserEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;

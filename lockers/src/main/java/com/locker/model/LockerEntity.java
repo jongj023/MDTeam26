@@ -33,7 +33,7 @@ public class LockerEntity implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "locker_number")
-    private int lockerNumber;
+    private String lockerNumber;
 
     @Basic(optional = false)
     @NotNull
@@ -42,7 +42,7 @@ public class LockerEntity implements Serializable {
     private String lockerTower;
 
     @JoinColumn(name = "user", referencedColumnName = "username")
-    @OneToOne(optional = false)
+    @OneToOne(optional = true)
     private UserEntity user;
 
     public LockerEntity() {
@@ -52,7 +52,7 @@ public class LockerEntity implements Serializable {
         this.lockerid = lockerid;
     }
 
-    public LockerEntity(Long lockerid, int lockerFloor, int lockerNumber, String lockerTower) {
+    public LockerEntity(Long lockerid, int lockerFloor, String lockerNumber, String lockerTower) {
         this.lockerid = lockerid;
         this.lockerFloor = lockerFloor;
         this.lockerNumber = lockerNumber;
@@ -75,11 +75,11 @@ public class LockerEntity implements Serializable {
         this.lockerFloor = lockerFloor;
     }
 
-    public int getLockerNumber() {
+    public String getLockerNumber() {
         return lockerNumber;
     }
 
-    public void setLockerNumber(int lockerNumber) {
+    public void setLockerNumber(String lockerNumber) {
         this.lockerNumber = lockerNumber;
     }
 
