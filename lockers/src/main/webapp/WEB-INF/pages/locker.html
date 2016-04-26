@@ -74,6 +74,10 @@
                 <div class="modal-body">
                     <p>Assign or change user designated to this locker.</p>
                     <form id="user-form" th:action="@{/setuser}" method="post">
+                        <div class="alert alert-warning" role="alert" id="lockerWithUsernameExists">
+                            <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <span id="warning-message"><p><strong>This username already has a locker!</strong> Cannot assign a second locker.</p></span>
+                        </div>
                         <div class="form-group" id="locker-field">
                             <label for="locker-user" class="control-label">User:</label>
                             <input type="text" name="locker-user" class="form-control typeahead" id="locker-user" data-provide="typeahead"/>

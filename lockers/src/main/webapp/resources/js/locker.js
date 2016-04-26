@@ -2,11 +2,15 @@
  * Created by randyr on 20-4-16.
  */
 var currentId = 0;
+var usernames = [];
+var allUsernames = [];
 
 $(document).ready(function() {
     $(function () { //prepare all tooltips
         $('[data-toggle="tooltip"]').tooltip()
     });
+
+    $('#lockerWithUsernameExists').hide();
 
     getUsers(); // prepare modal autocomplete
 
@@ -21,6 +25,28 @@ $(document).ready(function() {
             return !reg.test(text);
         }).hide();
     });
+
+    $('#user-form').submit(function(e) {
+        var submittedUsername = $('#locker-user').val();
+        if (usernames.indexOf(submittedUsername) > -1) {
+            //username has already claimed a locker
+            e.preventDefault();
+            $('#warning-message').html("<p><strong>This username already has a locker!</strong> Cannot assign a second locker.</p>");
+            $('#lockerWithUsernameExists').show();
+        }
+        if (allUsernames.indexOf(submittedUsername) == -1 && submittedUsername.length > 0) {
+            // username doesnt exist in DB
+            e.preventDefault();
+            $('#warning-message').html("<p><strong>Username doesn't exist!</strong> Please enter a valid username</p>");
+            $('#lockerWithUsernameExists').show();
+        }
+
+    });
+
+    $('.close').click(function (e) {
+        e.preventDefault();
+        $('#lockerWithUsernameExists').hide();
+    })
 });
 
 $(document).ready(function(){
@@ -41,8 +67,17 @@ function getUsers() { //Get list of username, first- and lastname for autocomple
         $.each(data, function(index, obj) {
             var all = obj.username + " " + obj.firstname + " " + obj.lastname;
             sourceArr.push(all);
+            allUsernames.push(obj.username);
         });
         initializeAutocomplete(sourceArr);
+    });
+    $.get("/gettakenusers", function (data) {
+        console.log(data);
+        usernames = data;
+        // $.each(data, function(index, obj) {
+        //     console.log(obj);
+        //     usernames.push(obj);
+        // });
     });
 }
 
@@ -96,3 +131,4 @@ function clearUserFromLocker(id) {
     $('#locker-user').val("");
     $('#user-form').submit();
 }
+
