@@ -38,7 +38,6 @@ public class LockerController {
     @RequestMapping(value = "/setuser", method = RequestMethod.POST)
     @ResponseBody
     public ModelAndView updateLockerWithUser(@ModelAttribute("locker-id") Long id, @ModelAttribute("locker-user") String user) {
-        //TODO voorkomen dat user welke al kluisje heeft nog een tweede kluisje kan krijgen.
         lockerService.setUser(id, user);
         RedirectView view = new RedirectView("/locker", true);
         view.setExposeModelAttributes(false);

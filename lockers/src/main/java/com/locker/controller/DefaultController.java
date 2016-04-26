@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 public class DefaultController {
@@ -20,10 +21,10 @@ public class DefaultController {
     private LockerService lockerService;
 
     @RequestMapping("/")
-    public String index() {
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        model.addObject("loggedIn", auth.isAuthenticated());
-        return "locker";
+    public ModelAndView index() {
+        RedirectView view = new RedirectView("/locker", true);
+        view.setExposeModelAttributes(false);
+        return new ModelAndView(view);
     }
 
     @RequestMapping("/test")

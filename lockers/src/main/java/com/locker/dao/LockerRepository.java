@@ -14,4 +14,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LockerRepository extends CrudRepository<LockerEntity, Long> {
 
+    @Query(value = "SELECT user FROM locker l WHERE l.user IS NOT NULL;", nativeQuery = true)
+    String[] getUsersWithLocker();
 }
+

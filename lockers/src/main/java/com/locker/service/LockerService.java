@@ -40,10 +40,24 @@ public class LockerService {
             user = null;
         } else {
             user = userRepository.findByUsername(username);
+            if (user == null) return;
+        }
+
+        if (user != null) {
+            String[] users = lockerRepository.getUsersWithLocker();
+            for (String userCheck : users) {
+                if (user.equals(userCheck)) {
+                    return; //TODO Error handling (user is already assigned to a locker).
+                }
+            }
         }
         LockerEntity locker = lockerRepository.findOne(id);
         locker.setUser(user);
         lockerRepository.save(locker);
+    }
+
+    public String[] getUsersWithLocker() {
+        return lockerRepository.getUsersWithLocker();
     }
 
 }
