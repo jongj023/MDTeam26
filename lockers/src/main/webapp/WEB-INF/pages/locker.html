@@ -7,12 +7,14 @@
     <link href="../../../webapp/resources/css/bootstrap-theme.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap-theme.css}"/>
     <link href="../../../webapp/resources/css/login.css" rel="stylesheet" media="screen" th:href="@{/resources/css/login.css}"/>
     <link href="../../../webapp/resources/css/locker.css" rel="stylesheet" media="screen" th:href="@{/resources/css/locker.css}"/>
+    <link href="../../../webapp/resources/css/search.css" rel="stylesheet" media="screen" th:href="@{/resources/css/search.css}"/>
     <link href="../../../webapp/resources/css/typeaheadjs.css" rel="stylesheet" media="screen" th:href="@{/resources/css/typeaheadjs.css}"/>
 
     <script src="../../../webapp/resources/js/jquery-min.js" th:src="@{/resources/js/jquery-min.js}"></script>
     <script src="../../../webapp/resources/js/typeahead.js" th:src="@{/resources/js/typeahead.js}"></script>
     <script src="../../../webapp/resources/js/bootstrap.js" th:src="@{/resources/js/bootstrap.js}"></script>
     <script src="../../../webapp/resources/js/locker.js" th:src="@{/resources/js/locker.js}"></script>
+    <script src="../../../webapp/resources/js/search.js" th:src="@{/resources/js/search.js}"></script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/> <!-- fixes mobile view -->
 </head>
@@ -23,6 +25,7 @@
     <div class="row">
         <img class="col-md-2" th:src="@{/resources/images/KluisButton.png}"/>
         <input name="search" id="search" class="form-control text-field-margins col-md-10" placeholder="Search..."  type="text"/>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#searchModal">Search for locker</button>
     </div>
     <div class="table-responsive dropdown-reserve" align="center">
         <table class="table table-hover table-striped" id="locker_table">
@@ -89,6 +92,41 @@
                 <div class="modal-footer">
                     <button data-dismiss="modal" class="btn btn-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Close</button>
                     <button onclick="submitUser()" class="btn btn-warning"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="searchModal" class="modal fade" role="dialog" aria-labelledby="orderModalLabel" tabindex="-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Search for locker</h4>
+                </div>
+
+                <div class="modal-body">
+                    <img class="col-md-2" id="planImage" th:src="@{/resources/images/Plan.png}"/>
+                    <div class="btn-group">
+                        <a class="btn dropdown-toggle btn-select" data-toggle="dropdown" href="#">Tower <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">A</a></li>
+                            <li><a href="#">B</a></li>
+                            <li><a href="#">C</a></li>
+                        </ul>
+                    </div>
+                    <div class="btn-group">
+                        <a class="btn dropdown-toggle btn-select" data-toggle="dropdown" href="#">Floor <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button data-dismiss="modal" class="btn btn-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Close</button>
                 </div>
             </div>
         </div>

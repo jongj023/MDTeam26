@@ -1,4 +1,4 @@
-lockerModal#locker_table tr > *:nth-child(7) {
+searchModal#locker_table tr > *:nth-child(7) {
     display: none;
 }
 .hiddenRow {
