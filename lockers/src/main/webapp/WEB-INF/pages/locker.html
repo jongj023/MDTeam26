@@ -43,7 +43,7 @@
                 <td class="col-md-1" th:text="${locker.lockerTower}">A</td>
                 <td class="col-md-1" th:text="${locker.lockerFloor}">0</td>
                 <td class="col-md-1" th:text="${locker.lockerNumber}">0</td>
-                <td class="col-md-4" th:attr="id='user' + ${locker.lockerid}"   th:text="${locker.user}">Karel</td>
+                <td class="col-md-4" th:attr="id='user' + ${locker.lockerid}" th:text="${locker.user}">Karel</td>
                 <td class="actions-column col-md-4">
                     <div class="btn-group" role="group" aria-label="actions-group">
                         <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#lockerModal" th:attr="id=${locker.lockerid}">
