@@ -1,42 +1,29 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Login page for KLM lockers"/>
-    <meta name="author" content="KLM-HvA"/>
     <title>Login</title>
-    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/> <!-- Bootstrap Core CSS -->
-    <link href="../../../resources/css/login.css" rel="stylesheet" media="screen" th:href="@{/resources/css/login.css}"/> <!-- Custom login CSS -->
+    <link href="../../../webapp/resources/css/bootstrap.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.css}"/>
+    <link href="../../../webapp/resources/css/bootstrap-theme.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap-theme.css}"/>
+    <link href="../../../webapp/resources/css/login.css" rel="stylesheet" media="screen" th:href="@{/resources/css/login.css}"/>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/> <!-- fixes mobile view -->
+    
 </head>
+  
 <body>
-
 <div class="container">
     <form class="form-signin" th:action="@{/register}" method="post">
-        <h1 class="klm-title">KLM Lockers <br/> </h1>
-        <h2 class="form-signin-heading">Please sign in</h2>
-        <!--/*@thymesVar id="error" type="boolean"*/-->
-        <div th:if="${error != null}" class="alert alert-info">
-            <strong>Username is already taken.</strong>
-        </div>
-        <label for="username" class="sr-only">Username</label>
-        <input type="text" id="username" class="form-control" placeholder="Username" name="username" required="required" autofocus="autofocus"/>
-        <label for="password" class="sr-only">Password</label>
-        <input type="password" id="password" class="form-control" placeholder="Password" name="password" required="required"/>
+        <img class="img-responsive login-img-center" align="middle" alt="KLM Logo" th:src="@{/resources/images/Logo.png}"/>
+        <input name="username" id="username" class="form-control text-field-margins" placeholder="Username" type="text" required="required" autofocus="autofocus"/>
+        <input name="password" id="password" class="form-control text-field-margins" placeholder="Password"  type="password" required="required"/>
         <br/>
-        <label for="email" class="sr-only">Email</label>
-        <input type="email" id="email" class="form-control" placeholder="Email" name="email" required="required"/>
-        <label for="firstname" class="sr-only">First name</label>
-        <input type="text" id="firstname" class="form-control" placeholder="First name" name="firstname" required="required"/>
-        <label for="lastname" class="sr-only">Password</label>
-        <input type="text" id="lastname" class="form-control" placeholder="Last name" name="lastname" required="required"/>
-        <input type="number" id="enabled" value="1" name="enabled" hidden="hidden"/>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <input name="firstname" id="firstname" class="form-control text-field-margins" placeholder="John" type="text" required="required"/>
+        <input name="lastname" id="lastname" class="form-control text-field-margins" placeholder="Doe"  type="text" required="required"/>
+        <input name="email" id="email" class="form-control text-field-margins" placeholder="example@example.com"  type="email" required="required"/>
+        <button class="btn btn-lg btn-warning btn-block btn-login" type="submit"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Register</button>
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
     </form>
-
-</div> <!-- /container -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script th:src="@{/resources/js/bootstrap.min.js}"></script>
-</body>
+</div>
+</body>  
 </html>
+
