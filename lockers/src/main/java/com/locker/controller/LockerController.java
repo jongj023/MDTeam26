@@ -6,6 +6,7 @@ import com.locker.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.ParseException;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
@@ -15,7 +16,7 @@ import org.springframework.web.servlet.view.RedirectView;
  */
 
 @Controller
-public class LockerController {
+public class    LockerController {
 
     @Autowired
     LockerService lockerService;
@@ -30,14 +31,16 @@ public class LockerController {
 
     @RequestMapping(value = "/locker/{id}",method = RequestMethod.GET)
     public ModelAndView lockerWithId(@PathVariable Long id) {
-        ModelAndView model = new ModelAndView("");
+        ModelAndView model = new ModelAndView("view");
         LockerEntity locker = lockerService.findLockerById(id);
+        model.addObject("locker",locker);
         return model;
     }
 
     @RequestMapping(value = "/setuser", method = RequestMethod.POST)
     @ResponseBody
     public ModelAndView updateLockerWithUser(@ModelAttribute("locker-id") Long id, @ModelAttribute("locker-user") String user) {
+        //TODO voorkomen dat user welke al kluisje heeft nog een tweede kluisje kan krijgen.
         lockerService.setUser(id, user);
         RedirectView view = new RedirectView("/locker", true);
         view.setExposeModelAttributes(false);

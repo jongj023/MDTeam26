@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/> <!-- fixes mobile view -->
+    <style>
+        form label {
+            display: block; /* block float the labels to left column, set a width */
+            float: left;
+            width: 150px;
+            padding: 0;
+            margin: 8px 0 0; /* set top margin same as form input - textarea etc. elements */
+            text-align: left;
+        }
+
+        form { /* set width in form, not fieldset (still takes up more room w/ fieldset width */
+            font: 100% verdana, arial, sans-serif;
+            margin: 0;
+            padding-top: 3%;
+            padding-left: 2%;
+            min-width: 500px;
+            max-width: 600px;
+            width: 380px;
+            background-color: #ffffff;
+        }
+
+        form fieldset {
+            clear: both;
+            border-color: #000;
+            border-width: 1px;
+            border-style: solid;
+            padding: 12px; /* padding in fieldset support spotty in IE */
+            margin: 0;
+        }
+
+        form br {
+            clear: left;
+        }
+
+        form small {
+            display: block;
+            margin: 0 0 5px 160px; /* instructions/comments left margin set to align w/ right column inputs */
+            padding: 1  px 3px;
+            font-size: 88%;
+        }
+
+    </style>
+
+    <title>Title</title>
+</head>
+<body>
+<div layout:fragment="content">
+
+    <h2>View Locker</h2>
+
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">ID: </label>
+            <div class="col-md-10">
+                <p class="form-control-static" th:text="${locker.lockerid}">ID</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Tower</label>
+            <div class="col-md-10">
+                <p class="form-control-static" th:text="${locker.lockerTower}">Tower</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Floor</label>
+            <div class="col-md-10">
+                <p class="form-control-static" th:text="${locker.lockerFloor}">Floor</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Number</label>
+            <div class="col-md-10">
+                <p class="form-control-static" th:text="${locker.lockerNumber}">Number</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">User</label>
+            <div class="col-md-10">
+                <p class="form-control-static" th:text="${locker.user}">User</p>
+            </div>
+        </div>
+    </form>
+    <br/><br/><br/>
+    <br/><br/><br/>
+    <div>
+        <a th:href="@{/locker}">Back To Locker List</a>
+    </div>
+    <br/><br/><br/>
+
+</div>
+</body>
+</html>
