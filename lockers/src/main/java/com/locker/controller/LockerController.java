@@ -30,7 +30,7 @@ public class LockerController {
 
     @RequestMapping(value = "/locker/{id}",method = RequestMethod.GET)
     public ModelAndView lockerWithId(@PathVariable Long id) {
-        ModelAndView model = new ModelAndView("");
+        ModelAndView model = new ModelAndView("view");
         LockerEntity locker = lockerService.findLockerById(id);
         return model;
     }
