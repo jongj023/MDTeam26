@@ -13,19 +13,7 @@
     <script src="../../../webapp/resources/js/typeahead.js" th:src="@{/resources/js/typeahead.js}"></script>
     <script src="../../../webapp/resources/js/bootstrap.js" th:src="@{/resources/js/bootstrap.js}"></script>
     <script src="../../../webapp/resources/js/locker.js" th:src="@{/resources/js/locker.js}"></script>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
-    <script type="text/javascript" src="http://mottie.github.com/tablesorter/js/jquery.tablesorter.js"></script>
-    <script type="text/javascript">$(document).ready(function ()
-            {
-                $("#lockerTable").tablesorter();
-            }
-    );
-    ></script>
-    <script>$(document).ready(function ()
-            {
-                $("#lockerTable").tablesorter({sortList: [[0, 0], [1, 0]]});
-            }
-    );</script>
+
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/> <!-- fixes mobile view -->
 </head>
 
@@ -37,7 +25,7 @@
         <input name="search" id="search" class="form-control text-field-margins col-md-10" placeholder="Search..."  type="text"/>
     </div>
     <div class="table-responsive dropdown-reserve" align="center">
-        <table class="table table-hover table-striped" id="lockerTable">
+        <table class="table table-hover table-striped" id="locker_table">
             <thead>
             <tr>
                 <th>#</th>
@@ -46,6 +34,7 @@
                 <th>Number</th>
                 <th>User</th>
                 <th>Actions</th>
+                <th>Hidden</th>
             </tr>
             </thead>
             <tbody>
@@ -54,7 +43,7 @@
                 <td class="col-md-1" th:text="${locker.lockerTower}">A</td>
                 <td class="col-md-1" th:text="${locker.lockerFloor}">0</td>
                 <td class="col-md-1" th:text="${locker.lockerNumber}">0</td>
-                <td class="col-md-4" th:attr="id='user' + ${locker.lockerid}"   th:text="${locker.user}">Karel</td>
+                <td class="col-md-4" th:attr="id='user' + ${locker.lockerid}" th:text="${locker.user}">Karel</td>
                 <td class="actions-column col-md-4">
                     <div class="btn-group" role="group" aria-label="actions-group">
                         <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#lockerModal" th:attr="id=${locker.lockerid}">
@@ -70,9 +59,7 @@
                     </div>
                 </td>
                 <td th:text="${locker.lockerTower} + ${locker.lockerFloor} + ${locker.lockerNumber}">A000</td>
-
             </tr>
-
             </tbody>
         </table>
     </div>
@@ -87,6 +74,10 @@
                 <div class="modal-body">
                     <p>Assign or change user designated to this locker.</p>
                     <form id="user-form" th:action="@{/setuser}" method="post">
+                        <div class="alert alert-warning" role="alert" id="lockerWithUsernameExists">
+                            <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <span id="warning-message"><p><strong>This username already has a locker!</strong> Cannot assign a second locker.</p></span>
+                        </div>
                         <div class="form-group" id="locker-field">
                             <label for="locker-user" class="control-label">User:</label>
                             <input type="text" name="locker-user" class="form-control typeahead" id="locker-user" data-provide="typeahead"/>
