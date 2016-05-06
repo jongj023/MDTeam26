@@ -42,3 +42,8 @@ searchModal#locker_table tr > *:nth-child(7) {
     cursor: pointer;
     touch-action: manipulation;
 }
+
+#planImage{
+    max-width: 100%;
+    max-height: 100%;
+}

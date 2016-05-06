@@ -3,21 +3,35 @@
  */
 
 $(document).ready(function() {
-    $(".dropdown-menu li a").click(function () {
-        // HELP HIER FF
-        var selText = $(this).text();
-        $(this).parents('.btn-group').find('.dropdown-toggle').html(selText + ' <span class="caret"></span>');
+    var floor;
+    var tower;
+    var image = document.getElementById('planImage');
 
-        var floor;
-        var tower;
+    document.getElementById("floor-dropdown").selectedIndex = -1;
+    document.getElementById("tower-dropdown").selectedIndex = -1;
 
-        var image = document.getElementById('planImage');
-        image.src ="resources/images/PlanA.png";
-
+    $('#floor-dropdown').change(function() {
+        floor = ($(this).val());
+        //image.src = "resources/images/" + Image(floor, tower) + ".png";
     });
 
-function Image(floor, tower){
-    var planText = floor + tower;
-    return "plan" + planText + ".png";
+    $('#tower-dropdown').change(function() {
+        tower = ($(this).val());
+        //image.src = "resources/images/" + Image(floor, tower) + ".png";
+    });
+
+
+
+    function Image(floor, tower){
+        if(floor == null && tower != null){
+            return  "plan" + tower;
+        } else if(tower == null && floor != null){
+            return "plan" + floor;
+        } else if(floor == null && tower == null){
+            return "plan";
+        } else {
+            var planText = floor + tower;
+            return "plan" + planText;
+        }
     }
 });
