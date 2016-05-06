@@ -34,7 +34,7 @@
                 <th>Number</th>
                 <th>User</th>
                 <th>Actions</th>
-                <th>View</th>
+                <th>Hidden</th>
             </tr>
             </thead>
             <tbody>
@@ -43,7 +43,7 @@
                 <td class="col-md-1" th:text="${locker.lockerTower}">A</td>
                 <td class="col-md-1" th:text="${locker.lockerFloor}">0</td>
                 <td class="col-md-1" th:text="${locker.lockerNumber}">0</td>
-                <td class="col-md-4" th:attr="id='user' + ${locker.lockerid}"   th:text="${locker.user}">Karel</td>
+                <td class="col-md-4" th:attr="id='user' + ${locker.lockerid}" th:text="${locker.user}">Karel</td>
                 <td class="actions-column col-md-4">
                     <div class="btn-group" role="group" aria-label="actions-group">
                         <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#lockerModal" th:attr="id=${locker.lockerid}">
@@ -58,11 +58,8 @@
                         </ul>
                     </div>
                 </td>
-                <td><a id="viewButton" href="/locker/{id}" >View</a></td>
                 <td th:text="${locker.lockerTower} + ${locker.lockerFloor} + ${locker.lockerNumber}">A000</td>
-
             </tr>
-
             </tbody>
         </table>
     </div>
@@ -77,6 +74,10 @@
                 <div class="modal-body">
                     <p>Assign or change user designated to this locker.</p>
                     <form id="user-form" th:action="@{/setuser}" method="post">
+                        <div class="alert alert-warning" role="alert" id="lockerWithUsernameExists">
+                            <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <span id="warning-message"><p><strong>This username already has a locker!</strong> Cannot assign a second locker.</p></span>
+                        </div>
                         <div class="form-group" id="locker-field">
                             <label for="locker-user" class="control-label">User:</label>
                             <input type="text" name="locker-user" class="form-control typeahead" id="locker-user" data-provide="typeahead"/>
