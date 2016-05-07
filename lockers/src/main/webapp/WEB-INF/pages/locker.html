@@ -13,7 +13,7 @@
     <script src="../../../webapp/resources/js/typeahead.js" th:src="@{/resources/js/typeahead.js}"></script>
     <script src="../../../webapp/resources/js/bootstrap.js" th:src="@{/resources/js/bootstrap.js}"></script>
     <script src="../../../webapp/resources/js/locker.js" th:src="@{/resources/js/locker.js}"></script>
-
+    <script src="../../../webapp/resources/js/sorttable.js" th:src="@{/resources/js/sorttable.js}"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/> <!-- fixes mobile view -->
 </head>
 
@@ -25,7 +25,7 @@
         <input name="search" id="search" class="form-control text-field-margins col-md-10" placeholder="Search..."  type="text"/>
     </div>
     <div class="table-responsive dropdown-reserve" align="center">
-        <table class="table table-hover table-striped" id="locker_table">
+        <table class="sortable table table-hover table-striped" id="locker_table">
             <thead>
             <tr>
                 <th>#</th>
