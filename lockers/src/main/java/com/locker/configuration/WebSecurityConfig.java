@@ -67,7 +67,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         driverManagerDataSource.setDriverClassName("com.mysql.jdbc.Driver");
         driverManagerDataSource.setUrl("jdbc:mysql://localhost:3306/mydb");
         driverManagerDataSource.setUsername("root");
-        driverManagerDataSource.setPassword("randall@Slamkid234");
+        driverManagerDataSource.setPassword("root");
         return driverManagerDataSource;
     }
 
