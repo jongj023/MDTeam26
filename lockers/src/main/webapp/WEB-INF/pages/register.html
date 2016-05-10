@@ -5,25 +5,29 @@
     <link href="../../../webapp/resources/css/bootstrap.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.css}"/>
     <link href="../../../webapp/resources/css/bootstrap-theme.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap-theme.css}"/>
     <link href="../../../webapp/resources/css/login.css" rel="stylesheet" media="screen" th:href="@{/resources/css/login.css}"/>
-    
+
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/> <!-- fixes mobile view -->
-    
+
 </head>
-  
+
 <body>
-<div class="container">
-    <form class="form-signin" th:action="@{/register}" method="post">
-        <img class="img-responsive login-img-center" align="middle" alt="KLM Logo" th:src="@{/resources/images/Logo.png}"/>
-        <input name="username" id="username" class="form-control text-field-margins" placeholder="Username" type="text" required="required" autofocus="autofocus"/>
-        <input name="password" id="password" class="form-control text-field-margins" placeholder="Password"  type="password" required="required"/>
-        <br/>
-        <input name="firstname" id="firstname" class="form-control text-field-margins" placeholder="John" type="text" required="required"/>
-        <input name="lastname" id="lastname" class="form-control text-field-margins" placeholder="Doe"  type="text" required="required"/>
-        <input name="email" id="email" class="form-control text-field-margins" placeholder="example@example.com"  type="email" required="required"/>
-        <button class="btn btn-lg btn-warning btn-block btn-login" type="submit"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Register</button>
-        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-    </form>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <form class="form-signin" th:action="@{/register}" method="post">
+                <img class="img-responsive login-img-center" align="middle" alt="KLM Logo" th:src="@{/resources/images/Logo.png}"/>
+                <input name="username" id="username" class="form-control text-field-margins" placeholder="Username" type="text" required="required" autofocus="autofocus"/>
+                <input name="password" id="password" class="form-control text-field-margins" placeholder="Password"  type="password" required="required"/>
+                <br/>
+                <input name="firstname" id="firstname" class="form-control text-field-margins" placeholder="John" type="text" required="required"/>
+                <input name="lastname" id="lastname" class="form-control text-field-margins" placeholder="Doe"  type="text" required="required"/>
+                <input name="email" id="email" class="form-control text-field-margins" placeholder="example@example.com"  type="email" required="required"/>
+                <button class="btn btn-lg btn-warning btn-block btn-login" type="submit"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Register</button>
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+            </form>
+        </div>
+    </div>
 </div>
-</body>  
+</body>
 </html>
 
