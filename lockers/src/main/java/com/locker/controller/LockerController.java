@@ -2,6 +2,7 @@ package com.locker.controller;
 
 import com.locker.model.LockerEntity;
 import com.locker.service.LockerService;
+import com.locker.service.SearchService;
 import com.locker.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.ParseException;
@@ -19,6 +20,9 @@ public class LockerController {
 
     @Autowired
     LockerService lockerService;
+
+    @Autowired
+    SearchService searchService;
 
     @Autowired
     UserService userService;
@@ -42,6 +46,15 @@ public class LockerController {
         RedirectView view = new RedirectView("/locker", true);
         view.setExposeModelAttributes(false);
         return new ModelAndView(view);
+    }
+
+    @RequestMapping(value = "/search", method = RequestMethod.POST)
+    public ModelAndView searchLocker(@ModelAttribute("floor-dropdown") int floor, @ModelAttribute("tower-dropdown") char tower) {
+        ModelAndView modelAndView = new ModelAndView("locker");
+        String res = searchService.searchLocker(floor, tower);
+        modelAndView.addObject("lockers", lockerService.findAll());
+        modelAndView.addObject("result", res);
+        return modelAndView;
     }
 
     private ModelAndView getDefaultLocker() {

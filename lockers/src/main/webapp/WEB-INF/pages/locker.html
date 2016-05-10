@@ -24,7 +24,7 @@
 <div class="container">
     <div class="row">
         <img class="col-md-2" th:src="@{/resources/images/KluisButton.png}"/>
-        <input name="search" id="search" class="form-control text-field-margins col-md-10" placeholder="Search..."  type="text"/>
+        <input name="search" id="search" class="form-control text-field-margins col-md-10" placeholder="Search..."  type="text" th:value="${result}"/>
         <button class="btn btn-primary" data-toggle="modal" data-target="#searchModal">Search for locker</button>
     </div>
     <div class="table-responsive dropdown-reserve" align="center">
@@ -106,23 +106,26 @@
 
                 <div class="modal-body">
                     <img id="planImage" th:src="@{/resources/images/plan.png}"/>
-                    <form id="locker-search" th:action="@{/}" method="post">
+                    <form id="locker-search" th:action="@{/search}" method="post">
                         <div>
                             Floor:
-                            <select id="floor-dropdown">
+                            <select id="floor-dropdown" name="floor-dropdown">
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
                                 <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="0">Random</option>
                             </select>
                         </div>
 
                         <div>
                             Tower:
-                            <select id="tower-dropdown">
+                            <select id="tower-dropdown" name="tower-dropdown">
                                 <option value="A">A</option>
                                 <option value="B">B</option>
                                 <option value="C">C</option>
+                                <option value="X">Random</option>
                             </select>
                         </div>
                     </form>
@@ -130,6 +133,7 @@
 
                 <div class="modal-footer">
                     <button data-dismiss="modal" class="btn btn-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Close</button>
+                    <button onclick="submitSearch()" class="btn btn-warning"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Submit</button>
                 </div>
             </div>
         </div>

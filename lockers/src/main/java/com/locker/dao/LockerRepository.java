@@ -17,7 +17,7 @@ public interface LockerRepository extends CrudRepository<LockerEntity, Long> {
     @Query(value = "SELECT user FROM locker l WHERE l.user IS NOT NULL;", nativeQuery = true)
     String[] getUsersWithLocker();
 
-    @Query(value = "SELECT locker FROM locker l WHERE l.user IS NULL;", nativeQuery = true)
+    @Query(value = "SELECT l.locker_tower, l.locker_floor, l.locker_number FROM locker l WHERE l.user IS NULL", nativeQuery = true)
     String[] getFreeLockers();
 }
 
