@@ -30,8 +30,11 @@ public class LockerController {
 
     @RequestMapping(value = "/locker/{id}",method = RequestMethod.GET)
     public ModelAndView lockerWithId(@PathVariable Long id) {
-        ModelAndView model = new ModelAndView("");
+        ModelAndView model = new ModelAndView("view");
         LockerEntity locker = lockerService.findLockerById(id);
+        model.addObject("locker", locker);
+        model.addObject("user", locker.getUser());
+        System.out.println("LOCKER:" + locker.toString());
         return model;
     }
 
@@ -40,6 +43,15 @@ public class LockerController {
     public ModelAndView updateLockerWithUser(@ModelAttribute("locker-id") Long id, @ModelAttribute("locker-user") String user) {
         lockerService.setUser(id, user);
         RedirectView view = new RedirectView("/locker", true);
+        view.setExposeModelAttributes(false);
+        return new ModelAndView(view);
+    }
+
+    @RequestMapping(value = "/setuserfromview", method = RequestMethod.POST)
+    @ResponseBody
+    public ModelAndView updateLockerWithUserView(@ModelAttribute("locker-id") Long id, @ModelAttribute("locker-user") String user) {
+        lockerService.setUser(id, user);
+        RedirectView view = new RedirectView("/locker/" + id, true);
         view.setExposeModelAttributes(false);
         return new ModelAndView(view);
     }
