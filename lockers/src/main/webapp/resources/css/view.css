@@ -1,0 +1,14 @@
+#title {
+    border-bottom: 1px solid #d2dbde;
+    margin-bottom: 20px;
+}
+#title div h1 {
+    padding-top: 25px;
+}
+.panel-default > .panel-heading {
+    color: white;
+    background: #00a1de none;
+}
+#user-control-group, #expiration-control-group {
+    padding-top: 10px;
+}

@@ -42,3 +42,15 @@
     cursor: pointer;
     touch-action: manipulation;
 }
+#search-field {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+#title {
+    border-bottom: 1px solid #d2dbde;
+    margin-bottom: 20px;
+}
+#title div h1 {
+    padding-top: 25px;
+}

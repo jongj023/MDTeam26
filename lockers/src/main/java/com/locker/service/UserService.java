@@ -55,4 +55,7 @@ public class UserService  {
         return userRepository.findAll();
     }
 
+    public UserEntity findOne(String user) {
+        return userRepository.findOne(user);
+    }
 }

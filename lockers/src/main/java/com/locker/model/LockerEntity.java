@@ -9,6 +9,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  *
@@ -44,6 +46,14 @@ public class LockerEntity implements Serializable {
     @JoinColumn(name = "user", referencedColumnName = "username")
     @OneToOne(optional = true)
     private UserEntity user;
+
+    @Basic(optional = false)
+    @Column(name = "date_acquired")
+    private Timestamp timestamp;
+
+    @Basic(optional = false)
+    @Column(name = "date_expired")
+    private Date date;
 
     public LockerEntity() {
     }
@@ -99,6 +109,14 @@ public class LockerEntity implements Serializable {
         this.user = user;
     }
 
+    public Timestamp getTimestamp() {return timestamp;}
+
+    public void setTimestamp(Timestamp timestamp) {this.timestamp = timestamp;}
+
+    public Date getDate() {return date;}
+
+    public void setDate(Date date) {this.date = date;}
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -121,7 +139,7 @@ public class LockerEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "com.locker.model.Locker[ lockerid=" + lockerid + " ]";
+        return lockerid +"\t"+ lockerTower +"\t"+ lockerFloor +"\t"+ lockerNumber +"\t"+ user +"\t"+ timestamp +"\t"+ date;
     }
     
 }
