@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.sql.Timestamp;
 
 /**
  * Created by randyr on 3/30/16.
@@ -53,6 +54,7 @@ public class LockerService {
         }
         LockerEntity locker = lockerRepository.findOne(id);
         locker.setUser(user);
+        locker.setTimestamp(new Timestamp(new java.util.Date().getTime()));
         lockerRepository.save(locker);
     }
 
