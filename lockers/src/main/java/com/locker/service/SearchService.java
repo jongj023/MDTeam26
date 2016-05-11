@@ -38,13 +38,13 @@ public class SearchService {
 
 
             if(floor == 0){
-                char i = varLocker.charAt(2);
-                varFloor = Character.toString(i);
+                char floorChar = varLocker.charAt(2);
+                varFloor = Character.toString(floorChar);
             }
 
             if(tower == 'X'){
-                char i = varLocker.charAt(0);
-                varTower = Character.toString(i);
+                char towerChar = varLocker.charAt(0);
+                varTower = Character.toString(Character.toLowerCase(towerChar));
             }
 
             if(varLocker.equals(varTower + "," + varFloor)) {
