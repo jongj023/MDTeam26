@@ -1,6 +1,7 @@
 package com.locker.controller;
 
 import com.locker.model.LockerEntity;
+import com.locker.service.LockerHistoryService;
 import com.locker.service.LockerService;
 import com.locker.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
+
+import java.sql.Date;
 
 /**
  * Created by randyr on 2/20/16.
@@ -23,6 +26,9 @@ public class LockerController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    LockerHistoryService lockerHistoryService;
+
     @RequestMapping(value = "/locker", method = RequestMethod.GET)
     public ModelAndView mainLockerApplication() {
         return getDefaultLocker();
@@ -34,7 +40,7 @@ public class LockerController {
         LockerEntity locker = lockerService.findLockerById(id);
         model.addObject("locker", locker);
         model.addObject("user", locker.getUser());
-        System.out.println("LOCKER:" + locker.toString());
+        model.addObject("history", lockerHistoryService.findAllLimit100(id));
         return model;
     }
 
@@ -52,6 +58,14 @@ public class LockerController {
     public ModelAndView updateLockerWithUserView(@ModelAttribute("locker-id") Long id, @ModelAttribute("locker-user") String user) {
         lockerService.setUser(id, user);
         RedirectView view = new RedirectView("/locker/" + id, true);
+        view.setExposeModelAttributes(false);
+        return new ModelAndView(view);
+    }
+
+    @RequestMapping(value = "/setexpiration", method = RequestMethod.POST)
+    public ModelAndView setExpiration(@ModelAttribute("expire") String date, @ModelAttribute("lockerid") Long id) {
+        lockerService.setExpirationDate(date, id);
+        RedirectView view = new RedirectView("/locker/" + id);
         view.setExposeModelAttributes(false);
         return new ModelAndView(view);
     }
