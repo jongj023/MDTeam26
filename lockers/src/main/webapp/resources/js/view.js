@@ -30,7 +30,7 @@ $(document).ready(function() {
     $('.close').click(function (e) {
         e.preventDefault();
         $('#lockerWithUsernameExists').hide();
-    })
+    });
 });
 
 $(document).ready(function(){
@@ -56,7 +56,6 @@ function getUsers() { //Get list of username, first- and lastname for autocomple
         initializeAutocomplete(sourceArr);
     });
     $.get("/gettakenusers", function (data) {
-        console.log(data);
         usernames = data;
     });
 }
@@ -106,3 +105,11 @@ function clearUserFromLocker(id) {
     $('#user-form').submit();
 }
 
+function setExpirationDate() {
+    var username = $('#username').text();
+    if (username == null || username.length == 0) {
+        alert("Cannot add an expiration date to a locker without a user!");
+    } else {
+        $('#expirationform').submit();
+    }
+}
