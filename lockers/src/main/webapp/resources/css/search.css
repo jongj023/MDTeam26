@@ -1,4 +1,4 @@
-lockerModal#locker_table tr > *:nth-child(7) {
+searchModal#locker_table tr > *:nth-child(7) {
     display: none;
 }
 .hiddenRow {
@@ -42,15 +42,8 @@ lockerModal#locker_table tr > *:nth-child(7) {
     cursor: pointer;
     touch-action: manipulation;
 }
-#search-field {
-    margin-top: 15px;
-    margin-bottom: 15px;
-}
 
-#title {
-    border-bottom: 1px solid #d2dbde;
-    margin-bottom: 20px;
-}
-#title div h1 {
-    padding-top: 25px;
+#planImage{
+    max-width: 100%;
+    max-height: 100%;
 }
