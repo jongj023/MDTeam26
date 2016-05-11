@@ -28,7 +28,6 @@
     </script>
     <script src="../../../webapp/resources/js/search.js" th:src="@{/resources/js/search.js}"></script>
 
-
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/> <!-- fixes mobile view -->
 </head>
 
@@ -43,15 +42,16 @@
             <h1 title="List of all lockers">Locker overview</h1>
         </div>
     </div>
-    <div class="input-group col-md-12 col-xs-10 col-xs-offset-1 col-md-offset-0" id="search-field">
-    <input name="search" id="search" class="form-control text-field-margins col-md-10" placeholder="Search..."  type="text" th:value="${result}"/>
-        <div class="input-group-btn">
-            <button class="btn-primary btn" data-toggle="modal" data-target="#searchModal">
-                <span>search for free locker</span></button>
+
+    <div class="row" id="action-bar">
+        <div class="input-group col-md-12 col-xs-10 col-xs-offset-1 col-md-offset-0" id="action-buttons">
+            <button class="btn-warning btn" data-toggle="modal" data-target="#searchModal">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search for free locker</button>
+            <button onclick="location.href='/help';" class="btn-primary btn">
+                <span class="glyphicon glyphicon-question-sign"></span> Help</button>
         </div>
-        <div class="input-group-btn">
-            <button onclick="location.href='/help';" class="btn-primary btn"><span
-                    class="glyphicon glyphicon-question-sign"></span></button>
+        <div class="input-group col-md-12 col-xs-10 col-xs-offset-1 col-md-offset-0" id="search-field">
+            <input name="search" id="search" class="form-control col-md-10" placeholder="Search..."  type="text" th:value="${result}"/>
         </div>
     </div>
 
@@ -79,12 +79,11 @@
                 </td>
                 <td class="col-xs-4 col-md-4 actions-column">
                     <div class="btn-group" role="group" aria-label="actions-group">
-                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#lockerModal"
-                                th:attr="id=${locker.lockerid}">
-                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span><span
-                                class="hidden-xs"> Assign</span></button>
-                        <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
+                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#lockerModal" th:attr="id=${locker.lockerid}">
+                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                            <span class="hidden-xs"> Assign</span>
+                        </button>
+                        <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="caret"></span>
                             <span class="sr-only">Toggle Dropdown</span>
                         </button>
@@ -149,39 +148,43 @@
                 </div>
 
                 <div class="modal-body">
-                    <img id="planImage" th:src="@{/resources/images/plan.png}"/>
-                    <form id="locker-search" th:action="@{/search}" method="post">
-                        <div>
-                            Floor:
-                            <select id="floor-dropdown" name="floor-dropdown">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="0">Random</option>
-                            </select>
+                    <div class="row">
+                        <div class="col-md-12" id="floorplan">
+                            <img id="planImage" class="img-responsive" th:src="@{/resources/images/plan.png}"/>
                         </div>
+                        <div class="input-group col-md-12 col-xs-10 col-xs-offset-1 col-md-offset-0">
+                            <form id="locker-search" th:action="@{/search}" method="post">
+                                <div class="col-md-4 col-md-offset-2">
+                                    Floor:
+                                    <select id="floor-dropdown" name="floor-dropdown">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="0">Random</option>
+                                    </select>
+                                </div>
 
-                        <div>
-                            Tower:
-                            <select id="tower-dropdown" name="tower-dropdown">
-                                <option value="A">A</option>
-                                <option value="B">B</option>
-                                <option value="C">C</option>
-                                <option value="X">Random</option>
-                            </select>
+                                <div class="col-md-4">
+                                    Tower:
+                                    <select id="tower-dropdown" name="tower-dropdown">
+                                        <option value="A">A</option>
+                                        <option value="B">B</option>
+                                        <option value="C">C</option>
+                                        <option value="X">Random</option>
+                                    </select>
+                                </div>
+                            </form>
                         </div>
-                    </form>
+                    </div>
                 </div>
 
                 <div class="modal-footer">
-                    <button data-dismiss="modal" class="btn btn-danger"><span class="glyphicon glyphicon-remove"
-                                                                              aria-hidden="true"></span> Close
-                    </button>
-                    <button onclick="submitSearch()" class="btn btn-warning"><span class="glyphicon glyphicon-ok"
-                                                                                   aria-hidden="true"></span> Submit
-                    </button>
+                    <button data-dismiss="modal" class="btn btn-danger">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Close</button>
+                    <button onclick="submitSearch()" class="btn btn-warning">
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Submit</button>
                 </div>
             </div>
         </div>

@@ -57,7 +57,6 @@ public class LockerController {
         return new ModelAndView(view);
     }
 
-
     @RequestMapping(value = "/setuserfromview", method = RequestMethod.POST)
     @ResponseBody
     public ModelAndView updateLockerWithUserView(@ModelAttribute("locker-id") Long id, @ModelAttribute("locker-user") String user) {
@@ -66,7 +65,6 @@ public class LockerController {
         view.setExposeModelAttributes(false);
         return new ModelAndView(view);
     }
-
 
     @RequestMapping(value = "/search", method = RequestMethod.POST)
     public ModelAndView searchLocker(@ModelAttribute("floor-dropdown") int floor, @ModelAttribute("tower-dropdown") char tower) {

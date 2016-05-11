@@ -1,4 +1,4 @@
-lockerModal#locker_table tr > *:nth-child(7) {
+#locker_table tr > *:nth-child(7) {
     display: none;
 }
 .hiddenRow {
@@ -59,4 +59,10 @@ lockerModal#locker_table tr > *:nth-child(7) {
     .table-header {
         font-size: 8px;
     }
+}
+
+#floorplan {
+    border-bottom: 1px solid #d2dbde;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
 }
