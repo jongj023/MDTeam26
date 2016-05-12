@@ -30,27 +30,24 @@ public class SearchService {
         String[] lockers = lockerRepository.getFreeLockers();
         for(String locker : lockers){
 
-            String varLocker = locker;
-            int index = varLocker.lastIndexOf(",");
-            varLocker = varLocker.substring(0, index);
+            String[] varLocker = locker.split(",");
             String varTower = Character.toString(Character.toLowerCase(tower));
             String varFloor = Integer.toString(floor);
 
-
             if(floor == 0){
-                char floorChar = varLocker.charAt(2);
-                varFloor = Character.toString(floorChar);
+                varFloor = varLocker[1];
             }
 
             if(tower == 'X'){
-                char towerChar = varLocker.charAt(0);
-                varTower = Character.toString(Character.toLowerCase(towerChar));
+                varTower = varLocker[0];
             }
 
-            if(varLocker.equals(varTower + "," + varFloor)) {
+            if(varLocker[0].equals(varTower) && varLocker[1].equals(varFloor)){
                 return locker.replace(",", "");
             }
+
         }
         return "No locker found, please try again";
+
     }
 }
