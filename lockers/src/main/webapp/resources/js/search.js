@@ -19,7 +19,6 @@ $(document).ready(function() {
         tower = ($(this).val());
         image.src = "resources/images/" + Image(tower) + ".png";
     });
-    
 
     function Image(tower){
         return "plan" + tower;

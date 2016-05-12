@@ -16,7 +16,6 @@ import javax.transaction.Transactional;
 @Transactional
 public class SearchService {
 
-
     @Autowired
     private LockerRepository lockerRepository;
 
@@ -27,23 +26,21 @@ public class SearchService {
     public LockerEntity findLockerById(long id) {return lockerRepository.findOne(id);}
 
     public String searchLocker(int floor, char tower){
-        String[] lockers = lockerRepository.getFreeLockers();
-        for(String locker : lockers){
-
-            String[] varLocker = locker.split(",");
-            String varTower = Character.toString(Character.toLowerCase(tower));
+        Iterable<LockerEntity> lockers = lockerRepository.getFreeLockers();
+        for(LockerEntity locker : lockers){
+            String varTower = Character.toString(tower);
             String varFloor = Integer.toString(floor);
 
             if(floor == 0){
-                varFloor = varLocker[1];
+                varFloor = locker.getLockerFloor() + "";
             }
 
             if(tower == 'X'){
-                varTower = varLocker[0];
+                varTower = locker.getLockerTower();
             }
 
-            if(varLocker[0].equals(varTower) && varLocker[1].equals(varFloor)){
-                return locker.replace(",", "");
+            if(locker.getLockerTower().equals(varTower) && Integer.toString(locker.getLockerFloor()).equals(varFloor)){
+                return varTower + varFloor + locker.getLockerNumber();
             }
 
         }

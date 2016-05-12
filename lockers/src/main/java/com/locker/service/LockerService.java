@@ -88,6 +88,7 @@ public class LockerService {
             locker.setDate(null);
             lockerHistoryService.logExpirationCleared(locker);
         } else {
+            java.sql.Date oldDate = locker.getDate();
             DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
             Date date;
             try {
@@ -97,10 +98,26 @@ public class LockerService {
                 logger.error(p.toString());
                 return;
             }
-            lockerHistoryService.logExpiration(locker);
+            //Logging changes
+            if (oldDate != null) {
+                lockerHistoryService.logExpirationEdited(locker, oldDate);
+            } else {
+                lockerHistoryService.logExpiration(locker);
+            }
+
         }
 
         lockerRepository.save(locker);
     }
 
+    public void editLocker(Long id, String lockerTower, int lockerFloor, int lockerNumber) {
+        LockerEntity locker = lockerRepository.findOne(id);
+        if (lockerNumber < 0 || lockerNumber > 100) {return;}
+        LockerEntity oldLocker = locker; //logging purposes.
+        locker.setLockerTower(lockerTower);
+        locker.setLockerNumber(lockerNumber + "");
+        locker.setLockerFloor(lockerFloor);
+        lockerHistoryService.logLockerEdited(locker, oldLocker);
+        lockerRepository.save(locker);
+    }
 }

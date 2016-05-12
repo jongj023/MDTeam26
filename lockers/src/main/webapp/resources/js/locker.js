@@ -15,7 +15,7 @@ $(document).ready(function() {
     getUsers(); // prepare modal autocomplete
 
     var $rows = $('#locker_table tbody tr');
-    $('#search').keyup(function() {
+    $('#search').keyup(function search() {
         var val = '^(?=.*\\b' + $.trim($(this).val()).split(/\s+/).join('\\b)(?=.*\\b') + ').*$',
             reg = RegExp(val, 'i'),
             text;

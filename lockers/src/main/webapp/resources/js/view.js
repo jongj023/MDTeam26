@@ -113,3 +113,7 @@ function setExpirationDate() {
         $('#expirationform').submit();
     }
 }
+
+function submitEditLocker() {
+    $('#editLocker').submit();
+}

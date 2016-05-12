@@ -6,6 +6,7 @@
 package com.locker.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -35,6 +36,7 @@ public class LockerEntity implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "locker_number")
+    @Min(0)
     private String lockerNumber;
 
     @Basic(optional = false)

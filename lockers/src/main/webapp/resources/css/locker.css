@@ -59,6 +59,9 @@
     .table-header {
         font-size: 8px;
     }
+    .search-free {
+        overflow: hidden;
+    }
 }
 
 #floorplan {
