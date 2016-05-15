@@ -120,4 +120,14 @@ public class LockerService {
         lockerHistoryService.logLockerEdited(locker, oldLocker);
         lockerRepository.save(locker);
     }
+
+    public Iterable<LockerEntity> checkExistingLocker(String tower, int floor, String number) {
+        return lockerRepository.checkExistingLocker(tower, floor, number);
+    }
+
+    public void save(LockerEntity locker) {
+        lockerRepository.save(locker);
+        lockerHistoryService.logLockerAdded(lockerRepository.checkExistingLocker(locker.getLockerTower(),
+                locker.getLockerFloor(), locker.getLockerNumber()).iterator().next());
+    }
 }

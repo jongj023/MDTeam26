@@ -15,6 +15,9 @@ import java.sql.Timestamp;
 
 @Service
 @Transactional
+/*
+* All history entries are created from other service classes.
+* */
 public class LockerHistoryService {
 
     private static final String ACTION_USER_ASSIGNED = "New user was assigned";
@@ -23,6 +26,7 @@ public class LockerHistoryService {
     private static final String ACTION_EXPIRATIONDATE_CLEARED = "Expiration date removed";
     private static final String ACTION_EXPIRATIONDATE_EDITED = "Expiration date edited. Old date: ";
     private static final String ACTION_LOCKER_EDITED = "Locker was edited. Old values: ";
+    private static final String ACTION_LOCKER_ADDED = "Locker was added.";
 
     @Autowired
     private LockerHistoryRepository lockerDao;
@@ -89,6 +93,17 @@ public class LockerHistoryService {
         his.setDate(locker.getDate());
         his.setTimestamp(locker.getTimestamp());
         his.setAction(ACTION_EXPIRATIONDATE_EDITED + oldDate.toString());
+        his.setDate_updated(now());
+        lockerDao.save(his);
+    }
+
+    void logLockerAdded(LockerEntity locker) {
+        LockerHistoryEntity his = new LockerHistoryEntity();
+        his.setLocker(locker);
+        his.setUser(locker.getUser());
+        his.setDate(locker.getDate());
+        his.setTimestamp(locker.getTimestamp());
+        his.setAction(ACTION_LOCKER_ADDED);
         his.setDate_updated(now());
         lockerDao.save(his);
     }

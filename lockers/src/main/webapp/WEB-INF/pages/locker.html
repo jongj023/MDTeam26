@@ -48,6 +48,8 @@
         <div class="input-group col-lg-12 col-xs-12" id="action-buttons">
             <button class="btn-warning btn search-free" data-toggle="modal" data-target="#searchModal">
                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search for free locker</button>
+            <button class="btn-warning btn" data-toggle="modal" data-target="#addLockerModal">
+                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Add locker</button>
             <button onclick="location.href='/help';" class="btn-primary btn">
                 <span class="glyphicon glyphicon-question-sign"></span> Help</button>
         </div>
@@ -129,11 +131,11 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button data-dismiss="modal" class="btn btn-danger"><span class="glyphicon glyphicon-remove"
-                                                                              aria-hidden="true"></span> Close
+                    <button data-dismiss="modal" class="btn btn-danger">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Close
                     </button>
-                    <button onclick="submitUser()" class="btn btn-warning"><span class="glyphicon glyphicon-ok"
-                                                                                 aria-hidden="true"></span> Submit
+                    <button onclick="submitUser()" class="btn btn-warning">
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Submit
                     </button>
                 </div>
             </div>
@@ -185,6 +187,61 @@
                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Close</button>
                     <button onclick="submitSearch()" class="btn btn-warning">
                         <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="addLockerModal" class="modal fade" role="dialog" aria-labelledby="orderModalLabel" tabindex="-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Add new locker</h4>
+                </div>
+
+                <div class="modal-body">
+                    <p>Enter the following information to add a new locker.</p>
+                    <form class="form-horizontal" id="addLocker">
+                        <div class="alert alert-warning" role="alert" id="lockerAlreadyExists">
+                            <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <span id="lockerWarning"><p><strong>This username already has a locker!</strong>Cannot assign a second locker.</p></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="locker_tower" class="col-md-2 col-xs-2 control-label">Tower:</label>
+                            <div class="col-md-10 col-xs-10" style="margin-bottom: 10px;">
+                                <select name="locker_tower" class="form-control" id="locker_tower">
+                                    <option value="A">A</option>
+                                    <option value="B">B</option>
+                                    <option value="C">C</option>
+                                </select>
+                            </div>
+                            <label for="locker_floor" class="col-md-2 col-xs-2 control-label">Floor:</label>
+                            <div class="col-md-10 col-xs-10" style="margin-bottom: 10px;">
+                                <select name="locker_floor" class="form-control" id="locker_floor">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </select>
+                            </div>
+                            <label for="locker_number" class="col-md-2 col-xs-2 control-label">Number:</label>
+                            <div class="col-md-10 col-xs-10" style="margin-bottom: 10px;">
+                                <input type="number" name="locker_number" class="form-control" id="locker_number"/>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button data-dismiss="modal" class="btn btn-danger">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Close
+                    </button>
+                    <button onclick="addLocker()" class="btn btn-warning">
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Submit
+                    </button>
                 </div>
             </div>
         </div>

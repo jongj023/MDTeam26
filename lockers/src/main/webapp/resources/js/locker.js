@@ -4,6 +4,7 @@
 var currentId = 0;
 var usernames = [];
 var allUsernames = [];
+var $rows;
 
 $(document).ready(function() {
     $(function () { //prepare all tooltips
@@ -11,10 +12,11 @@ $(document).ready(function() {
     });
 
     $('#lockerWithUsernameExists').hide();
+    $('#lockerAlreadyExists').hide();
 
     getUsers(); // prepare modal autocomplete
 
-    var $rows = $('#locker_table tbody tr');
+    $rows = $('#locker_table tbody tr');
     $('#search').keyup(function search() {
         var val = '^(?=.*\\b' + $.trim($(this).val()).split(/\s+/).join('\\b)(?=.*\\b') + ').*$',
             reg = RegExp(val, 'i'),
@@ -40,12 +42,12 @@ $(document).ready(function() {
             $('#warning-message').html("<p><strong>Username doesn't exist!</strong> Please enter a valid username</p>");
             $('#lockerWithUsernameExists').show();
         }
-
     });
 
     $('.close').click(function (e) {
         e.preventDefault();
-        $('#lockerWithUsernameExists').hide();
+        var parent = e.target.parentNode.id;
+        $('#' + parent).hide();
     })
 });
 
@@ -130,5 +132,41 @@ function clearUserFromLocker(id) {
     $('#locker-id').val(id);
     $('#locker-user').val("");
     $('#user-form').submit();
+}
+
+function addLocker() {
+    var data = {};
+    data["lockerTower"] = $('#locker_tower').val();
+    data["lockerFloor"] = $('#locker_floor').val();
+    data["lockerNumber"] = $('#locker_number').val();
+
+    if (data.lockerNumber == "") {
+        $('#lockerWarning').html("<p><strong>Invalid properties!</strong> Please fill in all fields.</p>");
+        $('#lockerAlreadyExists').show();
+    } else {
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: "/addlocker",
+            data: JSON.stringify(data),
+            dataType: 'json',
+            timeout: 100000,
+            success : function(data) {
+                if (data.code == "204") {
+                    console.log(data.message);
+                    $('#lockerWarning').html("<p><strong>Invalid locker!</strong> " + data.message + "</p>");
+                    $('#lockerAlreadyExists').show();
+                } else if (data.code == "200") {
+                    location.reload(true);
+                }
+            },
+            error : function(e) {
+                console.log(data.lockerFloor + "\t" + data.lockerTower + "\t" + data.lockerNumber);
+                $('#lockerWarning').html("<p><strong>Invalid request!</strong> Something went wrong with adding the locker. " +
+                    "Perhaps the given properties were invalid?</p>");
+                $('#lockerAlreadyExists').show();
+            }
+        });
+    }
 }
 
