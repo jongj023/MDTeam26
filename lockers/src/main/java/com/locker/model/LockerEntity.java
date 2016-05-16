@@ -71,6 +71,12 @@ public class LockerEntity implements Serializable {
         this.lockerTower = lockerTower;
     }
 
+    public LockerEntity(int lockerFloor, String lockerNumber, String lockerTower) {
+        this.lockerFloor = lockerFloor;
+        this.lockerNumber = lockerNumber;
+        this.lockerTower = lockerTower;
+    }
+
     public Long getLockerid() {
         return lockerid;
     }

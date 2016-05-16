@@ -61,7 +61,7 @@ public class LockerRestController {
                 result.setMessage("Locker with these properties already exist.");
             } else {
                 LockerEntity currentLocker = lockerService.findLockerById(locker.getLockerid()); //Get currently-edited locker
-                LockerEntity oldLocker = currentLocker;
+                LockerEntity oldLocker = new LockerEntity(currentLocker.getLockerFloor(), currentLocker.getLockerNumber(), currentLocker.getLockerTower());
 
                 //Change current values.
                 currentLocker.setLockerTower(locker.getLockerTower());
