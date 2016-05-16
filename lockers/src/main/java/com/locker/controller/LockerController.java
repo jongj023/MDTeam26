@@ -83,16 +83,6 @@ public class LockerController {
         return new ModelAndView(view);
     }
 
-//    @RequestMapping(value = "/editlocker", method = RequestMethod.POST)
-//    public ModelAndView editLocker(
-//            @ModelAttribute("lockerid") Long id, @ModelAttribute("locker_tower") String lockerTower,
-//            @ModelAttribute("locker_floor") int lockerFloor, @ModelAttribute("locker_number") int lockerNumber) {
-//        lockerService.editLocker(id, lockerTower, lockerFloor, lockerNumber);
-//        RedirectView view = new RedirectView("/locker/" + id);
-//        view.setExposeModelAttributes(false);
-//        return new ModelAndView(view);
-//    }
-
     private ModelAndView getDefaultLocker() {
         ModelAndView model = new ModelAndView("locker");
         model.addObject("lockers", lockerService.findAll());

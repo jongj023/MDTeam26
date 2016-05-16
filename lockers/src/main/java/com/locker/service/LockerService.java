@@ -110,17 +110,6 @@ public class LockerService {
         lockerRepository.save(locker);
     }
 
-    public void editLocker(Long id, String lockerTower, int lockerFloor, int lockerNumber) {
-        LockerEntity locker = lockerRepository.findOne(id);
-        if (lockerNumber < 0 || lockerNumber > 100) {return;}
-        LockerEntity oldLocker = locker; //logging purposes.
-        locker.setLockerTower(lockerTower);
-        locker.setLockerNumber(lockerNumber + "");
-        locker.setLockerFloor(lockerFloor);
-        lockerHistoryService.logLockerEdited(locker, oldLocker);
-        lockerRepository.save(locker);
-    }
-
     public Iterable<LockerEntity> checkExistingLocker(String tower, int floor, String number) {
         return lockerRepository.checkExistingLocker(tower, floor, number);
     }
