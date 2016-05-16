@@ -30,7 +30,6 @@ function getHistory(limit) {
         dataType: 'json',
         timeout: 100000,
         success : function(data) {
-            console.log(data.result);
             fillTable(data.result);
         },
         error : function(e) {
@@ -41,7 +40,9 @@ function getHistory(limit) {
 
 function fillTable(data) {
     $.each($.parseJSON(data), function (index, obj) {
+        //Format values to not display 'null' but rather stay empty. Also format dates.
         var user = obj.user != null ? obj.user.username : "";
+        var userName = obj.user != null ? obj.user.firstname + " " + obj.user.lastname : "";
         var date_updated = dateFormat(new Date(obj.date_updated), "yyyy-mm-dd HH:MM:ss");
         var timestamp = obj.timestamp != null ? dateFormat(new Date(obj.timestamp), "yyyy-mm-dd HH:MM:ss") : "";
         var dateExpired = obj.date != null ? dateFormat(new Date(obj.date), "yyyy-mm-dd HH:MM:ss") : "";
@@ -52,7 +53,7 @@ function fillTable(data) {
             "<td class=\"col-md-1\"> " + obj.historyid + "</td> " +
             "<td class=\"col-md-1\"><a href=\"/locker/" + lockerid + "\">"+ locker + "</a></td> " +
             "<td class=\"col-md-2\"> " + date_updated + "</td> " +
-            "<td class=\"col-md-1\"> " + user + "</td> " +
+            "<td class=\"col-md-1\" title=\"" + userName + "\"> " + user + "</td> " +
             "<td class=\"col-md-2\"> " + timestamp + "</td> " +
             "<td class=\"col-md-2\"> " + dateExpired + "</td> " +
             "<td class=\"col-md-3\"> " + obj.action + "</td> " +
