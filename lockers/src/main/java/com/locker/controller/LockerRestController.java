@@ -1,15 +1,20 @@
 package com.locker.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.locker.jsonview.Views;
 import com.locker.model.AjaxResponseBody;
+import com.locker.model.HistoryLimit;
 import com.locker.model.LockerEntity;
+import com.locker.model.LockerHistoryEntity;
 import com.locker.service.LockerHistoryService;
 import com.locker.service.LockerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * Created by randyr on 5/15/16.
@@ -93,6 +98,37 @@ public class LockerRestController {
         }
 
         return valid;
+    }
+
+    @JsonView(Views.Public.class)
+    @RequestMapping(value = "/gethistory", method = RequestMethod.POST, produces="application/json")
+    @ResponseBody
+    public AjaxResponseBody<String> getHistory(@RequestBody HistoryLimit limit) {
+        AjaxResponseBody<String> result = new AjaxResponseBody<String>();
+        Iterable<LockerHistoryEntity> lockerHistory;
+
+        if (limit.getLimit() >= 0) {
+            lockerHistory = history.findAllLimit(limit.getLimit());
+        } else {
+            lockerHistory = history.findAllSorted();
+        }
+
+        //Convert the list of history to JSON format.
+        ObjectMapper mapper = new ObjectMapper();
+        String JsonResult = "Could not JSON-ify history data.";
+        try {
+            JsonResult = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(lockerHistory);
+            result.setCode("200");
+            result.setMessage("Lockers with limit " + limit.getLimit() + " returned.");
+            result.setResult(JsonResult);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            result.setCode("204");
+            result.setMessage("Failed to get locker history.");
+            result.setResult(JsonResult);
+        }
+
+        return result;
     }
 
 }

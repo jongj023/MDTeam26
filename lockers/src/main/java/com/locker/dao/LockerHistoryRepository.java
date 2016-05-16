@@ -12,6 +12,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LockerHistoryRepository extends CrudRepository<LockerHistoryEntity, Long> {
 
-    @Query(value = "SELECT * FROM lockerhistory WHERE locker=:id ORDER BY date_updated DESC LIMIT 0, 100", nativeQuery = true)
-    Iterable<LockerHistoryEntity> findAllLimit100(@Param("id") Long id);
+    @Query(value = "SELECT * FROM lockerhistory WHERE locker=:id ORDER BY date_updated DESC LIMIT :limit", nativeQuery = true)
+    Iterable<LockerHistoryEntity> findAllWithIdLimit(@Param("id") Long id, @Param("limit") int limit);
+
+    @Query(value = "SELECT * FROM lockerhistory ORDER BY date_updated DESC LIMIT :limit", nativeQuery = true)
+    Iterable<LockerHistoryEntity> findAllLimit(@Param("limit") int limit);
+
+    @Query(value = "SELECT * FROM lockerhistory ORDER BY date_updated DESC", nativeQuery = true)
+    Iterable<LockerHistoryEntity> findAllSorted();
 }

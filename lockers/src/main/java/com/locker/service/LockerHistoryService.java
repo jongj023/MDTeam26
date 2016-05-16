@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * Created by randyr on 5/10/16.
@@ -111,8 +112,12 @@ public class LockerHistoryService {
 
     public Iterable<LockerHistoryEntity> findAll() {return lockerDao.findAll();}
 
-    public Iterable<LockerHistoryEntity> findAllLimit100(Long id) {
-        return lockerDao.findAllLimit100(id);
+    public Iterable<LockerHistoryEntity> findAllSorted() {return lockerDao.findAllSorted();}
+
+    public Iterable<LockerHistoryEntity> findAllWithIdLimit(Long id, int limit) {
+        return lockerDao.findAllWithIdLimit(id, limit);
     }
+
+    public Iterable<LockerHistoryEntity> findAllLimit(int limit) {return lockerDao.findAllLimit(limit);}
 
 }

@@ -44,7 +44,7 @@ public class LockerController {
         LockerEntity locker = lockerService.findLockerById(id);
         model.addObject("locker", locker);
         model.addObject("user", locker.getUser());
-        model.addObject("history", lockerHistoryService.findAllLimit100(id));
+        model.addObject("history", lockerHistoryService.findAllWithIdLimit(id, 100)); //Might wanna change this to dynamic Ajax request.
         return model;
     }
 
@@ -81,6 +81,11 @@ public class LockerController {
         RedirectView view = new RedirectView("/locker/" + id);
         view.setExposeModelAttributes(false);
         return new ModelAndView(view);
+    }
+
+    @RequestMapping(value = "/history", method = RequestMethod.GET)
+    public ModelAndView getHistory() {
+        return new ModelAndView("history");
     }
 
     private ModelAndView getDefaultLocker() {

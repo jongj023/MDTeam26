@@ -76,10 +76,6 @@ function getUsers() { //Get list of username, first- and lastname for autocomple
     $.get("/gettakenusers", function (data) {
         console.log(data);
         usernames = data;
-        // $.each(data, function(index, obj) {
-        //     console.log(obj);
-        //     usernames.push(obj);
-        // });
     });
 }
 
