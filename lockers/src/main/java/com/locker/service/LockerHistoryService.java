@@ -15,9 +15,6 @@ import java.sql.Timestamp;
 
 @Service
 @Transactional
-/*
-* All history entries are created from other service classes.
-* */
 public class LockerHistoryService {
 
     private static final String ACTION_USER_ASSIGNED = "New user was assigned";
@@ -75,7 +72,7 @@ public class LockerHistoryService {
         lockerDao.save(his);
     }
 
-    void logLockerEdited(LockerEntity locker, LockerEntity oldLocker) {
+    public void logLockerEdited(LockerEntity locker, LockerEntity oldLocker) {
         LockerHistoryEntity his = new LockerHistoryEntity();
         his.setLocker(locker);
         his.setUser(locker.getUser());

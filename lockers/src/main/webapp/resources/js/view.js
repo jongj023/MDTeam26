@@ -7,6 +7,7 @@ var allUsernames = [];
 
 $(document).ready(function() {
     $('#lockerWithUsernameExists').hide();
+    $('#lockerAlreadyExists').hide();
 
     getUsers(); // prepare modal autocomplete
 
@@ -29,8 +30,9 @@ $(document).ready(function() {
 
     $('.close').click(function (e) {
         e.preventDefault();
-        $('#lockerWithUsernameExists').hide();
-    });
+        var parent = e.target.parentNode.id;
+        $('#' + parent).hide();
+    })
 });
 
 $(document).ready(function(){
@@ -115,5 +117,38 @@ function setExpirationDate() {
 }
 
 function submitEditLocker() {
-    $('#editLocker').submit();
+    var data = {};
+    data["lockerid"] = $('#lockerid').val();
+    data["lockerTower"] = $('#locker_tower').val();
+    data["lockerFloor"] = $('#locker_floor').val();
+    data["lockerNumber"] = $('#locker_number').val();
+
+    if (data.lockerNumber == "") {
+        $('#lockerWarning').html("<p><strong>Invalid properties!</strong> Please fill in all fields.</p>");
+        $('#lockerAlreadyExists').show();
+    } else {
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: "/editlocker",
+            data: JSON.stringify(data),
+            dataType: 'json',
+            timeout: 100000,
+            success : function(data) {
+                if (data.code == "204") {
+                    console.log(data.message);
+                    $('#lockerWarning').html("<p><strong>Invalid locker!</strong> " + data.message + "</p>");
+                    $('#lockerAlreadyExists').show();
+                } else if (data.code == "200") {
+                    location.reload(true);
+                }
+            },
+            error : function(e) {
+                console.log(data.lockerFloor + "\t" + data.lockerTower + "\t" + data.lockerNumber);
+                $('#lockerWarning').html("<p><strong>Invalid request!</strong> Something went wrong with adding the locker. " +
+                    "Perhaps the given properties were invalid?</p>");
+                $('#lockerAlreadyExists').show();
+            }
+        });
+    }
 }

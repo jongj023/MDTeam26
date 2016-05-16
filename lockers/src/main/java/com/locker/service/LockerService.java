@@ -130,4 +130,8 @@ public class LockerService {
         lockerHistoryService.logLockerAdded(lockerRepository.checkExistingLocker(locker.getLockerTower(),
                 locker.getLockerFloor(), locker.getLockerNumber()).iterator().next());
     }
+
+    public void edit(LockerEntity locker) {
+        lockerRepository.save(locker);
+    }
 }

@@ -20,6 +20,8 @@ public class LockerRestController {
 
     @Autowired
     private LockerService lockerService;
+    @Autowired
+    private LockerHistoryService history;
 
     @JsonView(Views.Public.class)
     @RequestMapping(value = "/addlocker")
@@ -29,9 +31,6 @@ public class LockerRestController {
 
         if (isValidLocker(locker)) {
             Iterable<LockerEntity> existingLockers = lockerService.checkExistingLocker(locker.getLockerTower(), locker.getLockerFloor(), locker.getLockerNumber());
-            for (LockerEntity lockers : existingLockers) {
-                System.out.println("EXISTINGLOCKERS: " + lockers.toString() + "\t" + existingLockers.iterator().hasNext());
-            }
             if (existingLockers.iterator().hasNext()) {
                 result.setCode("204");
                 result.setMessage("Locker with these properties already exist.");
@@ -48,12 +47,59 @@ public class LockerRestController {
         return result;
     }
 
+    @JsonView(Views.Public.class)
+    @RequestMapping(value = "/editlocker")
+    public AjaxResponseBody editLocker(@RequestBody LockerEntity locker) {
+
+        AjaxResponseBody result = new AjaxResponseBody();
+
+        if (isValidLocker(locker)) {
+            Iterable<LockerEntity> existingLockers = lockerService.checkExistingLocker(locker.getLockerTower(), locker.getLockerFloor(), locker.getLockerNumber());
+
+            if (existingLockers.iterator().hasNext()) {
+                result.setCode("204");
+                result.setMessage("Locker with these properties already exist.");
+            } else {
+                LockerEntity currentLocker = lockerService.findLockerById(locker.getLockerid()); //Get currently-edited locker
+                LockerEntity oldLocker = currentLocker;
+
+                //Change current values.
+                currentLocker.setLockerTower(locker.getLockerTower());
+                currentLocker.setLockerFloor(locker.getLockerFloor());
+                currentLocker.setLockerNumber(locker.getLockerNumber());
+
+                history.logLockerEdited(currentLocker, oldLocker);
+                lockerService.edit(currentLocker);
+
+                result.setCode("200");
+                result.setMessage("");
+            }
+        } else {
+            result.setCode("400");
+            result.setMessage("Given locker properties are not correct.");
+        }
+
+
+        return result;
+    }
+
+    /*public void editLocker(Long id, String lockerTower, int lockerFloor, int lockerNumber) {
+        LockerEntity locker = lockerRepository.findOne(id);
+        if (lockerNumber < 0 || lockerNumber > 100) {return;}
+        LockerEntity oldLocker = locker; //logging purposes.
+        locker.setLockerTower(lockerTower);
+        locker.setLockerNumber(lockerNumber + "");
+        locker.setLockerFloor(lockerFloor);
+        lockerHistoryService.logLockerEdited(locker, oldLocker);
+        lockerRepository.save(locker);
+    }*/
+
     private boolean isValidLocker(LockerEntity locker) {
         boolean valid = true;
 
         if (locker == null) return false;
         //LockerFloor is already taken care of by @Min(0) constraint. If floor < 0, ajax request will return error with result == null.
-        if (locker.getLockerTower().isEmpty() || locker.getLockerNumber().isEmpty()) {
+        if (locker.getLockerTower().isEmpty() || locker.getLockerNumber().isEmpty() || Integer.parseInt(locker.getLockerNumber()) >= 100 || locker.getLockerFloor() > 5) {
             valid = false;
         }
 
