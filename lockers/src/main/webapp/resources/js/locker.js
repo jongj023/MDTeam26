@@ -15,9 +15,10 @@ $(document).ready(function() {
     $('#lockerAlreadyExists').hide();
 
     getUsers(); // prepare modal autocomplete
+    getLockersWithExpiration();
 
     $rows = $('#locker_table tbody tr');
-    $('#search').keyup(function search() {
+    $('#search').keyup(function() {
         var val = '^(?=.*\\b' + $.trim($(this).val()).split(/\s+/).join('\\b)(?=.*\\b') + ').*$',
             reg = RegExp(val, 'i'),
             text;
@@ -74,7 +75,6 @@ function getUsers() { //Get list of username, first- and lastname for autocomple
         initializeAutocomplete(sourceArr);
     });
     $.get("/gettakenusers", function (data) {
-        console.log(data);
         usernames = data;
     });
 }
@@ -114,6 +114,7 @@ function initializeAutocomplete(source) {
         });
 }
 
+//Use this if you want to open the 'view' button in new tab.
 function viewLocker(id) {
     var url = "/locker/" + id;
     var win = window.open(url, '_blank');
@@ -164,5 +165,22 @@ function addLocker() {
             }
         });
     }
+}
+
+function getLockersWithExpiration() {
+    $.get("/getexpirationlockers", function (data) {
+        var currentDate = new Date();
+        $.each(data, function (index, obj) {
+            var expirationDate = new Date(obj.date), result = "", css = "";
+            if (currentDate > expirationDate) {css = "danger"; result = "Overdue"}
+
+            $('#expiredTable tbody').append("<tr class=\"locker-row " + css + "\"> " +
+                "<td class=\"col-md-1\"> " + result + "</td> " +
+                "<td class=\"col-md-1\"><a href=\"" + obj.lockerid + "\"> " + obj.lockerTower + obj.lockerFloor + obj.lockerNumber + "</a></td> " +
+                "<td class=\"col-md-1\" title=\"" + obj.user.firstname +  " "+ obj.user.lastname + "\"> " + obj.user.username + "</td> " +
+                "<td class=\"col-md-1\"> " + obj.date + "</td> " +
+                "</tr>");
+        })
+    });
 }
 

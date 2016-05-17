@@ -123,4 +123,8 @@ public class LockerService {
     public void edit(LockerEntity locker) {
         lockerRepository.save(locker);
     }
+
+    public Integer getOverdueAmount() {return lockerRepository.getOverdueAmount();}
+
+    public Iterable<LockerEntity> getExpirationLockers() {return lockerRepository.getExpirationLockers();}
 }

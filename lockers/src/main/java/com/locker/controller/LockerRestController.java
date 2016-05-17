@@ -12,6 +12,9 @@ import com.locker.model.LockerHistoryEntity;
 import com.locker.service.LockerHistoryService;
 import com.locker.service.LockerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -129,6 +132,18 @@ public class LockerRestController {
         }
 
         return result;
+    }
+
+    @RequestMapping(value = "/getoverdueamount", produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.GET)
+    public ResponseEntity<Integer> getOverdueAmount() {
+        Integer amount = lockerService.getOverdueAmount();
+        return new ResponseEntity<Integer>(amount, HttpStatus.OK);
+    }
+
+    @RequestMapping(value="/getexpirationlockers", produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.GET)
+    public ResponseEntity<Iterable<LockerEntity>> getExpirationLockers() {
+        Iterable<LockerEntity> lockers = lockerService.getExpirationLockers();
+        return new ResponseEntity<Iterable<LockerEntity>>(lockers, HttpStatus.OK);
     }
 
 }

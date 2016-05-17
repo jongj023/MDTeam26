@@ -30,7 +30,11 @@ function getHistory(limit) {
         dataType: 'json',
         timeout: 100000,
         success : function(data) {
-            fillTable(data.result);
+            if (data.code == "200") {
+                fillTable(data.result);
+            } else {
+                alert(data.result);
+            }
         },
         error : function(e) {
             //error
