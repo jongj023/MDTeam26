@@ -8,8 +8,8 @@ $(document).ready(function() {
     var tower
     var floor
 
-    document.getElementById("floor-dropdown").selectedIndex = -1;
-    document.getElementById("tower-dropdown").selectedIndex = -1;
+    document.getElementById("floor-dropdown").selectedIndex = 5;
+    document.getElementById("tower-dropdown").selectedIndex = 3;
 
     $('#floor-dropdown').change(function() {
         floor = ($(this).val());
