@@ -11,11 +11,13 @@ $(document).ready(function() {
         $('[data-toggle="tooltip"]').tooltip()
     });
 
+    //Hide all errors.
     $('#lockerWithUsernameExists').hide();
     $('#lockerAlreadyExists').hide();
 
     getUsers(); // prepare modal autocomplete
-    getLockersWithExpiration();
+    getLockersWithExpiration(); //Fill expiration table with data.
+    getBadge(); //get expiration amount to use as badge.
 
     $rows = $('#locker_table tbody tr');
     $('#search').keyup(function() {
@@ -50,6 +52,7 @@ $(document).ready(function() {
         var parent = e.target.parentNode.id;
         $('#' + parent).hide();
     })
+    
 });
 
 $(document).ready(function(){
@@ -182,5 +185,11 @@ function getLockersWithExpiration() {
                 "</tr>");
         })
     });
+}
+
+function getBadge() {
+    $.get("/getoverdueamount", function (data) {
+        $('#badge').text(data);
+    })
 }
 
