@@ -32,4 +32,9 @@ public class DefaultController {
         System.out.println("ALL LOCKERS:    " + lockerService.findAll());
         return "index"; //Can be used to test things such as spring security
     }
+
+    @RequestMapping("/help")
+    public String help(Model model){
+        return "help";
+    }
 }

@@ -6,9 +6,12 @@
 package com.locker.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  *
@@ -33,6 +36,7 @@ public class LockerEntity implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "locker_number")
+    @Min(0)
     private String lockerNumber;
 
     @Basic(optional = false)
@@ -45,6 +49,14 @@ public class LockerEntity implements Serializable {
     @OneToOne(optional = true)
     private UserEntity user;
 
+    @Basic(optional = false)
+    @Column(name = "date_acquired")
+    private Timestamp timestamp;
+
+    @Basic(optional = false)
+    @Column(name = "date_expired")
+    private Date date;
+
     public LockerEntity() {
     }
 
@@ -54,6 +66,12 @@ public class LockerEntity implements Serializable {
 
     public LockerEntity(Long lockerid, int lockerFloor, String lockerNumber, String lockerTower) {
         this.lockerid = lockerid;
+        this.lockerFloor = lockerFloor;
+        this.lockerNumber = lockerNumber;
+        this.lockerTower = lockerTower;
+    }
+
+    public LockerEntity(int lockerFloor, String lockerNumber, String lockerTower) {
         this.lockerFloor = lockerFloor;
         this.lockerNumber = lockerNumber;
         this.lockerTower = lockerTower;
@@ -99,6 +117,14 @@ public class LockerEntity implements Serializable {
         this.user = user;
     }
 
+    public Timestamp getTimestamp() {return timestamp;}
+
+    public void setTimestamp(Timestamp timestamp) {this.timestamp = timestamp;}
+
+    public Date getDate() {return date;}
+
+    public void setDate(Date date) {this.date = date;}
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -121,7 +147,7 @@ public class LockerEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "com.locker.model.Locker[ lockerid=" + lockerid + " ]";
+        return lockerid +"\t"+ lockerTower +"\t"+ lockerFloor +"\t"+ lockerNumber +"\t"+ user +"\t"+ timestamp +"\t"+ date;
     }
     
 }
