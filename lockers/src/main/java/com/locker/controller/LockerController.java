@@ -66,15 +66,6 @@ public class LockerController {
         return new ModelAndView(view);
     }
 
-    @RequestMapping(value = "/search", method = RequestMethod.POST)
-    public ModelAndView searchLocker(@ModelAttribute("floor-dropdown") int floor, @ModelAttribute("tower-dropdown") char tower) {
-        ModelAndView modelAndView = new ModelAndView("locker");
-        String res = searchService.searchLocker(floor, tower);
-        modelAndView.addObject("lockers", lockerService.findAll());
-        modelAndView.addObject("result", res);
-        return modelAndView;
-    }
-
     @RequestMapping(value = "/setexpiration", method = RequestMethod.POST)
     public ModelAndView setExpiration(@ModelAttribute("expire") String date, @ModelAttribute("lockerid") Long id) {
         lockerService.setExpirationDate(date, id);

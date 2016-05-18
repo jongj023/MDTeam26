@@ -5,12 +5,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.locker.jsonview.Views;
-import com.locker.model.AjaxResponseBody;
-import com.locker.model.HistoryLimit;
-import com.locker.model.LockerEntity;
-import com.locker.model.LockerHistoryEntity;
+import com.locker.model.*;
 import com.locker.service.LockerHistoryService;
 import com.locker.service.LockerService;
+import com.locker.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -30,6 +28,8 @@ public class LockerRestController {
     private LockerService lockerService;
     @Autowired
     private LockerHistoryService history;
+    @Autowired
+    private SearchService searchService;
 
     @JsonView(Views.Public.class)
     @RequestMapping(value = "/addlocker")
@@ -144,6 +144,47 @@ public class LockerRestController {
     public ResponseEntity<Iterable<LockerEntity>> getExpirationLockers() {
         Iterable<LockerEntity> lockers = lockerService.getExpirationLockers();
         return new ResponseEntity<Iterable<LockerEntity>>(lockers, HttpStatus.OK);
+    }
+
+    @JsonView(Views.Public.class)
+    @RequestMapping(value = "/search", method = RequestMethod.POST, produces = "application/json")
+    @ResponseBody
+    public AjaxResponseBody<String> search(@RequestBody SearchQuery query) {
+        AjaxResponseBody<String> result = new AjaxResponseBody<String>();
+
+        System.out.println("QUERY= " + query.toString());
+        if (isValidSearchQuery(query)) {
+            String locker = searchService.searchLocker(query.getSearchFloor(), query.getSearchTower());
+
+            if (locker == null) {
+                result.setCode("204");
+                result.setMessage("No empty locker found with requested location.");
+            } else {
+                result.setCode("200");
+                result.setMessage("Locker found");
+                result.setResult(locker);
+            }
+        } else {
+            result.setCode("400");
+            result.setMessage("Submitted fields did not meet criteria.");
+        }
+
+        return result;
+    }
+
+    private boolean isValidSearchQuery(SearchQuery query) {
+        boolean valid = true;
+
+        if (query == null) return false;
+
+        String tower = query.getSearchTower();
+        String floor = query.getSearchFloor();
+
+        if (tower == null || tower.isEmpty() || floor == null || floor.isEmpty()) {
+            valid = false;
+        }
+
+        return valid;
     }
 
 }

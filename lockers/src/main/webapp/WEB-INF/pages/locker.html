@@ -23,7 +23,6 @@
     <script>
         $(document).ready(function () {
             $('#locker_table').tablesorter({sortList: [[0, 0], [1, 0]]});
-            $('#search').keyup();
         });
     </script>
 
@@ -183,8 +182,21 @@
                             <img id="planImage" class="img-responsive" th:src="@{/resources/images/plan.png}"/>
                         </div>
                         <div class="input-group col-md-12 col-xs-10 col-xs-offset-1 col-md-offset-0">
-                            <form id="locker-search" th:action="@{/search}" method="post">
+                            <div class="alert alert-warning" role="alert" id="searchError">
+                                <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <span id="search-error"></span>
+                            </div>
+                            <form id="locker-search">
                                 <div class="col-md-4 col-md-offset-2 col-xs-4 col-xs-offset-2">
+                                    Tower:
+                                    <select id="tower-dropdown" name="tower-dropdown" class="form-control">
+                                        <option value="A">A</option>
+                                        <option value="B">B</option>
+                                        <option value="C">C</option>
+                                        <option value="X">Random</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 col-xs-4">
                                     Floor:
                                     <select id="floor-dropdown" name="floor-dropdown" class="form-control">
                                         <option value="1">1</option>
@@ -193,16 +205,6 @@
                                         <option value="4">4</option>
                                         <option value="5">5</option>
                                         <option value="0">Random</option>
-                                    </select>
-                                </div>
-
-                                <div class="col-md-4 col-xs-4">
-                                    Tower:
-                                    <select id="tower-dropdown" name="tower-dropdown" class="form-control">
-                                        <option value="A">A</option>
-                                        <option value="B">B</option>
-                                        <option value="C">C</option>
-                                        <option value="X">Random</option>
                                     </select>
                                 </div>
                             </form>

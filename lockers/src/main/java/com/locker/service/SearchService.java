@@ -25,26 +25,24 @@ public class SearchService {
 
     public LockerEntity findLockerById(long id) {return lockerRepository.findOne(id);}
 
-    public String searchLocker(int floor, char tower){
+    public String searchLocker(String floor, String tower){
         Iterable<LockerEntity> lockers = lockerRepository.getFreeLockers();
         for(LockerEntity locker : lockers){
-            String varTower = Character.toString(tower);
-            String varFloor = Integer.toString(floor);
 
-            if(floor == 0){
-                varFloor = locker.getLockerFloor() + "";
+            if(floor.equals("0")){
+                floor = locker.getLockerFloor() + "";
             }
 
-            if(tower == 'X'){
-                varTower = locker.getLockerTower();
+            if(tower.equals("X")){
+                tower = locker.getLockerTower();
             }
 
-            if(locker.getLockerTower().equals(varTower) && Integer.toString(locker.getLockerFloor()).equals(varFloor)){
-                return varTower + varFloor + locker.getLockerNumber();
+            if(locker.getLockerTower().equals(tower) && Integer.toString(locker.getLockerFloor()).equals(floor)){
+                return tower + floor + locker.getLockerNumber();
             }
 
         }
-        return "No locker found, please try again";
+        return null;
 
     }
 }

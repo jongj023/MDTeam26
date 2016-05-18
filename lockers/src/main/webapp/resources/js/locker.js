@@ -14,6 +14,7 @@ $(document).ready(function() {
     //Hide all errors.
     $('#lockerWithUsernameExists').hide();
     $('#lockerAlreadyExists').hide();
+    $('#searchError').hide();
 
     getUsers(); // prepare modal autocomplete
     getLockersWithExpiration(); //Fill expiration table with data.
@@ -51,11 +52,9 @@ $(document).ready(function() {
         e.preventDefault();
         var parent = e.target.parentNode.id;
         $('#' + parent).hide();
-    })
-    
-});
+    });
 
-$(document).ready(function(){
+    //Make sure the Modal references the clicked locker when 'Assign' is clicked.
     $('#lockerModal').modal({
         keyboard: true,
         backdrop: false,
@@ -117,17 +116,13 @@ function initializeAutocomplete(source) {
         });
 }
 
-//Use this if you want to open the 'view' button in new tab.
-function viewLocker(id) {
-    var url = "/locker/" + id;
-    var win = window.open(url, '_blank');
-    win.focus();
-}
-
 function submitUser() {
     $('#user-form').submit();
 }
 
+/*
+Used by the 'Clear' button. Submits empty form to clear user from locker.
+ */
 function clearUserFromLocker(id) {
     $('#locker-id').val(id);
     $('#locker-user').val("");
@@ -169,7 +164,7 @@ function addLocker() {
         });
     }
 }
-
+/*Fill expirationTable with data*/
 function getLockersWithExpiration() {
     $.get("/getexpirationlockers", function (data) {
         var currentDate = new Date();
@@ -187,6 +182,7 @@ function getLockersWithExpiration() {
     });
 }
 
+/*Shows how many lockers are overdue using a neat little badge.*/
 function getBadge() {
     $.get("/getoverdueamount", function (data) {
         $('#badge').text(data);
