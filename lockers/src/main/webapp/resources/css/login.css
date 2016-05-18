@@ -1,6 +1,9 @@
 .login-img-center {
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #44baeb !important;
+    padding-bottom: 15px;
 }
 .text-field-margins {
     margin: 0.8em 0 0.8em 0;
@@ -9,4 +12,11 @@
     border-radius: 0px;
     background-image: none;
     border: 0px solid transparent;
+}
+
+.form-signin {
+    margin-top: 40px;
+    padding: 10px;
+    background-color: rgba(225, 231, 233, 0.25);
+    border-radius: 9px;
 }

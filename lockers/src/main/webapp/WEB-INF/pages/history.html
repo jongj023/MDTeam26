@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <!--<meta name="_csrf" th:content="${_csrf.token}"/>-->
+    <title>History</title>
+    <link href="../../../webapp/resources/css/bootstrap.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.css}"/>
+    <link href="../../../webapp/resources/css/bootstrap-theme.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap-theme.css}"/>
+    <link href="../../../webapp/resources/css/login.css" rel="stylesheet" media="screen" th:href="@{/resources/css/login.css}"/>
+    <link href="../../../webapp/resources/css/locker.css" rel="stylesheet" media="screen" th:href="@{/resources/css/locker.css}"/>
+
+    <script src="../../../webapp/resources/js/jquery-min.js" th:src="@{/resources/js/jquery-min.js}"></script>
+    <script src="../../../webapp/resources/js/bootstrap.js" th:src="@{/resources/js/bootstrap.js}"></script>
+    <script src="../../../webapp/resources/js/history.js" th:src="@{/resources/js/history.js}"></script>
+    <script type="text/javascript" src="http://mottie.github.com/tablesorter/js/jquery.tablesorter.js"></script>
+    <script type="text/javascript" src="http://stevenlevithan.com/assets/misc/date.format.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#historyTable').tablesorter({sortList: [[0, 0], [1, 0]]});
+            $('#search').keyup();
+        });
+    </script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/> <!-- fixes mobile view -->
+</head>
+
+<body>
+
+<div class="container">
+    <div class="row" id="title">
+        <div class="col-md-2 col-xs-2">
+            <img class="" th:src="@{/resources/images/KluisButton.png}"/>
+        </div>
+        <div class="col-md-10 col-xs-6 col-xs-offset-3 col-md-offset-0 title">
+            <h1 title="Return to locker overview">
+                <a href="/locker">Locker history</a>
+            </h1>
+        </div>
+    </div>
+
+    <div class="row" id="action-bar">
+        <div class="input-group col-lg-4 col-xs-4" id="action-buttons">
+            <label for="limit">Amount of entries: </label>
+            <select name="limit" class="form-control" id="limit">
+                <option value="100">100</option>
+                <option value="1000">1000</option>
+                <option value="-1">All</option>
+            </select>
+        </div>
+        <div class="input-group col-lg-12 col-xs-12" id="search-field">
+            <input name="search" id="search" class="form-control col-md-10" placeholder="Search..."  type="text" th:value="${result}"/>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped" id="historyTable">
+            <thead>
+            <tr>
+                <th title="ID of the record">#</th>
+                <th title="Referenced locker">Locker</th>
+                <th title="Date on which the update occured">Updated</th>
+                <th title="User connected to the locker">User</th>
+                <th title="Date on which the locker was acquired by the user">Acquired</th>
+                <th title="Expiration date of the locker at that time">Expiration</th>
+                <th title="The action which was executed at that time">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

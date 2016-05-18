@@ -1,0 +1,24 @@
+#title {
+    border-bottom: 1px solid #d2dbde;
+    margin-bottom: 20px;
+}
+#title div h1 {
+    padding-top: 25px;
+}
+.panel-default > .panel-heading {
+    color: white;
+    background: #00a1de none;
+}
+#user-control-group {
+    padding-top: 10px;
+}
+
+.header-row {
+    display: table;
+}
+
+.header-row .fullheight {
+    float: none;
+    display: table-cell;
+    vertical-align: top;
+}

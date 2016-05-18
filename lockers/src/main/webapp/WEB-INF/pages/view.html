@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <!--<meta name="_csrf" th:content="${_csrf.token}"/>-->
+    <title th:text="'Locker BH-'+${locker.lockerTower} + ${locker.lockerFloor} + ${locker.lockerNumber}"></title>
+    <link href="../../../webapp/resources/css/bootstrap.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.css}"/>
+    <link href="../../../webapp/resources/css/bootstrap-theme.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap-theme.css}"/>
+    <link href="../../../webapp/resources/css/bootstrap-datepicker3.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap-datepicker3.css}"/>
+    <link href="../../../webapp/resources/css/login.css" rel="stylesheet" media="screen" th:href="@{/resources/css/login.css}"/>
+    <link href="../../../webapp/resources/css/locker.css" rel="stylesheet" media="screen" th:href="@{/resources/css/locker.css}"/>
+    <link href="../../../webapp/resources/css/view.css" rel="stylesheet" media="screen" th:href="@{/resources/css/view.css}"/>
+    <link href="../../../webapp/resources/css/typeaheadjs.css" rel="stylesheet" media="screen" th:href="@{/resources/css/typeaheadjs.css}"/>
+
+    <script src="../../../webapp/resources/js/jquery-min.js" th:src="@{/resources/js/jquery-min.js}"></script>
+    <script src="../../../webapp/resources/js/bootstrap.js" th:src="@{/resources/js/bootstrap.js}"></script>
+    <script src="../../../webapp/resources/js/bootstrap-datepicker.js" th:src="@{/resources/js/bootstrap-datepicker.js}"></script>
+    <script src="../../../webapp/resources/js/typeahead.js" th:src="@{/resources/js/typeahead.js}"></script>
+    <script src="../../../webapp/resources/js/view.js" th:src="@{/resources/js/view.js}"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/> <!-- fixes mobile view -->
+</head>
+<body>
+<div class="container">
+    <div class="row" id="title">
+        <div class="col-md-2 col-xs-2">
+            <img class="" th:src="@{/resources/images/KluisButton.png}"/>
+        </div>
+        <div class="col-md-10 col-xs-6 col-xs-offset-3 col-md-offset-0 title">
+            <h1 title="Return to locker overview">
+                <!--<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>-->
+                <a href="/locker" th:text="'BH-'+${locker.lockerTower} + ${locker.lockerFloor} + ${locker.lockerNumber}"></a>
+            </h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 col-xs-12" id="locker-information">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2 text-center">
+                            <h4>Locker information</h4>
+                        </div>
+                        <div class="col-md-2" style="margin-top: 10px;">
+                            <button type="button" id="edit" class="btn btn-default" data-toggle="modal" data-target="#editLockerModal" th:attr="id=${locker.lockerid}">
+                                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <form class="form-horizontal" id="expirationform" th:action="@{/setexpiration}" method="post">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Locker:</label>
+                            <div class="col-md-9">
+                                <p class="form-control-static" th:text="'BH-'+${locker.lockerTower} + ${locker.lockerFloor} + ${locker.lockerNumber}"></p>
+                            </div>
+
+                            <label class="col-md-3 control-label">Tower:</label>
+                            <div class="col-md-9">
+                                <p class="form-control-static" th:text="${locker.lockerTower}"></p>
+                            </div>
+
+                            <label class="col-md-3 control-label">Floor:</label>
+                            <div class="col-md-9">
+                                <p class="form-control-static" th:text="${locker.lockerFloor}"></p>
+                            </div>
+
+                            <label class="col-md-3 control-label">Number:</label>
+                            <div class="col-md-9">
+                                <p class="form-control-static" th:text="${locker.lockerNumber}"></p>
+                            </div>
+
+                            <label class="col-md-3 control-label" title="YYYY/MM/DD Time">Acquired:</label>
+                            <div class="col-md-9">
+                                <p class="form-control-static" th:text="${locker.timestamp}" title="YYYY/MM/DD Time"></p>
+                            </div>
+
+                            <div class="row">
+                                <label class="col-md-3 control-label" title="YYYY/MM/DD">Expiration:</label>
+                                <div class="col-md-4" id="expiration-control-group">
+                                    <div class="form-group">
+                                        <div class='input-group date' id='expiration-date'>
+                                            <input type="text" name="expire" class="form-control" th:value="${locker.date}" title="YYYY/MM/DD"/><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="button" id="expire" onclick="setExpirationDate()" class="btn btn-warning"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>Set expiration</button>
+                                </div>
+                            </div>
+                            <input type="hidden" name="lockerid" th:value="${locker.lockerid}"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xs-12" id="user-information">
+            <div class="panel panel-default">
+                <div class="panel-heading"><h4>User information</h4></div>
+                <div class="panel-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Username:</label>
+                            <div class="col-md-9">
+                                <p class="form-control-static" id="username" th:text="${user != null} ? ${user.username} : ''"></p>
+                            </div>
+
+                            <label class="col-md-3 control-label">First name:</label>
+                            <div class="col-md-9">
+                                <p class="form-control-static" th:text="${user != null} ? ${user.firstname} : ''"></p>
+                            </div>
+
+                            <label class="col-md-3 control-label">Last name:</label>
+                            <div class="col-md-9">
+                                <p class="form-control-static" th:text="${user != null} ? ${user.lastname} : ''"></p>
+                            </div>
+
+                            <label class="col-md-3 control-label">Email:</label>
+                            <div class="col-md-9">
+                                <p class="form-control-static" th:text="${user != null} ? ${user.email} : ''"></p>
+                            </div>
+
+                            <label class="col-md-3 control-label">Actions:</label>
+                            <div class="col-md-9" id="user-control-group">
+                                <button type="button" id="assign" class="btn btn-warning" data-toggle="modal" data-target="#lockerModal" th:attr="id=${locker.lockerid}">
+                                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Assign</button>
+                                <button type="button" id="clear" class="btn btn-danger" th:onclick="'clearUserFromLocker('+${locker.lockerid}+')'">
+                                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Clear</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-xs-12" id="history-information">
+            <div class="panel panel-default">
+                <div class="panel-heading"><h4 title="Limited to last 100 entries">Locker History</h4></div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped" id="locker_table">
+                            <thead>
+                            <tr>
+                                <th title="ID of the record">#</th>
+                                <th title="Date on which the update occured">Updated</th>
+                                <th title="User connected to the locker">User</th>
+                                <th title="Date on which the locker was acquired by the user">Acquired</th>
+                                <th title="Expiration date of the locker at that time">Expiration</th>
+                                <th title="The action which was executed at that time">Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="record : ${history}" class="locker-row" th:attr="data-id=${locker.lockerid}">
+                                <td class="col-md-1" th:text="${record.historyid}"></td>
+                                <td class="col-md-2" th:text="${record.date_updated}"></td>
+                                <td class="col-md-2" th:text="${record.user}"></td>
+                                <td class="col-md-2" th:text="${record.timestamp}"></td>
+                                <td class="col-md-2" th:text="${record.date}"></td>
+                                <td class="col-md-3" th:text="${record.action}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="lockerModal" class="modal fade" role="dialog" aria-labelledby="orderModalLabel" tabindex="-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Locker</h4>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row">
+                        <p>Assign or change user designated to this locker.</p>
+                        <form id="user-form" th:action="@{/setuserfromview}" method="post">
+                            <div class="alert alert-warning" role="alert" id="lockerWithUsernameExists">
+                                <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <span id="warning-message"><p><strong>This username already has a locker!</strong> Cannot assign a second locker.</p></span>
+                            </div>
+                            <div class="form-group" id="locker-field">
+                                <label for="locker-user" class="control-label">User:</label>
+                                <input type="text" name="locker-user" class="form-control typeahead" id="locker-user" data-provide="typeahead"/>
+                                <input type="hidden" name="locker-id" id="locker-id" value=""/>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button data-dismiss="modal" class="btn btn-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Close</button>
+                    <button onclick="submitUser()" class="btn btn-warning"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="editLockerModal" class="modal fade" role="dialog" aria-labelledby="orderModalLabel" tabindex="-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Edit locker</h4>
+                </div>
+
+                <div class="modal-body">
+                    <form id="editLocker" class="form-horizontal">
+                        <div class="alert alert-warning" role="alert" id="lockerAlreadyExists">
+                            <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <span id="lockerWarning"><p><strong>This username already has a locker!</strong>Cannot assign a second locker.</p></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="locker_tower" class="col-md-2 col-xs-2 control-label">Tower:</label>
+                            <div class="col-md-10 col-xs-10" style="margin-bottom: 10px;">
+                                <select name="locker_tower" class="form-control" id="locker_tower">
+                                    <option class="hidden" th:selected="${true}" th:value="${locker.lockerTower}" th:text="${locker.lockerTower}"></option>
+                                    <option value="A">A</option>
+                                    <option value="B">B</option>
+                                    <option value="C">C</option>
+                                </select>
+                            </div>
+                            <label for="locker_floor" class="col-md-2 col-xs-2 control-label">Floor:</label>
+                            <div class="col-md-10 col-xs-10" style="margin-bottom: 10px;">
+                                <select name="locker_floor" class="form-control" id="locker_floor">
+                                    <option class="hidden" th:selected="${true}" th:value="${locker.lockerFloor}" th:text="${locker.lockerFloor}"></option>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </select>
+                            </div>
+                            <label for="locker_number" class="col-md-2 col-xs-2 control-label">Number:</label>
+                            <div class="col-md-10 col-xs-10" style="margin-bottom: 10px;">
+                                <input type="number" name="locker_number" class="form-control" id="locker_number" th:value="${locker.lockerNumber}"/>
+                            </div>
+                            <input type="hidden" name="lockerid" id="lockerid" th:value="${locker.lockerid}"/>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button data-dismiss="modal" class="btn btn-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Close</button>
+                    <button onclick="submitEditLocker()" class="btn btn-warning"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script type="text/javascript">
+    $(function () {
+        $('#expiration-date').datepicker({
+            format: "yyyy/mm/dd",
+            startView: 2,
+            clearBtn: true,
+            calendarWeeks: true,
+            autoclose: true,
+            todayHighlight: true
+        });
+    });
+</script>
+</body>
+</html>

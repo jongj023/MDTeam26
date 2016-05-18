@@ -4,33 +4,12 @@
 var currentId = 0;
 var usernames = [];
 var allUsernames = [];
-var $rows;
 
 $(document).ready(function() {
-    $(function () { //prepare all tooltips
-        $('[data-toggle="tooltip"]').tooltip()
-    });
-
-    //Hide all errors.
     $('#lockerWithUsernameExists').hide();
     $('#lockerAlreadyExists').hide();
-    $('#searchError').hide();
 
     getUsers(); // prepare modal autocomplete
-    getLockersWithExpiration(); //Fill expiration table with data.
-    getBadge(); //get expiration amount to use as badge.
-
-    $rows = $('#locker_table tbody tr');
-    $('#search').keyup(function() {
-        var val = '^(?=.*\\b' + $.trim($(this).val()).split(/\s+/).join('\\b)(?=.*\\b') + ').*$',
-            reg = RegExp(val, 'i'),
-            text;
-
-        $rows.show().filter(function () {
-            text = $(this).text().replace(/\s+/g, ' ');
-            return !reg.test(text);
-        }).hide();
-    });
 
     $('#user-form').submit(function(e) {
         var submittedUsername = $('#locker-user').val();
@@ -46,15 +25,17 @@ $(document).ready(function() {
             $('#warning-message').html("<p><strong>Username doesn't exist!</strong> Please enter a valid username</p>");
             $('#lockerWithUsernameExists').show();
         }
+
     });
 
     $('.close').click(function (e) {
         e.preventDefault();
         var parent = e.target.parentNode.id;
         $('#' + parent).hide();
-    });
+    })
+});
 
-    //Make sure the Modal references the clicked locker when 'Assign' is clicked.
+$(document).ready(function(){
     $('#lockerModal').modal({
         keyboard: true,
         backdrop: false,
@@ -120,17 +101,24 @@ function submitUser() {
     $('#user-form').submit();
 }
 
-/*
-Used by the 'Clear' button. Submits empty form to clear user from locker.
- */
 function clearUserFromLocker(id) {
     $('#locker-id').val(id);
     $('#locker-user').val("");
     $('#user-form').submit();
 }
 
-function addLocker() {
+function setExpirationDate() {
+    var username = $('#username').text();
+    if (username == null || username.length == 0) {
+        alert("Cannot add an expiration date to a locker without a user!");
+    } else {
+        $('#expirationform').submit();
+    }
+}
+
+function submitEditLocker() {
     var data = {};
+    data["lockerid"] = $('#lockerid').val();
     data["lockerTower"] = $('#locker_tower').val();
     data["lockerFloor"] = $('#locker_floor').val();
     data["lockerNumber"] = $('#locker_number').val();
@@ -142,7 +130,7 @@ function addLocker() {
         $.ajax({
             type: "POST",
             contentType: "application/json",
-            url: "/addlocker",
+            url: "/editlocker",
             data: JSON.stringify(data),
             dataType: 'json',
             timeout: 100000,
@@ -164,28 +152,3 @@ function addLocker() {
         });
     }
 }
-/*Fill expirationTable with data*/
-function getLockersWithExpiration() {
-    $.get("/getexpirationlockers", function (data) {
-        var currentDate = new Date();
-        $.each(data, function (index, obj) {
-            var expirationDate = new Date(obj.date), result = "", css = "";
-            if (currentDate > expirationDate) {css = "danger"; result = "Overdue"}
-
-            $('#expiredTable tbody').append("<tr class=\"locker-row " + css + "\"> " +
-                "<td class=\"col-md-1\"> " + result + "</td> " +
-                "<td class=\"col-md-1\"><a href=\"" + obj.lockerid + "\"> " + obj.lockerTower + obj.lockerFloor + obj.lockerNumber + "</a></td> " +
-                "<td class=\"col-md-1\" title=\"" + obj.user.firstname +  " "+ obj.user.lastname + "\"> " + obj.user.username + "</td> " +
-                "<td class=\"col-md-1\"> " + obj.date + "</td> " +
-                "</tr>");
-        })
-    });
-}
-
-/*Shows how many lockers are overdue using a neat little badge.*/
-function getBadge() {
-    $.get("/getoverdueamount", function (data) {
-        $('#badge').text(data);
-    })
-}
-
