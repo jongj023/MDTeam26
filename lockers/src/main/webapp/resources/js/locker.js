@@ -174,7 +174,7 @@ function getLockersWithExpiration() {
 
             $('#expiredTable tbody').append("<tr class=\"locker-row " + css + "\"> " +
                 "<td class=\"col-md-1\"> " + result + "</td> " +
-                "<td class=\"col-md-1\"><a href=\"" + obj.lockerid + "\"> " + obj.lockerTower + obj.lockerFloor + obj.lockerNumber + "</a></td> " +
+                "<td class=\"col-md-1\"><a href=\"/locker/" + obj.lockerid + "\"> " + obj.lockerTower + obj.lockerFloor + obj.lockerNumber + "</a></td> " +
                 "<td class=\"col-md-1\" title=\"" + obj.user.firstname +  " "+ obj.user.lastname + "\"> " + obj.user.username + "</td> " +
                 "<td class=\"col-md-1\"> " + obj.date + "</td> " +
                 "</tr>");
