@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" lang="en">
 <head>
     <!--<meta name="_csrf" th:content="${_csrf.token}"/>-->
     <title>Locker overview</title>
@@ -98,7 +98,7 @@
                                 <ul class="dropdown-menu">
                                     <li><a class="pointer" th:href="'/locker/'+${locker.lockerid}"><span
                                             class="glyphicon glyphicon-search" aria-hidden="true"></span> View</a></li>
-                                    <li><a class="pointer" th:onclick="'clearUserFromLocker('+${locker.lockerid}+')'"><span
+                                    <li sec:authorize="hasRole('ADMIN')"><a class="pointer" th:onclick="'clearUserFromLocker('+${locker.lockerid}+')'"><span
                                             class="glyphicon glyphicon-trash" aria-hidden="true"></span> Clear</a></li>
                                 </ul>
                             </div>
