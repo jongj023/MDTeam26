@@ -78,7 +78,7 @@
                     </thead>
                     <tbody>
                     <tr th:each="locker : ${lockers}" class="locker-row" th:attr="data-id=${locker.lockerid}">
-                        <td class="col-xs-1 col-md-1" th:text="${locker.lockerid}">0</td>
+                        <td class="col-xs-1 col-md-1" th:text="${locker.lockerTower} + ${locker.lockerFloor} + ${locker.lockerNumber}">0</td>
                         <td class="col-xs-1 col-md-1searchable" th:text="${locker.lockerTower}">A</td>
                         <td class="col-xs-1 col-md-1" th:text="${locker.lockerFloor}">0</td>
                         <td class="col-xs-1 col-md-1" th:text="${locker.lockerNumber}">0</td>
