@@ -57,6 +57,10 @@ public class LockerEntity implements Serializable {
     @Column(name = "date_expired")
     private Date date;
 
+    @Basic(optional = false)
+    @Column(name = "keys")
+    private Integer lockerKeys;
+
     public LockerEntity() {
     }
 
@@ -124,6 +128,11 @@ public class LockerEntity implements Serializable {
     public Date getDate() {return date;}
 
     public void setDate(Date date) {this.date = date;}
+
+    public Integer getLockerKeys() {return lockerKeys;}
+
+    public void setLockerKeys(Integer keys) {this.lockerKeys = lockerKeys;}
+
 
     @Override
     public int hashCode() {

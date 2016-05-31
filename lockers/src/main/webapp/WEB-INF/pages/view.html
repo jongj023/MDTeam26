@@ -70,6 +70,8 @@
                                 <p class="form-control-static" th:text="${locker.lockerNumber}"></p>
                             </div>
 
+
+
                             <label class="col-md-3 control-label" title="YYYY/MM/DD Time">Acquired:</label>
                             <div class="col-md-9">
                                 <p class="form-control-static" th:text="${locker.timestamp}" title="YYYY/MM/DD Time"></p>
@@ -124,6 +126,38 @@
                             <div class="col-md-9">
                                 <p class="form-control-static" th:text="${user != null} ? ${user.email} : ''"></p>
                             </div>
+
+                            <!--<label class="col-md-3 control-label" title="keys">Keys:</label>-->
+                            <!--<div class="col-md-9">-->
+                                <!--<p class="form-control-static" th:text="${locker.lockerKeys}" title="keys"></p>-->
+                            <!--</div>-->
+
+                            <div class="row">
+                                <label class="col-md-3 control-label" title="keys">Keys:</label>
+                                <div class="col-md-4" id="keys-control-group">
+                                    <div class="form-group">
+                                        <div class='input-group date' id='keys' sec:authorize="hasAuthority('USER')">
+                                            <p  name="expire" class="form-control-static" th:text="${locker.lockerKeys}" title="keys"></p>
+                                        </div>
+                                        <div class='input-group date' id='keys' sec:authorize="hasAuthority('ADMIN')">
+                                            <input type="text" name="expire" class="form-control" th:value="${locker.lockerKeys}" title="keys"/>
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-floppy-disk"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+
+                            <!--<label class="col-md-3 control-label">Keys:</label>-->
+                            <!--<div class="col-md-9">-->
+                                <!--<p class="form-control-static" th:text="${locker.lockerKeys}"></p>-->
+                            <!--</div>-->
+
+                                <!--<div class='input-group' id='lockerkey' sec:authorize="hasAuthority('USER')">-->
+                                    <!--<p  name="keys" class="form-control-static" th:text="${locker.lockerKeys}"></p>-->
+                                <!--</div>-->
+                                <!--<div class='input-group' id='lockerkey' sec:authorize="hasAuthority('ADMIN')">-->
+                                    <!--<input type="text" name="keys" class="form-control" th:value="${locker.lockerKeys}"/>-->
+                                <!--</div>-->
 
                             <label class="col-md-3 control-label">Actions:</label>
                             <div class="col-md-9" id="user-control-group" sec:authorize="hasAuthority('ADMIN')">
