@@ -26,7 +26,7 @@ public class LockerEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "lockerid")
-    public Long lockerid;
+    private Long lockerid;
 
     @Basic(optional = false)
     @NotNull
@@ -65,20 +65,50 @@ public class LockerEntity implements Serializable {
     }
 
     public LockerEntity(Long lockerid) {
-        this.lockerid = lockerid;
+        this.setLockerid(lockerid);
     }
 
     public LockerEntity(Long lockerid, int lockerFloor, String lockerNumber, String lockerTower) {
-        this.lockerid = lockerid;
-        this.lockerFloor = lockerFloor;
-        this.lockerNumber = lockerNumber;
-        this.lockerTower = lockerTower;
+        this.setLockerid(lockerid);
+        this.setLockerFloor(lockerFloor);
+        this.setLockerNumber(lockerNumber);
+        this.setLockerTower(lockerTower);
     }
 
     public LockerEntity(int lockerFloor, String lockerNumber, String lockerTower) {
-        this.lockerFloor = lockerFloor;
-        this.lockerNumber = lockerNumber;
-        this.lockerTower = lockerTower;
+        this.setLockerFloor(lockerFloor);
+        this.setLockerNumber(lockerNumber);
+        this.setLockerTower(lockerTower);
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (getLockerid() != null ? getLockerid().hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof LockerEntity)) {
+            return false;
+        }
+        LockerEntity other = (LockerEntity) object;
+        if ((this.getLockerid() == null && other.getLockerid() != null) || (this.getLockerid() != null && !this.getLockerid().equals(other.getLockerid()))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return getLockerid() +"\t"+ getLockerTower() +"\t"+ getLockerFloor() +"\t"+ getLockerNumber() +"\t"+ getUser() +"\t"+ getTimestamp() +"\t"+ getDate();
     }
 
     public Long getLockerid() {
@@ -121,42 +151,27 @@ public class LockerEntity implements Serializable {
         this.user = user;
     }
 
-    public Timestamp getTimestamp() {return timestamp;}
-
-    public void setTimestamp(Timestamp timestamp) {this.timestamp = timestamp;}
-
-    public Date getDate() {return date;}
-
-    public void setDate(Date date) {this.date = date;}
-
-    public Integer getLockerKeys() {return lockerKeys;}
-
-    public void setLockerKeys(Integer keys) {this.lockerKeys = lockerKeys;}
-
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (lockerid != null ? lockerid.hashCode() : 0);
-        return hash;
+    public Timestamp getTimestamp() {
+        return timestamp;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof LockerEntity)) {
-            return false;
-        }
-        LockerEntity other = (LockerEntity) object;
-        if ((this.lockerid == null && other.lockerid != null) || (this.lockerid != null && !this.lockerid.equals(other.lockerid))) {
-            return false;
-        }
-        return true;
+    public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
     }
 
-    @Override
-    public String toString() {
-        return lockerid +"\t"+ lockerTower +"\t"+ lockerFloor +"\t"+ lockerNumber +"\t"+ user +"\t"+ timestamp +"\t"+ date;
+    public Date getDate() {
+        return date;
     }
-    
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Integer getLockerKeys() {
+        return lockerKeys;
+    }
+
+    public void setLockerKeys(Integer lockerKeys) {
+        this.lockerKeys = lockerKeys;
+    }
 }

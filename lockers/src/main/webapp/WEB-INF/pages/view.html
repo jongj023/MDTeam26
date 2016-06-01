@@ -105,7 +105,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading"><h4>User information</h4></div>
                 <div class="panel-body">
-                    <form class="form-horizontal">
+                    <form class="form-horizontal" id="userinformationform" th:action="@{/setkeys}" method="post">
                         <div class="form-group">
                             <label class="col-md-3 control-label">Username:</label>
                             <div class="col-md-9">
@@ -136,12 +136,13 @@
                                 <label class="col-md-3 control-label" title="keys">Keys:</label>
                                 <div class="col-md-4" id="keys-control-group">
                                     <div class="form-group">
-                                        <div class='input-group date' id='keys' sec:authorize="hasAuthority('USER')">
-                                            <p  name="expire" class="form-control-static" th:text="${locker.lockerKeys}" title="keys"></p>
+                                        <div class='input-group' id='keys' sec:authorize="hasAuthority('USER')">
+                                            <p  name="keys" class="form-control-static" th:text="${locker.lockerKeys}" title="keys"></p>
                                         </div>
-                                        <div class='input-group date' id='keys' sec:authorize="hasAuthority('ADMIN')">
-                                            <input type="text" name="expire" class="form-control" th:value="${locker.lockerKeys}" title="keys"/>
-                                            <span class="input-group-addon"><i class="glyphicon glyphicon-floppy-disk"></i></span>
+                                        <div class='input-group' id='keys' sec:authorize="hasAuthority('ADMIN')">
+                                            <input type="text" name="keys" class="form-control" th:value="${locker.lockerKeys}" title="keys"/>
+                                            <span class="input-group-addon">
+                                                <button type="button" class="glyphicon glyphicon-floppy-disk" id="saveNewKeys" onclick="setNewKeys()"></button></span>
                                         </div>
                                     </div>
                                 </div>
@@ -166,6 +167,7 @@
                                 <button type="button" id="clear" class="btn btn-danger" th:onclick="'clearUserFromLocker('+${locker.lockerid}+')'">
                                     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Clear</button>
                             </div>
+                            <input type="hidden" name="lockerid" th:value="${locker.lockerid}"/>
                         </div>
                     </form>
                 </div>

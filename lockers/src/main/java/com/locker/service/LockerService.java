@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.transaction.Transactional;
 import java.util.Date;
 import java.sql.Timestamp;
@@ -107,6 +108,18 @@ public class LockerService {
 
         }
 
+        lockerRepository.save(locker);
+    }
+
+    public void setKeys(Integer keys, Long id) {
+        LockerEntity locker = lockerRepository.findOne(id);
+        if (locker.getUser() == null) return;
+        if (keys == null) {
+            locker.setLockerKeys(0);
+        } else {
+                locker.setLockerKeys(keys);
+            //Logging changes
+        }
         lockerRepository.save(locker);
     }
 

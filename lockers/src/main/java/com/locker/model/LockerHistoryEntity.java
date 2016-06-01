@@ -1,7 +1,6 @@
 package com.locker.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -97,7 +96,7 @@ public class LockerHistoryEntity {
             return false;
         }
         LockerEntity other = (LockerEntity) object;
-        if ((this.historyid == null && other.lockerid != null) || (this.historyid != null && !this.historyid.equals(other.lockerid))) {
+        if ((this.historyid == null && other.getLockerid() != null) || (this.historyid != null && !this.historyid.equals(other.getLockerid()))) {
             return false;
         }
         return true;

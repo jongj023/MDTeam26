@@ -116,6 +116,15 @@ function setExpirationDate() {
     }
 }
 
+function setNewKeys() {
+   var username = $('#username').text();
+    if (username == null || username.length == 0) {
+        alert("Cannot add keys to a locker without a user!");
+    } else {
+        $('#userinformationform').submit();
+    }
+}
+
 function submitEditLocker() {
     var data = {};
     data["lockerid"] = $('#lockerid').val();

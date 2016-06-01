@@ -74,6 +74,14 @@ public class LockerController {
         return new ModelAndView(view);
     }
 
+    @RequestMapping(value = "/setkeys", method = RequestMethod.POST)
+    public ModelAndView setKeys(@ModelAttribute("keys") Integer keys, @ModelAttribute("lockerid") Long id) { // hier is het probleem.
+        lockerService.setKeys(keys, id);
+        RedirectView view = new RedirectView("/locker/" + id);
+        view.setExposeModelAttributes(false);
+        return new ModelAndView(view);
+    }
+
     @RequestMapping(value = "/history", method = RequestMethod.GET)
     public ModelAndView getHistory() {
         return new ModelAndView("history");
