@@ -1,6 +1,3 @@
-#locker_table tr > *:nth-child(7) {
-    display: none;
-}
 .hiddenRow {
     padding: 0 !important;
 }
@@ -57,7 +54,7 @@
 
 @media (max-width: 767px) {
     .table-header {
-        font-size: 8px;
+        /*font-size: 8px;*/
     }
     .search-free {
         overflow: hidden;

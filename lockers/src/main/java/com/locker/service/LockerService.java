@@ -37,28 +37,28 @@ public class LockerService {
     private static final Logger logger =
             LoggerFactory.getLogger(UserService.class);
 
+    public static final int USERNAME_NOT_FOUND = 404;
+    public static final int USER_HAS_LOCKER = 500;
+    public static final int SUCCESS = 200;
+
     public Iterable<LockerEntity> findAll() {
         return lockerRepository.findAll();
     }
 
     public LockerEntity findLockerById(long id) {return lockerRepository.findOne(id);}
 
-    public void setUser(Long id, String username) {
+    public int setUser(Long id, String username) {
         UserEntity user;
         if (username.isEmpty()) {
             user = null;
         } else {
             user = userRepository.findByUsername(username);
-            if (user == null) return;
+            if (user == null) return USERNAME_NOT_FOUND;
         }
 
         if (user != null) {
-            String[] users = lockerRepository.getUsersWithLocker();
-            for (String userCheck : users) {
-                if (user.equals(userCheck)) {
-                    return; //TODO Error handling (user is already assigned to a locker).
-                }
-            }
+            Iterable<LockerEntity> users = lockerRepository.getLockerWithUsername(username);
+            if (users.iterator().hasNext()) return USER_HAS_LOCKER;
         }
         LockerEntity locker = lockerRepository.findOne(id);
         locker.setUser(user);
@@ -75,6 +75,8 @@ public class LockerService {
         }
 
         lockerRepository.save(locker);
+
+        return SUCCESS;
     }
 
     public String[] getUsersWithLocker() {
@@ -127,4 +129,8 @@ public class LockerService {
     public Integer getOverdueAmount() {return lockerRepository.getOverdueAmount();}
 
     public Iterable<LockerEntity> getExpirationLockers() {return lockerRepository.getExpirationLockers();}
+
+    public Iterable<LockerEntity> search(String query) {
+        return lockerRepository.searchLockers("%" + query + "%");
+    }
 }

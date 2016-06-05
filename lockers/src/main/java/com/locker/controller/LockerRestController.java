@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,6 +33,12 @@ public class LockerRestController {
     private LockerHistoryService history;
     @Autowired
     private SearchService searchService;
+
+    @RequestMapping(value = "/getlockers", produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.GET)
+    public ResponseEntity<Iterable<LockerEntity>> getLockers() {
+        Iterable<LockerEntity> lockers = lockerService.findAll();
+        return new ResponseEntity<Iterable<LockerEntity>>(lockers, HttpStatus.OK);
+    }
 
     @JsonView(Views.Public.class)
     @RequestMapping(value = "/addlocker")
@@ -142,7 +150,6 @@ public class LockerRestController {
     }
 
     @RequestMapping(value="/getexpirationlockers", produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.GET)
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Iterable<LockerEntity>> getExpirationLockers() {
         Iterable<LockerEntity> lockers = lockerService.getExpirationLockers();
         return new ResponseEntity<Iterable<LockerEntity>>(lockers, HttpStatus.OK);
@@ -151,7 +158,7 @@ public class LockerRestController {
     @JsonView(Views.Public.class)
     @RequestMapping(value = "/search", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public AjaxResponseBody<String> search(@RequestBody SearchQuery query) {
+    public AjaxResponseBody<String> searchFreeLocker(@RequestBody SearchQuery query) {
         AjaxResponseBody<String> result = new AjaxResponseBody<String>();
 
         System.out.println("QUERY= " + query.toString());
@@ -174,6 +181,56 @@ public class LockerRestController {
         return result;
     }
 
+    @JsonView(Views.Public.class)
+    @RequestMapping(value = "/locker/search", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ResponseBody
+    public AjaxResponseBody<String> search(@RequestBody String query) {
+        AjaxResponseBody<String> result = new AjaxResponseBody<String>();
+        System.out.println(query);
+        Iterable<LockerEntity> lockers = lockerService.search(query);
+        for(LockerEntity locker : lockers) System.out.println(locker.toString());
+
+        String json = "";
+        try {
+            json = createJsonFromLockerEntity(lockers);
+            result.setCode("200");
+            result.setMessage("Successfully found lockers");
+            result.setResult(json);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            result.setCode("204");
+            result.setMessage("Failed to get locker history.");
+            result.setResult(json);
+        }
+
+        return result;
+    }
+
+    @JsonView(Views.Public.class)
+    @RequestMapping(value = "/locker/setuser", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ResponseBody
+    public AjaxResponseBody<String> setUser(@RequestBody Long id) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName();
+
+        AjaxResponseBody<String> result = new AjaxResponseBody<String>();
+
+        if (name != null) {
+            int response = lockerService.setUser(id, name);
+            switch (response) {
+                case LockerService.SUCCESS: result.setMessage("Changes successfully saved"); result.setCode("200"); break;
+                case LockerService.USER_HAS_LOCKER: result.setMessage("You are already assigned to a locker"); result.setCode("204"); break;
+                case LockerService.USERNAME_NOT_FOUND: result.setMessage("User was not found."); result.setCode("404"); break;
+                default: result.setCode("500"); result.setMessage("Something went wrong, please try again."); break;
+            }
+        } else {
+            result.setCode("400");
+            result.setMessage("Cannot assign locker, user not logged in.");
+        }
+
+        return result;
+    }
+
     private boolean isValidSearchQuery(SearchQuery query) {
         boolean valid = true;
 
@@ -187,6 +244,15 @@ public class LockerRestController {
         }
 
         return valid;
+    }
+
+    public String createJsonFromLockerEntity(Iterable<LockerEntity> array) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        String JsonResult = "Could not JSON-ify history data.";
+
+        JsonResult = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(array);
+
+        return JsonResult;
     }
 
 }

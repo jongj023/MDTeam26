@@ -28,5 +28,19 @@ public interface LockerRepository extends CrudRepository<LockerEntity, Long> {
 
     @Query(value = "SELECT * FROM locker l WHERE l.date_expired IS NOT NULL ORDER BY date_expired;", nativeQuery = true)
     Iterable<LockerEntity> getExpirationLockers();
+
+    @Query(value = "SELECT * FROM locker WHERE user = :user", nativeQuery = true)
+    Iterable<LockerEntity> getLockerWithUsername(@Param("user") String username);
+
+    @Query(
+            value = "SELECT l.* FROM locker l JOIN user u WHERE " +
+                    "l.date_acquired LIKE :query OR l.date_expired LIKE :query OR " +
+                    "(CONCAT(CONCAT(l.locker_tower, l.locker_floor), l.locker_number) LIKE :query) OR " +
+                    "(CONCAT(CONCAT(CONCAT(u.firstname, u.lastname), u.email), u.username) LIKE :query)" +
+                    "GROUP BY l.lockerid " +
+                    "ORDER BY l.locker_tower, l.locker_floor, l.locker_number"
+            , nativeQuery = true
+    )
+    Iterable<LockerEntity> searchLockers(@Param("query") String query);
 }
 
