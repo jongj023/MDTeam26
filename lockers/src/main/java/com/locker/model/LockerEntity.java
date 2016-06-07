@@ -57,6 +57,10 @@ public class LockerEntity implements Serializable {
     @Column(name = "date_expired")
     private Date date;
 
+    @Basic(optional = true)
+    @Column(name = "comment")
+    private String comment;
+
     public LockerEntity() {
     }
 
@@ -149,5 +153,12 @@ public class LockerEntity implements Serializable {
     public String toString() {
         return lockerid +"\t"+ lockerTower +"\t"+ lockerFloor +"\t"+ lockerNumber +"\t"+ user +"\t"+ timestamp +"\t"+ date;
     }
-    
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 }

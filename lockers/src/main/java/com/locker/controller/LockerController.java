@@ -74,6 +74,14 @@ public class LockerController {
         return new ModelAndView(view);
     }
 
+    @RequestMapping(value = "/setcomment", method = RequestMethod.POST)
+    public ModelAndView setComment(@ModelAttribute("comment") String comment, @ModelAttribute("lockerid") Long id) {
+        lockerService.setComment(comment, id);
+        RedirectView view = new RedirectView("/locker/" + id);
+        view.setExposeModelAttributes(false);
+        return new ModelAndView(view);
+    }
+
     @RequestMapping(value = "/history", method = RequestMethod.GET)
     public ModelAndView getHistory() {
         return new ModelAndView("history");

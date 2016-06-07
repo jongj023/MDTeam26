@@ -116,6 +116,10 @@ function setExpirationDate() {
     }
 }
 
+function setComment() {
+        $('#commentForm').submit();
+}
+
 function submitEditLocker() {
     var data = {};
     data["lockerid"] = $('#lockerid').val();

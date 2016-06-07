@@ -112,6 +112,11 @@ public class LockerService {
         lockerRepository.save(locker);
     }
 
+    public void setComment(String comment, Long id){
+        LockerEntity locker = lockerRepository.findOne(id);
+            locker.setComment(comment);
+    }
+
     public Iterable<LockerEntity> checkExistingLocker(String tower, int floor, String number) {
         return lockerRepository.checkExistingLocker(tower, floor, number);
     }
