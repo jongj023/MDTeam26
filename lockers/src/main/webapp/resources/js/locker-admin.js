@@ -46,6 +46,17 @@ $(document).ready(function() {
         }
     });
 
+    $('#search').keyup(function(e) {
+        clearTimeout($.data(this, 'timer'));
+        if (e.keyCode == 13)
+            search(true);
+        else
+            $(this).data('timer', setTimeout(search, 500));
+    });
+
+    //Hide all errors.
+    $('#searchError').hide();
+
     $('.close').click(function (e) {
         e.preventDefault();
         var parent = e.target.parentNode.id;
@@ -72,11 +83,43 @@ function setOutput(output, type, message, duration) {
 }
 
 function initializeLockerTable() {
+    $('#lockerList').html("");
     $.get("/getlockers", function (data) {
         $.each(data, function (index, obj) {
             addRowToTable(index, obj);
         });
     });
+}
+
+function search(force) {
+    var existingString = $("#search").val();
+    if (!force) return; //wasn't enter
+    if (existingString.length == 0) {
+        initializeLockerTable();
+    } else {
+        $.ajax({
+            type: 'POST',
+            contentType: "application/json",
+            url: "/locker/search",
+            data: existingString,
+            dataType: 'json',
+            timeout: 100000,
+            success: function (data) {
+                if (data.code == "200") {
+                    $('#lockerList').html("");
+                    $.each($.parseJSON(data.result), function (index, obj) {
+                        addRowToTable(index, obj)
+                    })
+                } else {
+                    setOutput('#locker-output', ALERT_WARNING, data.message, 5000);
+                }
+            },
+            error: function (xhr, status, error) {
+                var err = JSON.parse(xhr.responseText);
+                setOutput('#locker-ouput', ALERT_DANGER, "Something went wrong, please try again. " + err.status + " " + err.error, 4000);
+            }
+        });
+    }
 }
 
 /*

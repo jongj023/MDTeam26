@@ -1,8 +1,6 @@
 /**
  * Created by User on 29-4-2016.
  */
-
-;
 $(document).ready(function() {
     var image = document.getElementById('planImage'), tower, floor;
 
@@ -41,7 +39,7 @@ function submitSearch() {
                 $('#searchError').show();
             } else if (data.code == "200") {
                 $('#search').val(data.result);
-                $('#search').keyup();
+                search(true);
                 $('#searchModal').modal('hide')
             }
         },

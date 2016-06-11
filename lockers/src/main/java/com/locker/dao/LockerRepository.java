@@ -33,12 +33,9 @@ public interface LockerRepository extends CrudRepository<LockerEntity, Long> {
     Iterable<LockerEntity> getLockerWithUsername(@Param("user") String username);
 
     @Query(
-            value = "SELECT l.* FROM locker l JOIN user u WHERE " +
-                    "l.date_acquired LIKE :query OR l.date_expired LIKE :query OR " +
-                    "(CONCAT(CONCAT(l.locker_tower, l.locker_floor), l.locker_number) LIKE :query) OR " +
-                    "(CONCAT(CONCAT(CONCAT(u.firstname, u.lastname), u.email), u.username) LIKE :query)" +
-                    "GROUP BY l.lockerid " +
-                    "ORDER BY l.locker_tower, l.locker_floor, l.locker_number"
+            value = "SELECT l.* FROM locker l LEFT OUTER JOIN user u ON l.user = u.username WHERE " +
+                    "concat_ws('|',CONCAT(CONCAT(l.locker_tower, l.locker_floor), l.locker_number), l.date_acquired, " +
+                    "l.date_expired, l.user, u.firstname, u.lastname, u.email) LIKE :query"
             , nativeQuery = true
     )
     Iterable<LockerEntity> searchLockers(@Param("query") String query);
