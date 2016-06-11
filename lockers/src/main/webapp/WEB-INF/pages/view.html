@@ -15,6 +15,7 @@
     <script src="../../../webapp/resources/js/bootstrap.js" th:src="@{/resources/js/bootstrap.js}"></script>
     <script src="../../../webapp/resources/js/bootstrap-datepicker.js" th:src="@{/resources/js/bootstrap-datepicker.js}"></script>
     <script src="../../../webapp/resources/js/typeahead.js" th:src="@{/resources/js/typeahead.js}"></script>
+    <script src="../../../webapp/resources/js/bootbox.min.js" th:src="@{/resources/js/bootbox.min.js}"></script>
     <script src="../../../webapp/resources/js/view.js" th:src="@{/resources/js/view.js}"></script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/> <!-- fixes mobile view -->
@@ -137,6 +138,34 @@
                 </div>
             </div>
         </div>
+        <!--Tickets-->
+        <div class="col-md-12 col-xs-12" id="tickets">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>Tickets</h4>
+                </div>
+
+                <div class="panel-body">
+                    <div class="input-group col-md-12 col-xs-12 pull-right">
+                        <div class="btn-group col-md-12 col-xs-12" id="ticket-actions">
+                            <select class="pull-right" id="ticket-status-select" name="ticket-status">
+                                <option value="2">All</option>
+                                <option value="1">Open tickets</option>
+                                <option value="0">Closed tickets</option>
+                            </select>
+                            <button onclick="newTicket()" type="button" class="btn btn-warning pull-right" id="new-ticket">
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New ticket</button>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div id="ticket-output"></div>
+                    <div id="ticket_body">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="col-md-12 col-xs-12" id="history-information">
             <div class="panel panel-default">
                 <div class="panel-heading"><h4 title="Limited to last 100 entries">Locker History</h4></div>
