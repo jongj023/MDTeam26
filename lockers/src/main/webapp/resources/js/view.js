@@ -106,6 +106,7 @@ function addTickets(index, obj) {
         changeTicket = "<button class='btn btn-success pull-right open-ticket' data-id='" + obj.ticketid + "' type='button'>Open Ticket</button>";
         status = "danger";
     }
+    var creationDate = dateFormat(obj.dateCreated, "yyyy-mm-dd HH:MM:ss");
     $('#ticket_body').append(
         "<div class='panel panel-"+ status + "'>" +
         "<div class='panel-heading ticket'>" +
@@ -115,6 +116,7 @@ function addTickets(index, obj) {
         "</i> Edit</button>" + changeTicket +
         "</div><div class='clearfix'></div></div>" +
         "<div class='panel-body'>" +
+        "<p class='edit-timestamp'>#Created on "+ creationDate +"</p>" +
         "<p>" + obj.ticketContent + "</p>" +
         "</div>" +
         "</div>"

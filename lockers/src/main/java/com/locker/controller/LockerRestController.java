@@ -9,6 +9,7 @@ import com.locker.model.*;
 import com.locker.service.LockerHistoryService;
 import com.locker.service.LockerService;
 import com.locker.service.SearchService;
+import com.locker.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,6 +19,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -33,6 +36,11 @@ public class LockerRestController {
     private LockerHistoryService history;
     @Autowired
     private SearchService searchService;
+    @Autowired
+    private TicketService ticketService;
+
+    private final String TICKET_REQUEST_TITLE = "Locker claimed";
+    private final String TICKET_REQUEST_CONTENT = " has claimed locker on"; //user, claimed locker, date.
 
     @RequestMapping(value = "/getlockers", produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.GET)
     public ResponseEntity<Iterable<LockerEntity>> getLockers() {
@@ -218,7 +226,7 @@ public class LockerRestController {
         if (name != null) {
             int response = lockerService.setUser(id, name);
             switch (response) {
-                case LockerService.SUCCESS: result.setMessage("Changes successfully saved"); result.setCode("200"); break;
+                case LockerService.SUCCESS: result.setMessage("Changes successfully saved"); result.setCode("200"); setTicketLockerRequest(id, name); break;
                 case LockerService.USER_HAS_LOCKER: result.setMessage("You are already assigned to a locker"); result.setCode("204"); break;
                 case LockerService.USERNAME_NOT_FOUND: result.setMessage("User was not found."); result.setCode("404"); break;
                 default: result.setCode("500"); result.setMessage("Something went wrong, please try again."); break;
@@ -229,6 +237,14 @@ public class LockerRestController {
         }
 
         return result;
+    }
+
+    /* id is equal to the lockerid (used for foreign key @ ticket) */
+    private void setTicketLockerRequest(Long id, String username) {
+        String content = username + TICKET_REQUEST_CONTENT + " " +
+                new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(new Timestamp(new java.util.Date().getTime()));
+        LockerEntity locker = lockerService.findLockerById(id);
+        ticketService.save(locker, TICKET_REQUEST_TITLE, content);
     }
 
     private boolean isValidSearchQuery(SearchQuery query) {

@@ -44,10 +44,10 @@ public class TicketService {
         ticketRepository.save(ticket);
     }
 
-    public TicketEntity save(LockerEntity lockerid, String ticketTitle, String ticketContent) {
+    public TicketEntity save(LockerEntity locker, String ticketTitle, String ticketContent) {
         TicketEntity ticket = new TicketEntity();
         ticket.setEnabled(1);
-        ticket.setLockerid(lockerid);
+        ticket.setLockerid(locker);
         ticket.setTicketTitle(ticketTitle);
         ticket.setTicketContent(ticketContent);
         ticket.setDateCreated(new Timestamp(new java.util.Date().getTime()));
