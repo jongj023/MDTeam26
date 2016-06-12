@@ -17,10 +17,6 @@
         <appender-ref ref="STDOUT" />
     </logger>
 
-    <logger name="org.springframework.jdbc" level="TRACE" additivity="false">
-        <appender-ref ref="STDOUT" />
-    </logger>
-
     <root level="error">
         <appender-ref ref="STDOUT" />
     </root>

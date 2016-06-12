@@ -133,4 +133,8 @@ public class LockerService {
     public Iterable<LockerEntity> search(String query) {
         return lockerRepository.searchLockers("%" + query + "%");
     }
+
+    public LockerEntity findLockerByUsername(String username) {
+        return lockerRepository.findLockerByUsername(username);
+    }
 }

@@ -13,6 +13,7 @@
           th:href="@{/resources/css/locker.css}"/>
     <link href="../../../webapp/resources/css/typeaheadjs.css" rel="stylesheet" media="screen"
           th:href="@{/resources/css/typeaheadjs.css}"/>
+    <link href="/src/main/webapp/resources/css/main.css" rel="stylesheet" media="screen" th:href="@{/resources/css/main.css}"/>
 
     <script src="../../../webapp/resources/js/jquery-min.js" th:src="@{/resources/js/jquery-min.js}"></script>
     <script src="../../../webapp/resources/js/typeahead.js" th:src="@{/resources/js/typeahead.js}"></script>
@@ -32,6 +33,7 @@
 </head>
 
 <body>
+<div th:replace="fragments/navbar :: navbar"></div>
 
 <div class="container">
     <div class="row" id="title">
@@ -56,10 +58,6 @@
                         <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search for free locker</button>
                     <button sec:authorize="hasAuthority('ADMIN')" class="btn-warning btn" data-toggle="modal" data-target="#addLockerModal">
                         <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Add locker</button>
-                    <button sec:authorize="hasAuthority('ADMIN')" onclick="location.href='/history';" class="btn-primary btn">
-                        <span class="glyphicon glyphicon glyphicon-book"></span> History</button>
-                    <button onclick="location.href='/help';" class="btn-primary btn">
-                        <span class="glyphicon glyphicon-question-sign"></span> Help</button>
                 </div>
                 <div class="input-group col-lg-12 col-xs-12" id="search-field">
                     <input name="search" id="search" class="form-control col-md-10" placeholder="Search..."  type="text" th:value="${result}"/>

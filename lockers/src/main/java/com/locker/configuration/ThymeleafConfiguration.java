@@ -28,7 +28,7 @@ public class ThymeleafConfiguration {
     public SpringTemplateEngine templateEngine() {
         SpringTemplateEngine engine = new SpringTemplateEngine();
         engine.setTemplateResolver(templateResolver());
-        engine.addDialect(new SpringSecurityDialect());
+        engine.addDialect(new SpringSecurityDialect()); //Needed for extra tags like sec:* in Thymeleaf.
         return engine;
     }
 

@@ -39,5 +39,8 @@ public interface LockerRepository extends CrudRepository<LockerEntity, Long> {
             , nativeQuery = true
     )
     Iterable<LockerEntity> searchLockers(@Param("query") String query);
+
+    @Query(value = "SELECT * FROM locker l WHERE l.user = :username", nativeQuery = true)
+    LockerEntity findLockerByUsername(@Param("username") String username);
 }
 

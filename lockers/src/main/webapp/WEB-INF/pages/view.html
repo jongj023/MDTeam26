@@ -9,6 +9,7 @@
     <link href="../../../webapp/resources/css/login.css" rel="stylesheet" media="screen" th:href="@{/resources/css/login.css}"/>
     <link href="../../../webapp/resources/css/locker.css" rel="stylesheet" media="screen" th:href="@{/resources/css/locker.css}"/>
     <link href="../../../webapp/resources/css/view.css" rel="stylesheet" media="screen" th:href="@{/resources/css/view.css}"/>
+    <link href="/src/main/webapp/resources/css/main.css" rel="stylesheet" media="screen" th:href="@{/resources/css/main.css}"/>
     <link href="../../../webapp/resources/css/typeaheadjs.css" rel="stylesheet" media="screen" th:href="@{/resources/css/typeaheadjs.css}"/>
 
     <script src="../../../webapp/resources/js/jquery-min.js" th:src="@{/resources/js/jquery-min.js}"></script>
@@ -21,16 +22,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/> <!-- fixes mobile view -->
 </head>
 <body>
+<div th:replace="fragments/navbar :: navbar"></div>
+
 <div class="container">
     <div class="row" id="title">
         <div class="col-md-2 col-xs-2">
             <img class="" th:src="@{/resources/images/KluisButton.png}"/>
         </div>
         <div class="col-md-10 col-xs-6 col-xs-offset-3 col-md-offset-0 title">
-            <h1 title="Return to locker overview">
-                <!--<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>-->
-                <a href="/locker" th:text="'BH-'+${locker.lockerTower} + ${locker.lockerFloor} + ${locker.lockerNumber}"></a>
-            </h1>
+            <h1 title="Return to locker overview" th:text="'BH-'+${locker.lockerTower} + ${locker.lockerFloor} + ${locker.lockerNumber}"></h1>
         </div>
     </div>
 
@@ -81,7 +81,7 @@
                                 <div class="col-md-4" id="expiration-control-group">
                                     <div class="form-group">
                                         <div class='input-group date' id='expiration-date' sec:authorize="hasAuthority('USER')">
-                                            <p  name="expire" class="form-control-static" th:text="${locker.date}" title="YYYY/MM/DD"></p>
+                                            <p class="form-control-static" th:text="${locker.date}" title="YYYY/MM/DD"></p>
                                         </div>
                                         <div class='input-group date' id='expiration-date' sec:authorize="hasAuthority('ADMIN')">
                                             <input type="text" name="expire" class="form-control" th:value="${locker.date}" title="YYYY/MM/DD"/>
@@ -139,7 +139,7 @@
             </div>
         </div>
         <!--Tickets-->
-        <div class="col-md-12 col-xs-12" id="tickets">
+        <div sec:authorize="hasAuthority('ADMIN')" class="col-md-12 col-xs-12" id="tickets">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4>Tickets</h4>

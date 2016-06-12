@@ -7,6 +7,7 @@ import com.locker.service.SearchService;
 import com.locker.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.ParseException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -77,6 +78,14 @@ public class LockerController {
     @RequestMapping(value = "/history", method = RequestMethod.GET)
     public ModelAndView getHistory() {
         return new ModelAndView("history");
+    }
+
+    @ModelAttribute("mylocker")
+    public String getMyLocker() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        LockerEntity locker = lockerService.findLockerByUsername(username);
+        if (locker == null || locker.getLockerid() == null) return null;
+        return "/locker/" + locker.getLockerid();
     }
 
     private ModelAndView getDefaultLocker() {
