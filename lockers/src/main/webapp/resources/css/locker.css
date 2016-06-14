@@ -47,9 +47,12 @@
 #title {
     border-bottom: 1px solid #d2dbde;
     margin-bottom: 20px;
+    margin-top: 5px;
 }
-#title div h1 {
-    padding-top: 25px;
+@media (min-device-width: 641px) {
+    #title div h1 {
+        padding-top: 25px;
+    }
 }
 
 @media (max-width: 767px) {
