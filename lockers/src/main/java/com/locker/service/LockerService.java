@@ -8,6 +8,7 @@ import com.locker.model.UserEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -27,10 +28,8 @@ public class LockerService {
 
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private LockerRepository lockerRepository;
-
     @Autowired
     private LockerHistoryService lockerHistoryService;
 
@@ -40,6 +39,9 @@ public class LockerService {
     public static final int USERNAME_NOT_FOUND = 404;
     public static final int USER_HAS_LOCKER = 500;
     public static final int SUCCESS = 200;
+    public static final int LOCKER_ALREADY_CLAIMED = 204;
+    private static final String[] towers = {"A", "B", "C"};
+    private static final String towersString = "'A', 'B', 'C'";
 
     public Iterable<LockerEntity> findAll() {
         return lockerRepository.findAll();
@@ -61,6 +63,11 @@ public class LockerService {
             if (users.iterator().hasNext()) return USER_HAS_LOCKER;
         }
         LockerEntity locker = lockerRepository.findOne(id);
+
+//        if (locker.getUser() != null) {
+//            return LOCKER_ALREADY_CLAIMED;
+//        }
+
         locker.setUser(user);
         locker.setTimestamp(new Timestamp(new java.util.Date().getTime()));
 
@@ -136,5 +143,20 @@ public class LockerService {
 
     public LockerEntity findLockerByUsername(String username) {
         return lockerRepository.findLockerByUsername(username);
+    }
+
+    public Iterable<LockerEntity> searchLocker(String floor, String tower){
+        Iterable<LockerEntity> lockers;
+        if (tower.equals("D")) {
+            lockers = lockerRepository.findFreeWithCriteriaAllTowers(floor);
+        } else {
+            lockers = lockerRepository.findFreeWithCriteria(tower, floor);
+        }
+
+        return lockers;
+    }
+
+    public Iterable<LockerEntity> findAllSorted() {
+        return lockerRepository.findAllSorted();
     }
 }

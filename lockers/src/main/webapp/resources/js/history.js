@@ -54,7 +54,7 @@ function fillTable(data) {
         var lockerid = obj.locker != null ? obj.locker.lockerid : "";
 
         $('#historyTable tbody').append("<tr class=\"locker-row\"> " +
-            "<td class=\"col-md-1\"> " + obj.historyid + "</td> " +
+            "<td class=\"col-md-1\"> " + index  + "</td> " +
             "<td class=\"col-md-1\"><a href=\"/locker/" + lockerid + "\">"+ locker + "</a></td> " +
             "<td class=\"col-md-2\"> " + date_updated + "</td> " +
             "<td class=\"col-md-1\" title=\"" + userName + "\"> " + user + "</td> " +

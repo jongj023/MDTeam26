@@ -5,6 +5,7 @@ import com.locker.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -36,6 +37,7 @@ public class LoginController {
 
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @PreAuthorize("permitAll")
     public ModelAndView login(
             @RequestParam(value = "error", required = false) String error,
             @RequestParam(value = "logout", required = false) String logout,
@@ -55,6 +57,7 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
+    @PreAuthorize("permitAll")
     public ModelAndView register(
             @RequestParam(value = "error", required = false) boolean error) {
         ModelAndView model = new ModelAndView("register");
@@ -66,12 +69,14 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @PreAuthorize("permitAll")
     public String register(@ModelAttribute @Valid UserEntity user) {
         boolean result = userService.registerNewUser(user);
         return result ? "redirect:/login?registered" : "redirect:/register?error";
     }
 
     @RequestMapping(value="/logout", method = RequestMethod.GET)
+    @PreAuthorize("permitAll")
     public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth.isAuthenticated()){

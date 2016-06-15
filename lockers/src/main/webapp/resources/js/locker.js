@@ -113,7 +113,7 @@ function addRowToTable(index, obj) {
 
     $('#lockerList').append(
         "<tr class='locker-row' data-id='"+ obj.lockerid +"'>" +
-        "<td>" + index + "</td><td>"+ obj.lockerTower + obj.lockerFloor + obj.lockerNumber +"</td>" +
+        "<td>" + (index + 1) + "</td><td>"+ obj.lockerTower + obj.lockerFloor + obj.lockerNumber +"</td>" +
         "<td>"+ (obj.user != null ? obj.user.username : "") +"</td>" + actionColumn +
         "</tr>"
     );

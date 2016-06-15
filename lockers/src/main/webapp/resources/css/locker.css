@@ -69,3 +69,6 @@
     padding-bottom: 15px;
     margin-bottom: 15px;
 }
+.input-group > button {
+    margin-right: 7px;
+}

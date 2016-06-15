@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.method.P;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -27,12 +28,14 @@ public class TicketRestController {
     private LockerService lockerService;
 
     @RequestMapping(value = "/gettickets/{lockerid}", produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Iterable<TicketEntity>> getTickets(@PathVariable("lockerid") Long lockerid) {
         Iterable<TicketEntity> tickets = ticketService.findAllTickets(lockerid);
         return new ResponseEntity<Iterable<TicketEntity>>(tickets, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/getticket/{ticketid}", produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<TicketEntity> getTicket(@PathVariable("ticketid") Long ticketid) {
         TicketEntity ticket = ticketService.findOne(ticketid);
         return new ResponseEntity<TicketEntity>(ticket, HttpStatus.OK);
@@ -41,6 +44,7 @@ public class TicketRestController {
     @JsonView(Views.Public.class)
     @RequestMapping(value = "/getticketswithenabled/{lockerid}", method = RequestMethod.POST, produces="application/json")
     @ResponseBody
+    @PreAuthorize("hasAuthority('ADMIN')")
     public AjaxResponseBody<String> getWithStatus(@RequestBody Integer status, @PathVariable("lockerid") Long lockerid) {
         AjaxResponseBody<String> result = new AjaxResponseBody<String>();
 
@@ -67,6 +71,7 @@ public class TicketRestController {
     @JsonView(Views.Public.class)
     @RequestMapping(value = "/ticket/close", method = RequestMethod.POST, produces="application/json")
     @ResponseBody
+    @PreAuthorize("hasAuthority('ADMIN')")
     public AjaxResponseBody<String> closeTicket(@RequestBody Long ticketid) {
         AjaxResponseBody<String> result = new AjaxResponseBody<String>();
 
@@ -80,6 +85,7 @@ public class TicketRestController {
     @JsonView(Views.Public.class)
     @RequestMapping(value = "/ticket/open", method = RequestMethod.POST, produces="application/json")
     @ResponseBody
+    @PreAuthorize("hasAuthority('ADMIN')")
     public AjaxResponseBody<String> openTicket(@RequestBody Long ticketid) {
         AjaxResponseBody<String> result = new AjaxResponseBody<String>();
 
@@ -93,6 +99,7 @@ public class TicketRestController {
     @JsonView(Views.Public.class)
     @RequestMapping(value = "/ticket/save", method = RequestMethod.POST, produces="application/json")
     @ResponseBody
+    @PreAuthorize("hasAuthority('ADMIN')")
     public AjaxResponseBody<String> saveTicket(@RequestBody TicketQuery ticketQuery) {
         AjaxResponseBody<String> result = new AjaxResponseBody<String>();
 
@@ -122,6 +129,7 @@ public class TicketRestController {
     @JsonView(Views.Public.class)
     @RequestMapping(value = "/ticket/edit", method = RequestMethod.POST, produces="application/json")
     @ResponseBody
+    @PreAuthorize("hasAuthority('ADMIN')")
     public AjaxResponseBody<String> editTicket(@RequestBody TicketQuery ticketQuery) {
         AjaxResponseBody<String> result = new AjaxResponseBody<String>();
 

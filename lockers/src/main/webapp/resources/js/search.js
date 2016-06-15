@@ -21,6 +21,12 @@ $(document).ready(function() {
     }
 });
 
+function refreshTable() {
+    initializeLockerTable();
+    $('#search').val("");
+    setOutput('#locker-output', ALERT_SUCCESS, "Refreshed table", 2000);
+}
+
 function submitSearch() {
     var data = {};
     data["searchTower"] = $('#tower-dropdown').val();
@@ -38,9 +44,14 @@ function submitSearch() {
                 $('#search-error').html("<p><strong>Sorry!</strong> " + data.message + "</p>");
                 $('#searchError').show();
             } else if (data.code == "200") {
-                $('#search').val(data.result);
-                search(true);
-                $('#searchModal').modal('hide')
+                $('#searchModal').modal('hide');
+                var results = 0;
+                $('#lockerList').html("");
+                $.each(JSON.parse(data.result), function (index, obj) {
+                    results = index + 1;
+                    addRowToTable(index, obj);
+                });
+                setOutput('#locker-output', ALERT_SUCCESS, "Successfully returned " + results + " results", 5000);
             }
         },
         error : function(e) {

@@ -1,7 +1,6 @@
 /**
  * Created by randyr on 20-4-16.
  */
-var currentId = 0;
 var usernames = [];
 var allUsernames = [];
 
