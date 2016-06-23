@@ -6,6 +6,8 @@ package com.locker.controller;
 
 import com.locker.service.LockerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,7 @@ public class DefaultController {
     private LockerService lockerService;
 
     @RequestMapping("/")
+    @PreAuthorize("isAuthenticated()")
     public ModelAndView index() {
         RedirectView view = new RedirectView("/locker", true);
         view.setExposeModelAttributes(false);
@@ -28,13 +31,8 @@ public class DefaultController {
     }
 
     @RequestMapping("/test")
+    @Secured("ADMIN")
     public String testController(Model model) {
-        System.out.println("ALL LOCKERS:    " + lockerService.findAll());
-        return "index"; //Can be used to test things such as spring security
-    }
-
-    @RequestMapping("/help")
-    public String help(Model model){
-        return "help";
+        return "locker";
     }
 }

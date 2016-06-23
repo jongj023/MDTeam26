@@ -1,4 +1,4 @@
-.container {
+body > .container {
     text-align: left;
     height: auto;
     padding: 10px 40px 20px 40px;

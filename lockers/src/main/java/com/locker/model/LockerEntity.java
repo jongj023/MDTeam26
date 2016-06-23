@@ -45,8 +45,8 @@ public class LockerEntity implements Serializable {
     @Column(name = "locker_tower")
     private String lockerTower;
 
-    @JoinColumn(name = "user", referencedColumnName = "username")
     @OneToOne(optional = true)
+    @JoinColumn(name = "user", referencedColumnName = "username")
     private UserEntity user;
 
     @Basic(optional = false)

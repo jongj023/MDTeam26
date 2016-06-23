@@ -20,7 +20,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 //@ComponentScan(basePackages = {"com.locker.configuration"})
 public class MvcConfig extends WebMvcConfigurerAdapter {
 
-    // Maps resources path to webapp/resources
+    // Maps resources path to src/main/webapp/resources
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");

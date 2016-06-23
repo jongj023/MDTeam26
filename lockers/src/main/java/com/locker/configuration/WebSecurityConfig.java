@@ -19,22 +19,22 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true)
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
-        http
+        http.csrf().disable(); //Disabled due to Javascript incompatibilities.
+        http    //All open webpages and resources here.
                 .authorizeRequests()
                     .antMatchers("/resources/**", "/favicon.ico", "/login", "/register")
                         .permitAll()
                         .anyRequest()
                         .authenticated();
-        http
+        http    //All ADMIN pages here.
                 .authorizeRequests()
                     .antMatchers("/test", "/locker").access("hasRole('ADMIN')");
-        http
+        http    //
                 .authorizeRequests()
                     .antMatchers("/").access("hasRole('USER') or hasRole('ADMIN')");
         http
@@ -61,6 +61,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authoritiesByUsernameQuery("select username, role from user_roles where username=?");
     }
 
+    /*
+    Configuration of the database.
+     */
     @Bean(name = "dataSource")
     public DriverManagerDataSource dataSource() {
         DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
@@ -71,6 +74,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return driverManagerDataSource;
     }
 
+    /*
+    Used to generate BCrypt hashed passwords. Uses default config.
+     */
     @Bean
     public PasswordEncoder passwordEncoder(){
         PasswordEncoder encoder = new BCryptPasswordEncoder();

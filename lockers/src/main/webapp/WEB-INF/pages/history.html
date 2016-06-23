@@ -7,6 +7,7 @@
     <link href="../../../webapp/resources/css/bootstrap-theme.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap-theme.css}"/>
     <link href="../../../webapp/resources/css/login.css" rel="stylesheet" media="screen" th:href="@{/resources/css/login.css}"/>
     <link href="../../../webapp/resources/css/locker.css" rel="stylesheet" media="screen" th:href="@{/resources/css/locker.css}"/>
+    <link href="/src/main/webapp/resources/css/main.css" rel="stylesheet" media="screen" th:href="@{/resources/css/main.css}"/>
 
     <script src="../../../webapp/resources/js/jquery-min.js" th:src="@{/resources/js/jquery-min.js}"></script>
     <script src="../../../webapp/resources/js/bootstrap.js" th:src="@{/resources/js/bootstrap.js}"></script>
@@ -24,6 +25,7 @@
 </head>
 
 <body>
+<div th:replace="fragments/navbar :: navbar"></div>
 
 <div class="container">
     <div class="row" id="title">
@@ -31,23 +33,21 @@
             <img class="" th:src="@{/resources/images/KluisButton.png}"/>
         </div>
         <div class="col-md-10 col-xs-6 col-xs-offset-3 col-md-offset-0 title">
-            <h1 title="Return to locker overview">
-                <a href="/locker">Locker history</a>
-            </h1>
+            <h1 title="Return to locker overview">Locker history</h1>
         </div>
     </div>
 
     <div class="row" id="action-bar">
         <div class="input-group col-lg-4 col-xs-4" id="action-buttons">
             <label for="limit">Amount of entries: </label>
-            <select name="limit" class="form-control" id="limit">
+            <select name="limit" id="limit">
                 <option value="100">100</option>
                 <option value="1000">1000</option>
                 <option value="-1">All</option>
             </select>
         </div>
         <div class="input-group col-lg-12 col-xs-12" id="search-field">
-            <input name="search" id="search" class="form-control col-md-10" placeholder="Search..."  type="text" th:value="${result}"/>
+            <input name="search" id="search" class="form-control col-md-10" placeholder="Search..."  type="text"/>
         </div>
     </div>
 

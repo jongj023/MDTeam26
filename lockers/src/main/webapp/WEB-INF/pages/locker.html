@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" lang="en">
 <head>
     <!--<meta name="_csrf" th:content="${_csrf.token}"/>-->
     <title>Locker overview</title>
@@ -13,13 +13,16 @@
           th:href="@{/resources/css/locker.css}"/>
     <link href="../../../webapp/resources/css/typeaheadjs.css" rel="stylesheet" media="screen"
           th:href="@{/resources/css/typeaheadjs.css}"/>
+    <link href="/src/main/webapp/resources/css/main.css" rel="stylesheet" media="screen" th:href="@{/resources/css/main.css}"/>
 
     <script src="../../../webapp/resources/js/jquery-min.js" th:src="@{/resources/js/jquery-min.js}"></script>
     <script src="../../../webapp/resources/js/typeahead.js" th:src="@{/resources/js/typeahead.js}"></script>
     <script src="../../../webapp/resources/js/bootstrap.js" th:src="@{/resources/js/bootstrap.js}"></script>
     <script src="../../../webapp/resources/js/search.js" th:src="@{/resources/js/search.js}"></script>
-    <script src="../../../webapp/resources/js/locker.js" th:src="@{/resources/js/locker.js}"></script>
+    <script sec:authorize="hasAuthority('ADMIN')" th:src="@{/resources/js/locker-admin.js}"></script>
+    <script sec:authorize="hasAuthority('USER')" th:src="@{/resources/js/locker.js}"></script>
     <script type="text/javascript" src="http://mottie.github.com/tablesorter/js/jquery.tablesorter.js"></script>
+    <script src="../../../webapp/resources/js/bootbox.min.js" th:src="@{/resources/js/bootbox.min.js}"></script>
     <script>
         $(document).ready(function () {
             $('#locker_table').tablesorter({sortList: [[0, 0], [1, 0]]});
@@ -30,87 +33,70 @@
 </head>
 
 <body>
+<div th:replace="fragments/navbar :: navbar"></div>
 
 <div class="container">
     <div class="row" id="title">
         <div class="col-md-2 col-xs-2">
-            <img class="" th:src="@{/resources/images/KluisButton.png}"/>
+            <img class="img-responsive" th:src="@{/resources/images/KluisButton.png}"/>
         </div>
-        <div class="col-md-10 col-xs-6 col-xs-offset-3 col-md-offset-0 title">
+        <div class="col-md-10 col-xs-10 title">
             <h1 title="List of all lockers">Locker overview</h1>
         </div>
     </div>
 
     <ul class="nav nav-tabs" style="margin-bottom: 25px">
         <li class="nav active"><a href="#lockerContent" data-toggle="tab">Lockers</a></li>
-        <li class="nav"><a href="#expirationContent" data-toggle="tab">Expirations <span class="badge" id="badge"></span></a></li>
+        <li class="nav" sec:authorize="hasAuthority('ADMIN')"><a href="#expirationContent" data-toggle="tab">Expirations <span class="badge" id="badge"></span></a></li>
     </ul>
 
     <div class="tab-content">
         <div class="tab-pane fade in active" id="lockerContent">
             <div class="row" id="action-bar">
                 <div class="input-group col-lg-12 col-xs-12" id="action-buttons">
-                    <button class="btn-warning btn search-free" data-toggle="modal" data-target="#searchModal">
+                    <button class="btn-primary btn search-free" data-toggle="modal" data-target="#searchModal">
                         <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search for free locker</button>
-                    <button class="btn-warning btn" data-toggle="modal" data-target="#addLockerModal">
+                    <div class="btn-group">
+                        <button class="btn btn-info" onclick="refreshTable()" title="Refreshes table to default and clears search field.">
+                            <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Refresh</button>
+                        <button style="margin-right: 7px;" class="btn btn-info" type="button" onclick="resfreshTableExtra()"
+                                title="Refresh while keeping in mind the selected status (All-, free- or claimed lockers).">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    <button sec:authorize="hasAuthority('ADMIN')" class="btn-warning btn" data-toggle="modal" data-target="#addLockerModal">
                         <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Add locker</button>
-                    <button onclick="location.href='/history';" class="btn-primary btn">
-                        <span class="glyphicon glyphicon glyphicon-book"></span> History</button>
-                    <button onclick="location.href='/help';" class="btn-primary btn">
-                        <span class="glyphicon glyphicon-question-sign"></span> Help</button>
+                    <label for="locker-status-select">Show: </label>
+                    <div class="status-select btn-group">
+                        <select id="locker-status-select">
+                            <option value="2">All</option>
+                            <option value="1">Open lockers</option>
+                            <option value="0">Closed lockers</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="input-group col-lg-12 col-xs-12" id="search-field">
                     <input name="search" id="search" class="form-control col-md-10" placeholder="Search..."  type="text" th:value="${result}"/>
                 </div>
+                <div id="locker-output"></div>
             </div>
             <div class="table-responsive dropdown-reserve" align="center">
                 <table class="table table-hover table-striped" id="locker_table">
                     <thead>
                     <tr class="table-header">
-                        <th>#</th>
-                        <th>Tower</th>
-                        <th>Floor</th>
-                        <th>Number</th>
-                        <th>User</th>
+                        <th class="col-xs-1 col-md-1">#</th>
+                        <th class="col-xs-4 col-md-4">Locker</th>
+                        <th class="col-xs-4 col-md-4">User</th>
                         <th>Actions</th>
-                        <th>Hidden</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    <tr th:each="locker : ${lockers}" class="locker-row" th:attr="data-id=${locker.lockerid}">
-                        <td class="col-xs-1 col-md-1" th:text="${locker.lockerid}">0</td>
-                        <td class="col-xs-1 col-md-1searchable" th:text="${locker.lockerTower}">A</td>
-                        <td class="col-xs-1 col-md-1" th:text="${locker.lockerFloor}">0</td>
-                        <td class="col-xs-1 col-md-1" th:text="${locker.lockerNumber}">0</td>
-                        <td class="col-xs-4 col-md-4" th:attr="id='user' + ${locker.lockerid}" th:text="${locker.user}">
-                            Karel
-                        </td>
-                        <td class="col-xs-4 col-md-4 actions-column">
-                            <div class="btn-group" role="group" aria-label="actions-group">
-                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#lockerModal" th:attr="id=${locker.lockerid}">
-                                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                                    <span class="hidden-xs"> Assign</span>
-                                </button>
-                                <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span class="caret"></span>
-                                    <span class="sr-only">Toggle Dropdown</span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a class="pointer" th:href="'/locker/'+${locker.lockerid}"><span
-                                            class="glyphicon glyphicon-search" aria-hidden="true"></span> View</a></li>
-                                    <li><a class="pointer" th:onclick="'clearUserFromLocker('+${locker.lockerid}+')'"><span
-                                            class="glyphicon glyphicon-trash" aria-hidden="true"></span> Clear</a></li>
-                                </ul>
-                            </div>
-                        </td>
-                        <td th:text="${locker.lockerTower} + ${locker.lockerFloor} + ${locker.lockerNumber}">A000</td>
-                    </tr>
+                    <tbody id="lockerList">
                     </tbody>
                 </table>
             </div>
         </div>
 
-        <div class="tab-pane fade" id="expirationContent">
+        <div sec:authorize="hasAuthority('ADMIN')" class="tab-pane fade" id="expirationContent">
             <div class="table-responsive dropdown-reserve" align="center">
                 <table class="table table-striped" id="expiredTable">
                     <thead>
@@ -130,7 +116,7 @@
     </div>
 
 
-    <div id="lockerModal" class="modal fade" role="dialog" aria-labelledby="orderModalLabel" tabindex="-1">
+    <div sec:authorize="hasAuthority('ADMIN')" id="lockerModal" class="modal fade" role="dialog" aria-labelledby="orderModalLabel" tabindex="-1">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -193,18 +179,18 @@
                                         <option value="A">A</option>
                                         <option value="B">B</option>
                                         <option value="C">C</option>
-                                        <option value="X">Random</option>
+                                        <option value="D">All</option>
                                     </select>
                                 </div>
                                 <div class="col-md-4 col-xs-4">
                                     Floor:
                                     <select id="floor-dropdown" name="floor-dropdown" class="form-control">
+                                        <option value="0">0</option>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
                                         <option value="3">3</option>
                                         <option value="4">4</option>
                                         <option value="5">5</option>
-                                        <option value="0">Random</option>
                                     </select>
                                 </div>
                             </form>
@@ -222,7 +208,7 @@
         </div>
     </div>
 
-    <div id="addLockerModal" class="modal fade" role="dialog" aria-labelledby="orderModalLabel" tabindex="-1">
+    <div sec:authorize="hasAuthority('ADMIN')" id="addLockerModal" class="modal fade" role="dialog" aria-labelledby="orderModalLabel" tabindex="-1">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -250,6 +236,7 @@
                             <label for="locker_floor" class="col-md-2 col-xs-2 control-label">Floor:</label>
                             <div class="col-md-10 col-xs-10" style="margin-bottom: 10px;">
                                 <select name="locker_floor" class="form-control" id="locker_floor">
+                                    <option>0</option>
                                     <option>1</option>
                                     <option>2</option>
                                     <option>3</option>

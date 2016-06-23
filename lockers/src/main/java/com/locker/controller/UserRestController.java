@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -27,12 +28,14 @@ public class UserRestController {
      * @return list of users
      */
     @RequestMapping(value="/getusers", produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Iterable<UserEntity>> getUsers() {
         Iterable<UserEntity> users = userService.findAll();
         return new ResponseEntity<Iterable<UserEntity>>(users, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/gettakenusers", produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<String[]> getUsersWithLockers() {
         String[] users = lockerService.getUsersWithLocker();
         return new ResponseEntity<String[]>(users, HttpStatus.OK);

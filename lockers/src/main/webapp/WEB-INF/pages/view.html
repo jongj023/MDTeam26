@@ -1,35 +1,37 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" lang="en">
 <head>
     <!--<meta name="_csrf" th:content="${_csrf.token}"/>-->
-    <title th:text="'Locker BH-'+${locker.lockerTower} + ${locker.lockerFloor} + ${locker.lockerNumber}"></title>
+    <title th:text="'Locker PH-'+${locker.lockerTower} + ${locker.lockerFloor} + ${locker.lockerNumber}"></title>
     <link href="../../../webapp/resources/css/bootstrap.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.css}"/>
     <link href="../../../webapp/resources/css/bootstrap-theme.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap-theme.css}"/>
     <link href="../../../webapp/resources/css/bootstrap-datepicker3.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap-datepicker3.css}"/>
     <link href="../../../webapp/resources/css/login.css" rel="stylesheet" media="screen" th:href="@{/resources/css/login.css}"/>
     <link href="../../../webapp/resources/css/locker.css" rel="stylesheet" media="screen" th:href="@{/resources/css/locker.css}"/>
     <link href="../../../webapp/resources/css/view.css" rel="stylesheet" media="screen" th:href="@{/resources/css/view.css}"/>
+    <link href="/src/main/webapp/resources/css/main.css" rel="stylesheet" media="screen" th:href="@{/resources/css/main.css}"/>
     <link href="../../../webapp/resources/css/typeaheadjs.css" rel="stylesheet" media="screen" th:href="@{/resources/css/typeaheadjs.css}"/>
 
     <script src="../../../webapp/resources/js/jquery-min.js" th:src="@{/resources/js/jquery-min.js}"></script>
     <script src="../../../webapp/resources/js/bootstrap.js" th:src="@{/resources/js/bootstrap.js}"></script>
     <script src="../../../webapp/resources/js/bootstrap-datepicker.js" th:src="@{/resources/js/bootstrap-datepicker.js}"></script>
     <script src="../../../webapp/resources/js/typeahead.js" th:src="@{/resources/js/typeahead.js}"></script>
+    <script src="../../../webapp/resources/js/bootbox.min.js" th:src="@{/resources/js/bootbox.min.js}"></script>
     <script src="../../../webapp/resources/js/view.js" th:src="@{/resources/js/view.js}"></script>
+    <script type="text/javascript" src="http://stevenlevithan.com/assets/misc/date.format.js"></script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/> <!-- fixes mobile view -->
 </head>
 <body>
+<div th:replace="fragments/navbar :: navbar"></div>
+
 <div class="container">
     <div class="row" id="title">
         <div class="col-md-2 col-xs-2">
             <img class="" th:src="@{/resources/images/KluisButton.png}"/>
         </div>
         <div class="col-md-10 col-xs-6 col-xs-offset-3 col-md-offset-0 title">
-            <h1 title="Return to locker overview">
-                <!--<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>-->
-                <a href="/locker" th:text="'BH-'+${locker.lockerTower} + ${locker.lockerFloor} + ${locker.lockerNumber}"></a>
-            </h1>
+            <h1 title="Return to locker overview" th:text="'PH-'+${locker.lockerTower} + ${locker.lockerFloor} + ${locker.lockerNumber}"></h1>
         </div>
     </div>
 
@@ -41,7 +43,7 @@
                         <div class="col-md-8 col-md-offset-2 text-center">
                             <h4>Locker information</h4>
                         </div>
-                        <div class="col-md-2" style="margin-top: 10px;">
+                        <div class="col-md-2" style="margin-top: 10px;" sec:authorize="hasAuthority('ADMIN')">
                             <button type="button" id="edit" class="btn btn-default" data-toggle="modal" data-target="#editLockerModal" th:attr="id=${locker.lockerid}">
                                 <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit</button>
                         </div>
@@ -79,12 +81,17 @@
                                 <label class="col-md-3 control-label" title="YYYY/MM/DD">Expiration:</label>
                                 <div class="col-md-4" id="expiration-control-group">
                                     <div class="form-group">
-                                        <div class='input-group date' id='expiration-date'>
-                                            <input type="text" name="expire" class="form-control" th:value="${locker.date}" title="YYYY/MM/DD"/><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                                        <div class='input-group date' id='expiration-date' sec:authorize="hasAuthority('USER')">
+                                            <p class="form-control-static" th:text="${locker.date}" title="YYYY/MM/DD"></p>
+                                        </div>
+                                        <div class='input-group date' id='expiration-date' sec:authorize="hasAuthority('ADMIN')">
+                                            <input type="text" name="expire" class="form-control" th:value="${locker.date}" title="YYYY/MM/DD"/>
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+
+                                <div class="col-md-3" sec:authorize="hasAuthority('ADMIN')">
                                     <button type="button" id="expire" onclick="setExpirationDate()" class="btn btn-warning"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>Set expiration</button>
                                 </div>
                             </div>
@@ -121,7 +128,7 @@
                             </div>
 
                             <label class="col-md-3 control-label">Actions:</label>
-                            <div class="col-md-9" id="user-control-group">
+                            <div class="col-md-9" id="user-control-group" sec:authorize="hasAuthority('ADMIN')">
                                 <button type="button" id="assign" class="btn btn-warning" data-toggle="modal" data-target="#lockerModal" th:attr="id=${locker.lockerid}">
                                     <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Assign</button>
                                 <button type="button" id="clear" class="btn btn-danger" th:onclick="'clearUserFromLocker('+${locker.lockerid}+')'">
@@ -132,6 +139,34 @@
                 </div>
             </div>
         </div>
+        <!--Tickets-->
+        <div sec:authorize="hasAuthority('ADMIN')" class="col-md-12 col-xs-12" id="tickets">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>Tickets</h4>
+                </div>
+
+                <div class="panel-body">
+                    <div class="input-group col-md-12 col-xs-12 pull-right">
+                        <div class="btn-group col-md-12 col-xs-12" id="ticket-actions">
+                            <select class="pull-right" id="ticket-status-select" name="ticket-status">
+                                <option value="2">All</option>
+                                <option value="1">Open tickets</option>
+                                <option value="0">Closed tickets</option>
+                            </select>
+                            <button onclick="newTicket()" type="button" class="btn btn-warning pull-right" id="new-ticket">
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New ticket</button>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div id="ticket-output"></div>
+                    <div id="ticket_body">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="col-md-12 col-xs-12" id="history-information">
             <div class="panel panel-default">
                 <div class="panel-heading"><h4 title="Limited to last 100 entries">Locker History</h4></div>
@@ -252,7 +287,7 @@
     </div>
 
 </div>
-<script type="text/javascript">
+<script  type="text/javascript" sec:authorize="hasAuthority('ADMIN')">
     $(function () {
         $('#expiration-date').datepicker({
             format: "yyyy/mm/dd",

@@ -5,9 +5,15 @@
 #title div h1 {
     padding-top: 25px;
 }
-.panel-default > .panel-heading {
+.panel-default>.panel-heading {
     color: white;
     background: #00a1de none;
+}
+.panel-default > .panel-heading,
+.panel-danger>.panel-heading,
+.panel-success>.panel-heading,
+.panel-primary>.panel-heading {
+    background-image: none;
 }
 #user-control-group {
     padding-top: 10px;
@@ -21,4 +27,44 @@
     float: none;
     display: table-cell;
     vertical-align: top;
+}
+h5 {
+    font-size: 18px;
+    color: inherit;
+}
+.action > button:nth-child(2) {
+    margin-right: 10px;
+}
+#ticket-actions {
+    margin-bottom: 15px;
+}
+#ticket-status-select {
+    margin-left: 15px;
+}
+.panel {
+    border-radius: 0px;
+    margin-bottom: 10px;
+}
+.resize-vertical {
+    resize: vertical !important;
+}
+.panel-body>p {
+    font-size: 16px;
+}
+.edit-timestamp {
+    padding-top: 10px;
+    border-top: 1px solid #dddddd;
+    font-size: 12px !important;
+}
+.edit-title {
+    font-size: 18px !important;
+}
+.edit-timestamp, .edit-title, .edit-content {
+    color: #9E9E9E;
+}
+#ticket-actions {
+    padding: 0 !important;
+}
+#ticket-actions > button {
+    margin-right: 10px;
 }
