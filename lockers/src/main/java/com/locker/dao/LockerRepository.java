@@ -50,5 +50,11 @@ public interface LockerRepository extends CrudRepository<LockerEntity, Long> {
 
     @Query(value = "SELECT * FROM locker l ORDER BY l.locker_tower, l.locker_floor, l.locker_number", nativeQuery = true)
     Iterable<LockerEntity> findAllSorted();
+
+    @Query(value = "SELECT * FROM locker l WHERE l.user IS NULL ORDER BY l.locker_tower, l.locker_floor, l.locker_number", nativeQuery = true)
+    Iterable<LockerEntity> getAllFreeLockers();
+
+    @Query(value = "SELECT * FROM locker l WHERE l.user IS NOT NULL ORDER BY l.locker_tower, l.locker_floor, l.locker_number", nativeQuery = true)
+    Iterable<LockerEntity> getAllClaimedLockers();
 }
 

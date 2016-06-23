@@ -159,4 +159,8 @@ public class LockerService {
     public Iterable<LockerEntity> findAllSorted() {
         return lockerRepository.findAllSorted();
     }
+
+    public Iterable<LockerEntity> getAllFreeLockers() {return lockerRepository.getAllFreeLockers();}
+
+    public Iterable<LockerEntity> getAllClaimedLockers() {return lockerRepository.getAllClaimedLockers();}
 }

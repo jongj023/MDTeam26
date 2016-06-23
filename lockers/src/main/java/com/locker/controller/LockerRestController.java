@@ -177,18 +177,8 @@ public class LockerRestController {
                 result.setCode("204");
                 result.setMessage("No empty locker found with requested location.");
             } else {
-                String json = "";
-                try {
-                    json = createJsonFromLockerEntity(lockers);
-                    result.setCode("200");
-                    result.setMessage("Successfully found lockers");
-                    result.setResult(json);
-                } catch (JsonProcessingException e) {
-                    e.printStackTrace();
-                    result.setCode("204");
-                    result.setMessage("Failed to return locker results. Please try again.");
-                    result.setResult(json);
-                }
+                result = createJsonFromLockerEntity(lockers);
+                if (result.getCode().equals("200")) result.setMessage("Successfully returned lockers");
             }
         } else {
             result.setCode("400");
@@ -204,21 +194,10 @@ public class LockerRestController {
     @PreAuthorize("isAuthenticated()")
     public AjaxResponseBody<String> search(@RequestBody String query) {
         AjaxResponseBody<String> result = new AjaxResponseBody<String>();
-        System.out.println(query);
         Iterable<LockerEntity> lockers = lockerService.search(query);
 
-        String json = "";
-        try {
-            json = createJsonFromLockerEntity(lockers);
-            result.setCode("200");
-            result.setMessage("Successfully found lockers");
-            result.setResult(json);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            result.setCode("204");
-            result.setMessage("Failed to get locker history.");
-            result.setResult(json);
-        }
+        result = createJsonFromLockerEntity(lockers);
+        if (result.getCode().equals("200")) result.setMessage("Successfully returned lockers");
 
         return result;
     }
@@ -272,6 +251,32 @@ public class LockerRestController {
         return result;
     }
 
+    @JsonView(Views.Public.class)
+    @RequestMapping(value = "/locker/status")
+    @ResponseBody
+    @PreAuthorize("isAuthenticated()")
+    public AjaxResponseBody<String> getLockersWithStatus(@RequestBody int status) {
+        AjaxResponseBody<String> result = new AjaxResponseBody<String>();
+        Iterable<LockerEntity> lockers = null;
+        switch (status) {
+            case 0: //show closed lockers.
+                lockers = lockerService.getAllClaimedLockers();
+                break;
+            case 1: // show open lockers
+                lockers = lockerService.getAllFreeLockers();
+                break;
+            default: //invalid request. (not 0 or 1).
+                result.setCode("204");
+                result.setMessage("Invalid request, please try again.");
+                break;
+        }
+
+        result = createJsonFromLockerEntity(lockers);
+        if (result.getCode().equals("200")) result.setMessage("Successfully returned lockers");
+
+        return result;
+    }
+
     /* id is equal to the lockerid (used for foreign key @ ticket) */
     private void setTicketLockerRequest(Long id, String username) {
         String content = username + TICKET_REQUEST_CONTENT + " " +
@@ -295,12 +300,22 @@ public class LockerRestController {
         return valid;
     }
 
-    private String createJsonFromLockerEntity(Iterable<LockerEntity> array) throws JsonProcessingException {
+    private AjaxResponseBody<String> createJsonFromLockerEntity(Iterable<LockerEntity> array) {
+        AjaxResponseBody<String> result = new AjaxResponseBody<String>();
+
         ObjectMapper mapper = new ObjectMapper();
+        String json = "";
+        try {
+            json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(array);
+            result.setCode("200");
+            result.setResult(json);
+        } catch (JsonProcessingException e) {
+            result.setCode("204");
+            result.setMessage("Failed to return result. Please try again. " + e.toString());
+            result.setResult(json);
+        }
 
-        String JsonResult = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(array);
-
-        return JsonResult;
+        return result;
     }
 
 }

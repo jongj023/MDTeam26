@@ -62,3 +62,9 @@ h5 {
 .edit-timestamp, .edit-title, .edit-content {
     color: #9E9E9E;
 }
+#ticket-actions {
+    padding: 0 !important;
+}
+#ticket-actions > button {
+    margin-right: 10px;
+}

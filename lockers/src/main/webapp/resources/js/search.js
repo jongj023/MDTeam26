@@ -24,7 +24,48 @@ $(document).ready(function() {
 function refreshTable() {
     initializeLockerTable();
     $('#search').val("");
+    $('#locker-status-select').val('2');
     setOutput('#locker-output', ALERT_SUCCESS, "Refreshed table", 2000);
+}
+
+function resfreshTableExtra() {
+    getLockersWithStatus();
+    $('#search').val("");
+    setOutput('#locker-output', ALERT_SUCCESS, "Refreshed table with status in mind.", 2000)
+}
+
+$(document).on('change','#locker-status-select', function(){
+    getLockersWithStatus();
+});
+
+function getLockersWithStatus() {
+    var status = $('#locker-status-select').val();
+    if (status == "2") {
+        initializeLockerTable();
+    } else {
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: "/locker/status",
+            data: JSON.stringify(status),
+            dataType: 'json',
+            timeout: 100000,
+            success : function(data) {
+                if (data.code == "200") {
+                    $('#lockerList').html(""); //clear table.
+                    $.each(JSON.parse(data.result), function (index, obj) {
+                        addRowToTable(index, obj); //fill table with results.
+                    });
+                } else {
+                    setOutput('#locker-output', ALERT_DANGER, data.message, 5000);
+                }
+            },
+            error: function (xhr, status, error) {
+                var err = JSON.parse(xhr.responseText);
+                setOutput('#ticket-output', ALERT_DANGER, "Something went wrong, please try again. " + err.status + " " + err.error, 4000);
+            }
+        });
+    }
 }
 
 function submitSearch() {

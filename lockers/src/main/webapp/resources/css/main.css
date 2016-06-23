@@ -12,3 +12,14 @@ body {
     padding-top: 51px;
     /*background-color: rgba(228,228,228, 0.5);*/
 }
+.status-select select, #ticket-actions select, #action-bar select {
+    display: inline-block !important;
+    margin: 0;
+    height: 32px;
+    line-height:15px !important;
+    padding: 6px;
+    color: #003145 !important;
+    border: 1px solid #abd7ea;
+    border-radius:3px;
+    background-color: #fcfefe !important;
+}
